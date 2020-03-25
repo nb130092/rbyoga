@@ -1,0 +1,9 @@
+# Default ignored files
+*.class
+*.settings
+*.project
+*.classpath
+.gitignore
+*.iml
+.idea/*
+*.cmd
