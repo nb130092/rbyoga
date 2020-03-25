@@ -1,4 +1,4 @@
-package com.woniu.tool;
+package com.woniu.pojo;
 
 import java.util.List;
 
