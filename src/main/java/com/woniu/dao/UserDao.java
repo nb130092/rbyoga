@@ -1,8 +1,14 @@
 package com.woniu.dao;
 
+import com.woniu.pojo.User;
+
 /**
  * @author R&B
  * @create 2020/3/24 21:06:11
  */
-public class UserDao {
+public interface UserDao {
+
+    void save(User user);
+    void delete();
+
 }
