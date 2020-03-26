@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.NoticeDao">
+    <select id="findAll" resultType="Notice" >
+        select * from notice
+    </select>
+    <select id="findOne" parameterType="int" resultType="Notice">
+        select * from notice where n_id = #{n_id}
+    </select>
+    <delete id="delete" parameterType="int">
+        delete from notice where n_id = #{n_id}
+    </delete>
+    <insert id="save" parameterType="Notice">
+        insert into notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="n_id != null">
+                n_id,
+            </if>
+            <if test="n_content != null">
+                n_content,
+            </if>
+            <if test="n_isRead != null">
+                n_isRead,
+            </if>
+            <if test="n_isYes != null">
+                n_isYes,
+            </if>
+            <if test="init_id != null">
+                init_id,
+            </if>
+            <if test="arrive_id != null">
+                arrive,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="n_id != null">
+                #{n_id},
+            </if>
+            <if test="n_content != null">
+                #{n_content},
+            </if>
+            <if test="n_isRead != null">
+                #{n_isRead},
+            </if>
+            <if test="n_isYes != null">
+                #{n_isYes},
+            </if>
+            <if test="init_id != null">
+                #{init_id},
+            </if>
+            <if test="arrive_id != null">
+                #{arrive_id},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="Notice">
+        update notice
+        <set>
+            <if test="n_content!=null">
+                n_content=#{n_content},
+            </if>
+            <if test="n_isRead!=null">
+                n_isRead=#{n_isRead},
+            </if>
+            <if test="n_isYes!=null">
+                n_isYes=#{n_isYes},
+            </if>
+            <if test="init_id!=null">
+                init_id=#{init_id},
+            </if>
+            <if test="arrive_id!=null">
+                arrive_id=#{arrive_id},
+            </if>
+        </set>
+        <where>
+            n_id=#{n_id}
+        </where>
+    </update>
+
+</mapper>
