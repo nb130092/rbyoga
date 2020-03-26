@@ -23,4 +23,10 @@ public class ResultVO implements Serializable {
         this.code = code;
         this.message = message;
     }
+
+    public ResultVO(Integer code, String message, Object data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
 }
