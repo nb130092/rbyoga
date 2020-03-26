@@ -17,7 +17,7 @@ public class Orderz {
 
     private Integer o_id;
     private Date o_date;
-    private Date o_price;
+    private Integer o_price;
     private String o_isPay;
     private Integer student_id;
     private Integer product_id;
