@@ -18,8 +18,8 @@ public class Orderz {
 
     private Integer o_id;
     private Date o_date;
+    private Integer o_price;
     private String o_isPay;
-    private String u_password;
     private Integer student_id;
     private Integer product_id;
 }
