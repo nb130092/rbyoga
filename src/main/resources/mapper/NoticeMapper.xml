@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.NoticeDao">
+    <!--通知列-->
+    <sql id="notice_list">
+        n_id,n_content,n_isRead,n_isYes,init_id,arrive_id
+    </sql>
+    <!--获取所有通知-->
+    <select id="findAll" resultType="Notice" >
+        select
+         <include refid="notice_list"></include>
+        from notice
+    </select>
+    <!--根据id获取一条通知-->
+    <select id="findOne" parameterType="int" resultType="Notice">
+        select
+        <include refid="notice_list"></include>
+        from notice
+        <where>
+            n_id = #{n_id}
+        </where>
+    </select>
+    <!--根据id删除一条通知-->
+    <delete id="delete" parameterType="int">
+        delete from notice
+        <where>
+            n_id = #{n_id}
+        </where>
+    </delete>
+    <!--增加一条通知-->
+    <insert id="save" parameterType="Notice">
+        insert into notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="n_id != null">
+                n_id,
+            </if>
+            <if test="n_content != null">
+                n_content,
+            </if>
+            <if test="n_isRead != null">
+                n_isRead,
+            </if>
+            <if test="n_isYes != null">
+                n_isYes,
+            </if>
+            <if test="init_id != null">
+                init_id,
+            </if>
+            <if test="arrive_id != null">
+                arrive,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="n_id != null">
+                #{n_id},
+            </if>
+            <if test="n_content != null">
+                #{n_content},
+            </if>
+            <if test="n_isRead != null">
+                #{n_isRead},
+            </if>
+            <if test="n_isYes != null">
+                #{n_isYes},
+            </if>
+            <if test="init_id != null">
+                #{init_id},
+            </if>
+            <if test="arrive_id != null">
+                #{arrive_id},
+            </if>
+        </trim>
+    </insert>
+    <!--修改一条通知-->
+    <update id="update" parameterType="Notice">
+        update notice
+        <set>
+            <if test="n_content!=null">
+                n_content=#{n_content},
+            </if>
+            <if test="n_isRead!=null">
+                n_isRead=#{n_isRead},
+            </if>
+            <if test="n_isYes!=null">
+                n_isYes=#{n_isYes},
+            </if>
+            <if test="init_id!=null">
+                init_id=#{init_id},
+            </if>
+            <if test="arrive_id!=null">
+                arrive_id=#{arrive_id},
+            </if>
+        </set>
+        <where>
+            n_id=#{n_id}
+        </where>
+    </update>
+
+</mapper>
