@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.ProductDao">
+
+    <!--产品列-->
+    <sql id="product_list">
+  	    p_id,p_name,p_image,p_price,p_status,store_id
+    </sql>
+
+    <!--获取全部产品-->
+    <select id="findAll" resultType="product">
+        select
+        <include refid="product_list"></include>
+        from product
+    </select>
+
+    <!--通过id找到某个产品-->
+    <select id="findOne"  parameterType="Integer"  resultType="product">
+        select
+        <include refid="product_list"></include>
+        from product
+        <where>
+            p_id = #{p_id}
+        </where>
+
+    </select>
+
+    <!--增加一个产品-->
+    <insert id="save" parameterType="product" useGeneratedKeys="true" keyProperty="p_id">
+        insert into product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="p_id != null">
+                p_id,
+            </if>
+            <if test="p_name != null">
+                p_name,
+            </if>
+            <if test="p_image != null">
+                p_image,
+            </if>
+            <if test="p_price != null">
+                p_price,
+            </if>
+            <if test="p_status != null">
+                p_status,
+            </if>
+            <if test="store_id != null">
+                store_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="p_id != null">
+                #{p_id},
+            </if>
+            <if test="p_name != null">
+                #{p_name},
+            </if>
+            <if test="p_image != null">
+                #{p_image},
+            </if>
+            <if test="p_price != null">
+                #{p_price},
+            </if>
+            <if test="p_status != null">
+                #{p_status},
+            </if>
+            <if test="store_id != null">
+                #{store_id},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!--修改一个产品-->
+    <update id="update" parameterType="product">
+        update product
+        <set>
+            <if test="p_name!=null">
+                p_name=#{p_name},
+            </if>
+            <if test="p_image!=null">
+                p_image=#{p_image},
+            </if>
+            <if test="p_price!=null">
+                p_price=#{p_price},
+            </if>
+            <if test="p_status!=null">
+                p_status=#{p_status},
+            </if>
+            <if test="store_id!=null">
+                store_id=#{store_id},
+            </if>
+        </set>
+        <where>
+            p_id=#{p_id}
+        </where>
+    </update>
+
+
+    <!--删除一个产品-->
+    <delete id="delete" parameterType="Integer">
+        delete from product
+        <where>
+            p_id = #{p_id}
+        </where>
+    </delete>
+
+
+
+
+</mapper>
+
+

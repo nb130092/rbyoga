@@ -11,17 +11,21 @@ import java.io.Serializable;
  * @create 2020/3/24 21:05:51
  */
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements Serializable {
 
     private Integer u_id;
+    /**昵称*/
     private String  u_pickname;
     private String u_username;
     private String u_password;
     private String u_safecode;
+    /**头像*/
     private String u_head;
+    /**个性签名*/
     private String u_selfword;
     private String u_phone;
     private Integer u_money;

@@ -10,6 +10,7 @@ import java.util.Date;
 /**
  * @author R&B
  * @create 2020/3/26 16:56:09
+ * 订单表
  */
 @Data
 @AllArgsConstructor
@@ -22,4 +23,5 @@ public class Orderz implements Serializable {
     private String o_isPay;     //支付状态
     private Integer student_id;   //购买者id(外
     private Integer product_id;    //产品id(外)
+
 }
