@@ -46,7 +46,7 @@ public class NoticeController {
             iNoticeService.save(notice);
             resultVO = new ResultVO(200,"添加通知成功",notice);
         } catch (Exception e){
-            resultVO = new ResultVO(500,"添加商品失败");
+            resultVO = new ResultVO(500,"添加通知失败");
         }
         return resultVO;
     }
@@ -55,9 +55,9 @@ public class NoticeController {
         ResultVO resultVO = null;
         try {
             iNoticeService.delete(n_id);
-            resultVO = new ResultVO(200,"删除商品成功",n_id);
+            resultVO = new ResultVO(200,"删除通知成功",n_id);
         } catch (Exception e){
-            resultVO = new ResultVO(500,"删除商品失败");
+            resultVO = new ResultVO(500,"删除通知失败");
         }
         return resultVO;
     }
