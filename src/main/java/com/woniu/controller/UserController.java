@@ -72,7 +72,7 @@ public class UserController {
     @DeleteMapping("deleteUser/{u_id}")
     public ResultVO deleteUser(@PathVariable Integer u_id){
         try{
-            User user  = new User();
+
             userService.delete(u_id);
             return new ResultVO(200, "删除成功", u_id);
         }catch(Exception e){
