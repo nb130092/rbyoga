@@ -6,6 +6,7 @@
     <sql id="base_user_col">
         u_id,u_pickname,u_username,u_password,u_safecode,u_head,u_selfword,u_phone,u_money,u_role,u_card
     </sql>
+    <!--增加用户-->
     <insert id="save" parameterType="com.woniu.pojo.User" useGeneratedKeys="true" keyProperty="u_id">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -80,13 +81,14 @@
         </trim>
     </insert>
 
-
+    <!--查找所有用户-->
     <select id="findAll" resultType="user">
         select
         <include refid="base_user_col"></include>
         from user
     </select>
 
+    <!--查找一个用户-->
     <select id="findOne" parameterType="int" resultType="user">
         select
         <include refid="base_user_col"></include>
@@ -96,6 +98,7 @@
         </where>
     </select>
 
+    <!--修改用户-->
     <update id="update" parameterType="user">
         update user
         <set >
@@ -135,6 +138,7 @@
         </where>
     </update>
 
+    <!--删除用户-->
     <delete id="delete" parameterType="int">
         delete from user
         <where>
