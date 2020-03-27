@@ -13,7 +13,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface UserDao {
-<<<<<<< HEAD
+
 
     void save(User user);
     void delete(Integer u_id);
@@ -21,6 +21,5 @@ public interface UserDao {
     User findOne(Integer u_id);
     List<User> findAll();
 
-=======
->>>>>>> 82a5000d903494eb6b7703843523dfe4e96eeadf
+
 }
