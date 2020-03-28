@@ -5,10 +5,12 @@ import com.woniu.pojo.Notice;
 import com.woniu.service.INoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.prefs.NodeChangeListener;
 @Service
+@Transactional
 public class NoticeServiceImpl implements INoticeService {
     @Autowired
     public NoticeDao noticeDao;
