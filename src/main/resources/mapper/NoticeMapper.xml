@@ -48,7 +48,7 @@
                 init_id,
             </if>
             <if test="arrive_id != null">
-                arrive,
+                arrive_id,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
