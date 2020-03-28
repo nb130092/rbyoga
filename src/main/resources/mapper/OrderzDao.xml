@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.OrderzDao">
+    <!--增加的时候显示增加的id useGeneratedKeys="true" keyProperty="o_id"-->
+   <insert id="saveOrderz" parameterType="Orderz">
+        insert into orderz values(null, #{o_date}, #{o_price},#{o_isPay},#{student_id},#{product_id})
+    </insert>
+  <!--  <insert id="save" parameterType="orderz">
+        insert into orderz
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="o_id != null">
+                o_id,
+            </if>
+            <if test="o_date != null">
+                o_date,
+            </if>
+            <if test="o_price != null">
+                o_price,
+            </if>
+            <if test="o_isPay != null">
+                o_isPay,
+            </if>
+            <if test="student_id != null">
+                student_id,
+            </if>
+            <if test="product_id != null">
+                product_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="o_id != null">
+                #{o_id},
+            </if>
+            <if test="o_date != null">
+                #{o_date},
+            </if>
+            <if test="o_price != null">
+                #{o_price},
+            </if>
+            <if test="o_isPay != null">
+                #{o_isPay},
+            </if>
+            <if test="student_id != null">
+                #{student_id},
+            </if>
+            <if test="product_id != null">
+                #{product_id},
+            </if>
+        </trim>
+    </insert>
+-->
+
+    <delete id="deleteOrderz" parameterType="int">
+        delete from orderz where o_id = #{o_id}
+    </delete>
+
+    <update id="updateOrderz" parameterType="orderz">
+        update orderz
+        <set>
+            <if test="o_date!=null">
+                o_date=#{o_date},
+            </if>
+            <if test="o_price!=null">
+                o_price=#{o_price},
+            </if>
+            <if test="o_isPay!=null">
+                o_isPay=#{o_isPay},
+            </if>
+            <if test="student_id!=null">
+                student_id=#{student_id},
+            </if>
+            <if test="product_id!=null">
+                product_id=#{product_id},
+            </if>
+        </set>
+        <where>
+            o_id=#{o_id}
+        </where>
+    </update>
+
+    <select id="findAllOrderz" resultType="orderz">
+        select * from orderz
+    </select>
+
+    <select id="findOneOrderz" parameterType="int" resultType="orderz">
+        select * from orderz
+        where o_id = #{o_id}
+    </select>
+    <!-- private Integer o_id;  //订单id
+    private Date o_date;    //订单日期
+    private String o_price;     //订单价格
+    private String o_isPay;     //支付状态
+    private Integer student_id;   //购买者id(外
+    private Integer product_id;    //产品id(外)-->
+</mapper>

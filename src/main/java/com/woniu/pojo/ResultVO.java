@@ -23,4 +23,5 @@ public class ResultVO implements Serializable {
         this.code = code;
         this.message = message;
     }
+
 }
