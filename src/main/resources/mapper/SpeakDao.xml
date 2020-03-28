@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.SpeakDao">
+    <!-- 动态列 -->
+    <sql id="speak_list">
+        s_id,s_content,s_time,user_id
+    </sql>
+
+    <!-- 获取所有动态 -->
+    <select id="findAll" resultType="speak">
+        select
+        <include refid="speak_list"></include>
+        from speak
+    </select>
+
+    <!-- 获取一条动态 -->
+    <select id="findOne" parameterType="Integer" resultType="speak">
+        select
+        <include refid="speak_list"></include>
+        from speak where s_id=#{s_id}
+    </select>
+
+    <!-- 新增动态 -->
+    <insert id="save" parameterType="speak" useGeneratedKeys="true" keyProperty="s_id">
+        insert into speak
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="s_id != null">
+                s_id,
+            </if>
+            <if test="s_content != null">
+                s_content,
+            </if>
+            <if test="s_time != null">
+                s_time,
+            </if>
+            <if test="user_id != null">
+                user_id,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="s_id != null">
+                #{s_id},
+            </if>
+            <if test="s_content != null">
+                #{s_content},
+            </if>
+            <if test="s_time != null">
+                #{s_time},
+            </if>
+            <if test="user_id != null">
+                #{user_id},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 删除数据 -->
+    <delete id="delete" parameterType="Integer">
+        delete from speak where s_id=#{s_id}
+    </delete>
+
+    <!-- 修改数据 -->
+    <update id="update" parameterType="speak">
+        update speak
+        <set>
+            <if test="s_content != null">
+                s_content=#{s_content},
+            </if>
+            <if test="s_time != null">
+                s_time=#{s_time},
+            </if>
+            <if test="user_id != null">
+                user_id=#{user_id},
+            </if>
+        </set>
+        where s_id=#{s_id}
+    </update>
+</mapper>
