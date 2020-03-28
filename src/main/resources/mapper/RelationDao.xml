@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.dao.RelationDao">
+    <!--关系列-->
+    <sql id="relation_list">
+  	    r_id,r_relation,main_id,guest_id
+    </sql>
+
+    <!--获取全部关系-->
+    <select id="findAll" resultType="relation">
+        select
+        <include refid="relation_list"></include>
+        from relation
+    </select>
+
+    <!--通过id找到某个关系-->
+    <select id="findOne"  parameterType="Integer"  resultType="relation">
+        select
+        <include refid="relation_list"></include>
+        from relation
+        <where>
+            r_id = #{r_id}
+        </where>
+
+    </select>
+
+    <!--增加一个关系-->
+    <insert id="save" parameterType="relation" useGeneratedKeys="true" keyProperty="r_id">
+        insert into relation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="r_id != null">
+                r_id,
+            </if>
+            <if test="r_relation != null">
+                r_relation,
+            </if>
+            <if test="main_id != null">
+                main_id,
+            </if>
+            <if test="guest_id != null">
+                guest_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="r_id != null">
+                #{r_id},
+            </if>
+            <if test="r_relation != null">
+                #{r_relation},
+            </if>
+            <if test="main_id != null">
+                #{main_id},
+            </if>
+            <if test="guest_id != null">
+                #{guest_id},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!--修改一个关系-->
+    <update id="update" parameterType="relation">
+        update relation
+        <set>
+
+            <if test="r_relation!=null">
+                r_relation=#{r_relation},
+            </if>
+            <if test="main_id!=null">
+                main_id=#{main_id},
+            </if>
+            <if test="guest_id!=null">
+                guest_id=#{guest_id},
+            </if>
+
+        </set>
+        <where>
+            r_id=#{r_id}
+        </where>
+    </update>
+
+
+    <!--删除一个关系-->
+    <delete id="delete" parameterType="Integer">
+        delete from relation
+        <where>
+            r_id = #{r_id}
+        </where>
+    </delete>
+
+</mapper>
