@@ -20,7 +20,7 @@ public class UserController {
     @Autowired
     IUserService userService;
 
-    @GetMapping("findAll")
+    @GetMapping
     public ResultVO showAllUser(){
         List<User> userList=null;
         try{
@@ -34,7 +34,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("findOne/{u_id}")
+    @GetMapping("{u_id}")
     public ResultVO showUser(@PathVariable Integer u_id){
         User user=null;
         try{
@@ -59,7 +59,7 @@ public class UserController {
         }
 
     }
-    @PutMapping("updateUser")
+    @PutMapping
     public ResultVO updateUser(@RequestBody User user){
         try{
             userService.update(user);
@@ -69,7 +69,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("deleteUser/{u_id}")
+    @DeleteMapping("{u_id}")
     public ResultVO deleteUser(@PathVariable Integer u_id){
         try{
 
