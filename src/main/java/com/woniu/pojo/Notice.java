@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author R&B
  * @create 2020/3/26 16:58:41
+ * 关注表
  */
 
 @Data

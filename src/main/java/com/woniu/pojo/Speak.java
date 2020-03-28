@@ -15,6 +15,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Speak implements Serializable {
 
     private Integer s_id;
