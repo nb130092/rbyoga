@@ -20,4 +20,7 @@ public interface ProductDao {
     void save(Product product);
     void delete(Integer pid);
     void update(Product product);
+
+    // 获取全部产品以及关联场馆
+    List<Product> findAllWithStore();
 }

@@ -22,4 +22,7 @@ public class Product {
     private String p_status;
     private Integer store_id;
 
+    //关联场馆
+    private User store;
+
 }

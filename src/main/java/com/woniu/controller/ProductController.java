@@ -84,5 +84,18 @@ public class ProductController {
                 return resultVO;
         }
 
+        // 获取全部产品以及关联场馆
+        @GetMapping("findAllWithStore")
+        public ResultVO findAllWithStore(){
+            ResultVO resultVO= null;
+            List<Product> productsList = ps.findAllWithStore();
+            if (productsList!=null && productsList.size()!=0){
+                resultVO = new ResultVO(200,"查看所有商品成功",productsList);
+            }else{
+                resultVO = new ResultVO(500,"查看所有商品失败");
+            }
+            return resultVO;
+        }
+
 
 }
