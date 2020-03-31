@@ -46,4 +46,24 @@ public class UserServiceImpl implements IUserService {
     public List<User> findAll() {
         return userDao.findAll();
     }
+
+    @Override
+    public User login(User user) {
+        return userDao.login(user);
+    }
+
+    @Override
+    public void register(User user) {
+        userDao.save(user);
+    }
+
+    @Override
+    public User check(User user) {
+        return userDao.check(user);
+    }
+
+    @Override
+    public Integer updPwd(User user) {
+        return userDao.updPwd(user);
+    }
 }
