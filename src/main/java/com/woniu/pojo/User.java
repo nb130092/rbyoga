@@ -14,9 +14,11 @@ import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class User implements Serializable {
 
+public class User implements Serializable {
+    public User(){
+
+    }
     private Integer u_id;
     /**昵称*/
     private String  u_pickname;
