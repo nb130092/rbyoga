@@ -20,4 +20,7 @@ public interface ProductDao {
     void save(Product product);
     void delete(Integer pid);
     void update(Product product);
+
+
+
 }
