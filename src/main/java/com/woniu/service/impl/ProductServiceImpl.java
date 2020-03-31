@@ -47,4 +47,12 @@ public class ProductServiceImpl implements IProductService {
     }
 
 
+
+
+    // 获取全部产品以及关联场馆
+    @Override
+    public List<Product> findAllWithStore() {
+        return  pd.findAllWithStore();
+    }
+
 }
