@@ -145,4 +145,44 @@
             u_id=#{u_id}
         </where>
     </delete>
+
+    <!--查找所有教练-->
+    <select id="findAllCoach" resultType="user">
+        select
+        <include refid="base_user_col"></include>
+        from user
+        <where>
+            u_role = '教练'
+        </where>
+    </select>
+
+    <!--查找所有场馆-->
+    <select id="findAllVenue" resultType="user">
+        select
+        <include refid="base_user_col"></include>
+        from user
+        <where>
+            u_role = '场馆'
+        </where>
+    </select>
+
+    <!--查找场馆总数-->
+    <select id="getCountByVenue" resultType="integer">
+        select
+            count(*)
+        from user
+        <where>
+            u_role = '场馆'
+        </where>
+    </select>
+
+    <!--查找教练总数-->
+    <select id="getCountByCoach" resultType="integer">
+        select
+            count(*)
+        from user
+        <where>
+            u_role = '教练'
+        </where>
+    </select>
 </mapper>
