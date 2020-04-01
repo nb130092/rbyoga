@@ -1,5 +1,7 @@
 package com.woniu.controller;
 
+import com.woniu.dao.UserDao;
+import com.woniu.pojo.PageBean;
 import com.woniu.pojo.ResultVO;
 import com.woniu.pojo.User;
 import com.woniu.service.IUserService;
@@ -79,5 +81,40 @@ public class UserController {
             return new ResultVO(500, "删除失败", u_id);
         }
     }
+
+    @GetMapping("findAllCoach")
+    public ResultVO showAllCoach(PageBean pageBean){
+        List<User> userList=null;
+        try{
+            userList = userService.findAllCoach(pageBean);
+            pageBean.setList(userList);
+            Integer countByCoach = userService.getCountByCoach();
+            pageBean.setAllRow(countByCoach);
+            if (userList!=null&&userList.size()>0){
+                return new ResultVO(200, "查询所有教练成功",pageBean);
+            }
+            return null;
+        }catch(Exception e){
+            return new ResultVO(500, "查询所有教练失败", pageBean);
+        }
+    }
+
+    @GetMapping("findAllVenue")
+    public ResultVO showAllVenue(PageBean pageBean){
+        List<User> userList=null;
+        try{
+            userList = userService.findAllVenue(pageBean);
+            pageBean.setList(userList);
+            Integer countByVenue = userService.getCountByVenue();
+            pageBean.setAllRow(countByVenue);
+            if (userList!=null&&userList.size()>0){
+                return new ResultVO(200, "查询所有场馆成功", pageBean);
+            }
+            return null;
+        }catch(Exception e){
+            return new ResultVO(500, "查询所有场馆失败", pageBean);
+        }
+    }
+
 
 }

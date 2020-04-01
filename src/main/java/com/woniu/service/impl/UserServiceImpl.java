@@ -66,4 +66,24 @@ public class UserServiceImpl implements IUserService {
     public Integer updPwd(User user) {
         return userDao.updPwd(user);
     }
+
+    @Override
+    public List<User> findAllCoach(PageBean pageBean) {
+        return userDao.findAllCoach(new RowBounds(pageBean.getOffset(),pageBean.getPageSize()));
+    }
+
+    @Override
+    public Integer getCountByCoach() {
+        return userDao.getCountByCoach();
+    }
+
+    @Override
+    public List<User> findAllVenue(PageBean pageBean) {
+        return userDao.findAllVenue(new RowBounds(pageBean.getOffset(),pageBean.getPageSize()));
+    }
+
+    @Override
+    public Integer getCountByVenue() {
+        return userDao.getCountByVenue();
+    }
 }
