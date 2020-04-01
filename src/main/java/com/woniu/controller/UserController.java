@@ -106,7 +106,6 @@ public class UserController {
             userList = userService.findAllVenue(pageBean);
             pageBean.setList(userList);
             Integer countByVenue = userService.getCountByVenue();
-            System.out.println(countByVenue);
             pageBean.setAllRow(countByVenue);
             if (userList!=null&&userList.size()>0){
                 return new ResultVO(200, "查询所有场馆成功", pageBean);
