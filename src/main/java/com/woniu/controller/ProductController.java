@@ -4,7 +4,6 @@ import com.woniu.pojo.Product;
 import com.woniu.pojo.ResultVO;
 import com.woniu.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -105,8 +104,8 @@ public class ProductController {
 
 
         // 梁瑞：新增商品（带图片）
-        @PostMapping("saveWithImage")
-        public ResultVO saveWithImg(@RequestBody MultipartFile file, Product product,HttpServletRequest req){
+        @PostMapping("saveProductWithImage")
+        public ResultVO saveProductWithImage(@RequestBody MultipartFile file, Product product,HttpServletRequest req){
             ResultVO resultVO = null;
             try {
                 String name = file.getOriginalFilename();   //获得文件名

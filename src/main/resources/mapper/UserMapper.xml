@@ -163,4 +163,62 @@
             u_id=#{u_id}
         </where>
     </delete>
+
+    <!--登录用户-->
+    <select id="login" parameterType="user" resultType="user">
+        select
+        <include refid="base_user_col"></include>
+        from user
+        <where>
+            u_username=#{u_username} and u_password=#{u_password}
+        </where>
+    </select>
+
+    <select id="check" parameterType="user" resultType="user">
+        select
+        <include refid="base_user_col"></include>
+        from user
+        <where>
+            u_username=#{u_username}
+        </where>
+    </select>
+
+    <update id="updPwd" parameterType="user" useGeneratedKeys="true" keyProperty="u_id" >
+        update user
+        <set >
+            <if test="u_pickname!= null">
+                u_pickname=#{u_pickname},
+            </if>
+            <if test="u_username!= null">
+                u_username=#{u_username},
+            </if>
+            <if test="u_password!= null">
+                u_password=#{u_password},
+            </if>
+            <if test="u_safecode!= null">
+                u_safecode=#{u_safecode},
+            </if>
+            <if test="u_head!= null">
+                u_head=#{u_head},
+            </if>
+            <if test="u_selfword!= null">
+                u_selfword=#{u_selfword},
+            </if>
+            <if test="u_phone!= null">
+                u_phone=#{u_phone},
+            </if>
+            <if test="u_money!= null">
+                u_money=#{u_money},
+            </if>
+            <if test="u_role!= null">
+                u_role=#{u_role},
+            </if>
+            <if test="u_card!= null">
+                u_card=#{u_card},
+            </if>
+        </set>
+        <where>
+            u_username=#{u_username} and u_safecode=#{u_safecode}
+        </where>
+    </update>
 </mapper>

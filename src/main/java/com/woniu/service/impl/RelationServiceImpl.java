@@ -33,7 +33,9 @@ public class RelationServiceImpl implements IRelationService {
 
     @Override
     public void save(Relation relation) {
+
         relationDao.save(relation);
+
     }
 
     @Override
@@ -43,6 +45,8 @@ public class RelationServiceImpl implements IRelationService {
 
     @Override
     public void update(Relation relation) {
+
         relationDao.update(relation);
+
     }
 }

@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.woniu.dao.RelationDao">
+
     <!--关系列-->
     <sql id="relation_list">
   	    r_id,r_relation,main_id,guest_id
@@ -90,4 +91,13 @@
         </where>
     </delete>
 
+
 </mapper>
+
+
+
+
+
+
+
+

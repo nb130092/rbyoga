@@ -21,5 +21,12 @@ public interface UserDao {
     User findOne(Integer u_id);
     List<User> findAll();
 
-
+    //lxy:登录
+    User login(User user);
+    //lxy:注册
+    void register(User user);
+    //lxy:验证用户名是否存在
+    User check(User user);
+    //lxy:忘记密码，根据用户名和安全码修改密码
+    Integer updPwd(User user);
 }

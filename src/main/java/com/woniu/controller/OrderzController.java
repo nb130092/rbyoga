@@ -2,9 +2,9 @@ package com.woniu.controller;
 
 import com.woniu.pojo.Orderz;
 import com.woniu.pojo.ResultVO;
+import com.woniu.pojo.User;
 import com.woniu.service.IOrderzService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,6 +47,7 @@ public class OrderzController {
     @GetMapping("{o_id}")
     public ResultVO findOneOrderz(@PathVariable Integer o_id) {
         Orderz orderz = orderzService.findOneOrderz(o_id);
+        User user = new User();
         if(orderz != null) {
             return new ResultVO(200, "查询订单成功", orderz);
         } else {
