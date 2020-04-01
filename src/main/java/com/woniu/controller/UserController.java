@@ -1,5 +1,7 @@
 package com.woniu.controller;
 
+import com.woniu.dao.UserDao;
+import com.woniu.pojo.PageBean;
 import com.woniu.pojo.ResultVO;
 import com.woniu.pojo.User;
 import com.woniu.service.IUserService;
@@ -64,6 +66,7 @@ public class UserController {
         }
 
     }
+
     @PutMapping
     public ResultVO updateUser(@RequestBody User user){
         try{
@@ -85,9 +88,10 @@ public class UserController {
         }
     }
 
+
     // 梁瑞：新增用户+图片
     @PostMapping("saveUserWithImage")
-    public ResultVO saveUserWithImage(@RequestBody MultipartFile file, User user, HttpServletRequest req){
+    public ResultVO saveUserWithImage(@RequestBody MultipartFile file, User user, HttpServletRequest req) {
         ResultVO resultVO = null;
         try {
             String name = file.getOriginalFilename();   //获得文件名
@@ -96,26 +100,62 @@ public class UserController {
 
             System.out.println(realPath);
             File dir = new File(realPath);
-            if(!dir.exists()) {
+            if (!dir.exists()) {
                 dir.mkdirs();
             }
             //声明一个新的文件名（不重复）
-            String fileName = UUID.randomUUID()+suffix;
+            String fileName = UUID.randomUUID() + suffix;
             //声明一个新的文件
-            File target = new File(dir,fileName);
+            File target = new File(dir, fileName);
             //将上传的临时文件写入指定位置
             file.transferTo(target);
             // 把图片名存给用户对象
             user.setU_head(fileName);
             userService.save(user);
 
-            resultVO = new ResultVO(200,"用户添加成功");
+            resultVO = new ResultVO(200, "用户添加成功");
 
         } catch (IllegalStateException | IOException e) {
             e.printStackTrace();
-            resultVO = new ResultVO(200,"用户添加失败");
+            resultVO = new ResultVO(200, "用户添加失败");
         }
         return resultVO;
+    }
+
+
+      @GetMapping("findAllCoach")
+        public ResultVO showAllCoach(PageBean pageBean){
+            List<User> userList=null;
+            try{
+                userList = userService.findAllCoach(pageBean);
+                pageBean.setList(userList);
+                Integer countByCoach = userService.getCountByCoach();
+                pageBean.setAllRow(countByCoach);
+                if (userList!=null&&userList.size()>0){
+                    return new ResultVO(200, "查询所有教练成功",pageBean);
+                }
+                return null;
+            }catch(Exception e){
+                return new ResultVO(500, "查询所有教练失败", pageBean);
+            }
+         }
+
+    @GetMapping("findAllVenue")
+    public ResultVO showAllVenue(PageBean pageBean){
+        List<User> userList=null;
+        try{
+            userList = userService.findAllVenue(pageBean);
+            pageBean.setList(userList);
+            Integer countByVenue = userService.getCountByVenue();
+            pageBean.setAllRow(countByVenue);
+            if (userList!=null&&userList.size()>0){
+                return new ResultVO(200, "查询所有场馆成功", pageBean);
+            }
+            return null;
+        }catch(Exception e){
+            return new ResultVO(500, "查询所有场馆失败", pageBean);
+        }
+
     }
 
 

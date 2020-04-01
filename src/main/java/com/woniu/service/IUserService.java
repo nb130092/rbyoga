@@ -1,5 +1,6 @@
 package com.woniu.service;
 
+import com.woniu.pojo.PageBean;
 import com.woniu.pojo.User;
 
 import java.util.List;
@@ -23,4 +24,12 @@ public interface IUserService {
     User check(User user);
 
     Integer updPwd(User user);
+    //findAllCoach:查询所有教练
+    List<User> findAllCoach(PageBean pageBean);
+    //getCountByCoach:获取教练总数
+    Integer getCountByCoach();
+    //findAllVenue:查询所有场馆
+    List<User> findAllVenue(PageBean pageBean);
+    //getCountVenue:获取场馆总数
+    Integer getCountByVenue();
 }
