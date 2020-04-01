@@ -1,5 +1,6 @@
 package com.woniu.service;
 
+import com.woniu.pojo.PageBean;
 import com.woniu.pojo.User;
 
 import java.util.List;
