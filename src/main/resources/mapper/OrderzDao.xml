@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.woniu.dao.OrderzDao">
+<mapper namespace="com.woniu.dao.OrderzDAO">
     <!--增加的时候显示增加的id useGeneratedKeys="true" keyProperty="o_id"-->
    <insert id="saveOrderz" parameterType="Orderz">
         insert into orderz values(null, #{o_date}, #{o_price},#{o_isPay},#{student_id},#{product_id})

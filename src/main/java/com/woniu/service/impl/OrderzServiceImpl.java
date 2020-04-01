@@ -1,6 +1,6 @@
 package com.woniu.service.impl;
 
-import com.woniu.dao.OrderzDao;
+import com.woniu.dao.OrderzDAO;
 import com.woniu.pojo.Orderz;
 import com.woniu.service.IOrderzService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class OrderzServiceImpl  implements IOrderzService {
 
 
     @Autowired
-    private OrderzDao orderzDao;
+    private OrderzDAO orderzDao;
 
     @Override
     public void saveOrderz(Orderz orderz) {
