@@ -1,6 +1,8 @@
 package com.woniu.service;
 
+import com.woniu.pojo.PageBean;
 import com.woniu.pojo.User;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -15,4 +17,12 @@ public interface IUserService {
     void update(User user);
     User findOne(Integer u_id);
     List<User> findAll();
+    //findAllCoach:查询所有教练
+    List<User> findAllCoach(PageBean pageBean);
+    //getCountByCoach:获取教练总数
+    Integer getCountByCoach();
+    //findAllVenue:查询所有场馆
+    List<User> findAllVenue(PageBean pageBean);
+    //getCountVenue:获取场馆总数
+    Integer getCountByVenue();
 }
