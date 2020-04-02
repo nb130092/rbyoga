@@ -1,5 +1,6 @@
 package com.woniu.service;
 
+
 import com.woniu.pojo.Relation;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface IRelationService {
     void save(Relation relation);
     void delete(Integer rid);
     void update(Relation relation);
+
 }

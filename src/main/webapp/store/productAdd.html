@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <form id="uploadForm" enctype="multipart/form-data" > 
+        商品图片:<input id="FileUpload" type="file" name="file"/>
+        商品名称:<input type="text" name="p_name" id="p_name"/> 
+        商品价格:<input type="text" name="p_price" id="p_price"/> 
+        商品状态:<input type="text" name="p_status" id="p_status"/> 
+        场馆id:<input type="text" name="store_id" id="store_id"/> 
+    </form> 
+    <button id="upload">上传文件</button>
+
+
+
+
+    <script  type="text/javascript">
+                $(function () { 
+                    $("#upload").click(function () { 
+                        
+                     // var formdata = new FormData($("#uploadForm")[0]);  
+                    var fileObj = document.getElementById("FileUpload").files[0];   // js 获取文件对象
+
+                    if (typeof (fileObj) == "undefined" || fileObj.size <= 0) {
+                        alert("请选择图片");
+                        return;
+                    }
+
+                    var formData = new FormData();
+                   
+                    formData.append("file",fileObj); // 加入文件对象
+                    formData.append("p_name",$("#p_name").val());
+                    formData.append("p_price",$("#p_price").val());
+                    formData.append("p_status",$("#p_status").val());
+                    formData.append("store_id",$("#store_id").val());
+                   
+
+                        $.ajax({ 
+                            type: "post", 
+                            url: "http://localhost:8888/products/saveProductWithImage", //上传文件的请求路径必须是绝对路劲
+                            data: formData, 
+                            cache: false, 
+                            processData: false, 
+                            contentType: false,
+                            success : function(result){
+                                alert(result.message);
+                            }
+                   
+                        }); 
+                    }); 
+                }); 
+    </script>
+    
+</body>
+</html>

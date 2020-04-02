@@ -13,7 +13,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface OrderzDao {
+public interface OrderzDAO {
     void saveOrderz(Orderz orderz);
     void deleteOrderz(Integer o_id);
     void updateOrderz(Orderz orderz);

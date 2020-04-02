@@ -45,4 +45,14 @@ public class ProductServiceImpl implements IProductService {
     public void update(Product product) {
         pd.update(product);
     }
+
+
+
+
+    // 获取全部产品以及关联场馆
+    @Override
+    public List<Product> findAllWithStore() {
+        return  pd.findAllWithStore();
+    }
+
 }
