@@ -18,6 +18,25 @@
         <result property="u_card" column="u_card" />
     </resultMap>
 
+    <resultMap type="user" id="userWithSpeaksResult">
+        <id property="u_id" column="u_id" />
+        <result property="u_pickname" column="u_pickname" />
+        <result property="u_username" column="u_username" />
+        <result property="u_password" column="u_password" />
+        <result property="u_safecode" column="u_safecode" />
+        <result property="u_head" column="u_head" />
+        <result property="u_selfword" column="u_selfword" />
+        <result property="u_phone" column="u_phone" />
+        <result property="u_money" column="u_money" />
+        <result property="u_role" column="u_role" />
+        <result property="u_card" column="u_card" />
+        <collection  property="speakList"  ofType="com.woniu.pojo.Speak">
+            <id property="s_id" column="b_id" />
+            <result property="s_content" column="s_content" />
+            <result property="s_time" column="s_time" />
+        </collection>
+    </resultMap>
+
 
 
     <sql id="base_user_col">
@@ -260,5 +279,28 @@
         <where>
             u_role = '教练'
         </where>
+    </select>
+
+
+    <!--查找所有学员-->
+    <select id="findAllStudents" resultType="user">
+        select
+        <include refid="base_user_col"></include>
+        from user
+        <where>
+            u_role = '学员'
+        </where>
+    </select>
+
+
+    <!--查找某人所有动态-->
+    <select id="showUserAllSpeaks" resultMap="userWithSpeaksResult">
+       select
+        u.*,s.*
+        from user u left join speak s
+		ON
+		u.u_id = s.user_id
+        where
+        u_id = #{u_id}
     </select>
 </mapper>

@@ -21,6 +21,8 @@ public interface UserDao {
     void update(User user);
     User findOne(Integer u_id);
     List<User> findAll();
+    //findAllStudent:查询所有学员
+    List<User> findAllStudents();
     //findAllCoach:查询所有教练
     List<User> findAllCoach(RowBounds rowBounds);
     //getCountByCoach:获取教练总数
@@ -38,4 +40,7 @@ public interface UserDao {
     User check(User user);
     //lxy:忘记密码，根据用户名和安全码修改密码
     Integer updPwd(User user);
+
+    //通过id查询某个用户以及他的全部动态
+    User showUserAllSpeaks(Integer u_id);
 }
