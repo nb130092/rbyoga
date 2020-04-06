@@ -1,13 +1,16 @@
 package com.woniu.controller;
 
-import com.woniu.pojo.Product;
 import com.woniu.pojo.Relation;
 import com.woniu.pojo.ResultVO;
+import com.woniu.pojo.User;
 import com.woniu.service.IRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author R&B
@@ -85,11 +88,62 @@ public class RelationController {
         }
 
 
+        //lxy:增加 点击关注增加
+        @PostMapping("follow")
+        @ResponseBody
+        public ResultVO follow(@RequestBody User user, HttpSession session){
+            try{
+
+                User loginUser = (User) session.getAttribute("loginUser");
+                String loginUserRole = loginUser.getU_role();
+                String userRole = user.getU_role();
+                //主客关系
+                String rel=loginUserRole+"To"+userRole;
+                Relation relation = new Relation(null, rel, loginUser.getU_id(), user.getU_id());
+                relationService.save(relation);
+                return new ResultVO(200, "已关注");
+            }catch(Exception e){
+                return  new ResultVO(500, "关注失败" );
+
+            }
+        }
 
 
+    //lxy:删除 点击取消关注
+    @DeleteMapping("cancelfollow")
+    @ResponseBody
+    public ResultVO cancleFollow(@RequestBody User user, HttpSession session){
+        try{
 
+            User loginUser = (User) session.getAttribute("loginUser");
+            Map<String,Integer> map = new HashMap<>();
+            map.put("main_id",loginUser.getU_id());
+            map.put("guest_id", user.getU_id());
+            relationService.cancelFollow(map);
+            return new ResultVO(200, "取消关注");
+        }catch(Exception e){
+            return  new ResultVO(500, "取消关注失败" );
 
+        }
+    }
 
+    //lxy:增加 我的关注
+    @GetMapping("myFollow")
+    @ResponseBody
+    public ResultVO myFollow(HttpSession session){
+        try{
+
+            //User loginUser = (User) session.getAttribute("loginUser");
+
+            // Integer u_id = loginUser.getU_id();
+            Integer u_id1=2;
+            Relation relation = relationService.myFollow(u_id1);
+            return new ResultVO(200, "获取成功",relation);
+        }catch(Exception e){
+            return  new ResultVO(500, "获取失败" );
+
+        }
+    }
 
 
 

@@ -1,6 +1,7 @@
 package com.woniu.service.impl;
 
 import com.woniu.dao.UserDao;
+import com.woniu.pojo.PageBean;
 import com.woniu.pojo.User;
 import com.woniu.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +66,15 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Integer updPwd(User user) {
         return userDao.updPwd(user);
+    }
+
+    @Override
+    public Integer countAll(PageBean<User> pageBean) {
+        return userDao.countAll(pageBean);
+    }
+
+    @Override
+    public List<User> findByPage(PageBean<User> pageBean) {
+        return userDao.findByPage(pageBean);
     }
 }

@@ -1,5 +1,6 @@
 package com.woniu.controller;
 
+import com.woniu.pojo.PageBean;
 import com.woniu.pojo.ResultVO;
 import com.woniu.pojo.User;
 import com.woniu.service.IUserService;
@@ -80,4 +81,21 @@ public class UserController {
         }
     }
 
+    //lxy:查询 主页信息展示
+    @GetMapping("findByPage")
+    @ResponseBody
+    public ResultVO findByPage(@RequestBody PageBean<User> pageBean){
+        try{
+            Integer allRow = userService.countAll(pageBean);
+            if(pageBean.getNowPage()==null){
+                pageBean.setNowPage(1);
+            }
+            pageBean.setAllRow(allRow);
+            List<User> list = userService.findByPage(pageBean);
+            pageBean.setPageList(list);
+            return new ResultVO(200, "查询成功", pageBean);
+        }catch(Exception e){
+            return new ResultVO(500, "查询失败", pageBean);
+        }
+    }
 }

@@ -203,4 +203,27 @@
             u_username=#{u_username} and u_safecode=#{u_safecode}
         </where>
     </update>
+
+
+    <select id="findByPage" parameterType="pageBean" resultType="user">
+        select
+        <include refid="base_user_col"></include>
+        from user
+        <where>
+            <if test="queryVal!=null">
+                u_username like concat('%',#{queryVal},'%')
+            </if>
+        </where>
+        order by u_id desc
+        limit ${(nowPage-1)*pageSize},${pageSize}
+    </select>
+
+    <select id="countAll" parameterType="pageBean" resultType="int">
+        select count(*) from user
+        <where>
+            <if test="queryVal!=null">
+                u_username like concat('%',#{queryVal},'%')
+            </if>
+        </where>
+    </select>
 </mapper>

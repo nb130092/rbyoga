@@ -1,5 +1,6 @@
 package com.woniu.dao;
 
+import com.woniu.pojo.PageBean;
 import com.woniu.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -29,4 +30,8 @@ public interface UserDao {
     User check(User user);
     //lxy:忘记密码，根据用户名和安全码修改密码
     Integer updPwd(User user);
+
+    Integer countAll(PageBean<User> pageBean);
+
+    List<User> findByPage(PageBean<User> pageBean);
 }

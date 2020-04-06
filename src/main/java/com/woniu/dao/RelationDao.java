@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author R&B
@@ -21,4 +22,8 @@ public interface RelationDao {
     void save(Relation relation);
     void delete(Integer rid);
     void update(Relation relation);
+
+    void cancelFollow(Map<String, Integer> map);
+
+    Relation myFllow(Integer u_id);
 }

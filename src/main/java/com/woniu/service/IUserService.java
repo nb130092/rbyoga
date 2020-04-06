@@ -1,5 +1,6 @@
 package com.woniu.service;
 
+import com.woniu.pojo.PageBean;
 import com.woniu.pojo.User;
 
 import java.util.List;
@@ -23,4 +24,8 @@ public interface IUserService {
     User check(User user);
 
     Integer updPwd(User user);
+
+    Integer countAll(PageBean<User> pageBean);
+
+    List<User> findByPage(PageBean<User> pageBean);
 }

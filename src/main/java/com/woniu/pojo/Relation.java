@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 /**
  * @author R&B
  * @create 2020/3/26 16:51:52
@@ -19,4 +21,12 @@ public class Relation {
     private String r_relation;
     private Integer main_id;
     private Integer guest_id;
+    private Set<User> users;
+
+    public Relation(Integer r_id, String r_relation, Integer main_id, Integer guest_id) {
+        this.r_id = r_id;
+        this.r_relation = r_relation;
+        this.main_id = main_id;
+        this.guest_id = guest_id;
+    }
 }

@@ -75,7 +75,7 @@ public class LoginController {
     @RequestMapping("loginUI")
     //怎跳转html页面
     public String loginUI(){
-        User user=new User();
+
         return "login";
     }
 

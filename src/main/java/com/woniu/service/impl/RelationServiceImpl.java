@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhaojunjie
@@ -44,5 +45,15 @@ public class RelationServiceImpl implements IRelationService {
     @Override
     public void update(Relation relation) {
           relationDao.update(relation);
+    }
+
+    @Override
+    public void cancelFollow(Map<String, Integer> map) {
+        relationDao.cancelFollow(map);
+    }
+
+    @Override
+    public Relation myFollow(Integer u_id) {
+        return relationDao.myFllow(u_id);
     }
 }
