@@ -127,18 +127,15 @@ public class RelationController {
         }
     }
 
-    //lxy:增加 我的关注
+    //lxy:查询 我的关注
     @GetMapping("myFollow")
     @ResponseBody
     public ResultVO myFollow(HttpSession session){
         try{
-
-            //User loginUser = (User) session.getAttribute("loginUser");
-
-            // Integer u_id = loginUser.getU_id();
-            Integer u_id1=2;
-            Relation relation = relationService.myFollow(u_id1);
-            return new ResultVO(200, "获取成功",relation);
+            User loginUser = (User) session.getAttribute("loginUser");
+            Integer u_id = loginUser.getU_id();
+            List<Relation> relations = relationService.myFollow(u_id);
+            return new ResultVO(200, "获取成功",relations);
         }catch(Exception e){
             return  new ResultVO(500, "获取失败" );
 

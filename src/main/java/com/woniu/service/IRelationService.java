@@ -20,5 +20,5 @@ public interface IRelationService {
 
     void cancelFollow(Map<String, Integer> map);
 
-    Relation myFollow(Integer u_id);
+    List<Relation> myFollow(Integer u_id);
 }

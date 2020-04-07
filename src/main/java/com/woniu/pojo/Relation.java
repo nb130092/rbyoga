@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author R&B
@@ -21,7 +21,7 @@ public class Relation {
     private String r_relation;
     private Integer main_id;
     private Integer guest_id;
-    private Set<User> users;
+    private List<User> users;
 
     public Relation(Integer r_id, String r_relation, Integer main_id, Integer guest_id) {
         this.r_id = r_id;

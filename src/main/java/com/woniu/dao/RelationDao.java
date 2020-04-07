@@ -23,7 +23,8 @@ public interface RelationDao {
     void delete(Integer rid);
     void update(Relation relation);
 
+    //取消关注
     void cancelFollow(Map<String, Integer> map);
-
-    Relation myFllow(Integer u_id);
+    //我的关注
+    List<Relation> myFllow(Integer u_id);
 }

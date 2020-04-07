@@ -53,7 +53,7 @@ public class RelationServiceImpl implements IRelationService {
     }
 
     @Override
-    public Relation myFollow(Integer u_id) {
+    public List<Relation> myFollow(Integer u_id) {
         return relationDao.myFllow(u_id);
     }
 }

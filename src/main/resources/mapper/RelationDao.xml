@@ -9,11 +9,12 @@
   	    r_id,r_relation,main_id,guest_id
     </sql>
 
-    <resultMap id="BaseResultMap" type="relation">
+    <resultMap type="com.woniu.pojo.Relation" id="BaseResultMap" >
         <id property="r_id" column="r_id" javaType="Integer"></id>
         <result property="r_relation" column="r_relation" javaType="String"></result>
         <result property="main_id" column="main_id" javaType="Integer"></result>
-        <collection property="users" column="guest_id" ofType="com.woniu.pojo.User">
+        <result property="guest_id" column="guest_id" javaType="Integer"></result>
+        <collection property="users" column="guest_id" ofType="com.woniu.pojo.User" >
             <id property="u_id" column="u_id" javaType="Integer"></id>
             <result property="u_pickname" column="u_pickname" javaType="String"></result>
             <result property="u_username" column="u_username" javaType="String"></result>
@@ -21,6 +22,11 @@
             <result property="u_phone" column="u_phone" javaType="String"></result>
         </collection>
     </resultMap>
+    <select id="myFllow" parameterType="Integer" resultMap="BaseResultMap">
+       SELECT r_id,r_relation,main_id,guest_id,u.u_id,u_pickname,u_username,u_role,u_phone FROM relation r join user u
+       ON r.guest_id=u.u_id
+       where r.main_id=#{u_id}
+    </select>
     <!--获取全部关系-->
     <select id="findAll" resultType="relation">
         select
@@ -111,11 +117,8 @@
         </where>
     </delete>
 
-    <select id="myFllow" parameterType="int" resultMap="BaseResultMap">
-        SELECT r.*,u.u_id,u_pickname,u_username,u_role,u_phone FROM `relation` r join user u
-        ON r.main_id=u.u_id
-        where r.main_id=#{u_id}
-    </select>
+
+
 </mapper>
 
 
