@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * @author R&B
- * @create 2020/3/26 17:57:34
+ * @create 2020/3/28 20:07:09
  */
 public interface IRelationService {
 
@@ -18,7 +18,9 @@ public interface IRelationService {
     void delete(Integer rid);
     void update(Relation relation);
 
+
     void cancelFollow(Map<String, Integer> map);
 
     List<Relation> myFollow(Integer u_id);
+
 }

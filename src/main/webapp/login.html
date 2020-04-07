@@ -93,6 +93,7 @@
 		</div>
 	</div>
 </div>
+</div>
 <!-- partial -->
   <script>
 	  var login=new Vue({
@@ -104,7 +105,7 @@
 		 },
 		 methods: {
 			login(){
-			
+
 				if(this.username==null||this.username=='用户名不能为空'){
 					this.username='用户名不能为空';
 					return false;
@@ -126,19 +127,25 @@
 				axios.post("http://localhost:8888/login", {
                       "u_username":this.username,
                       "u_password":this.password
-                  }).then((response) => {
-					  if(response.data.code==200){
-						layer.msg("登录成功！！",{time:1000,icon:1,shift:6},function(){})
-					  	//成功跳转的页面
 
-					  }else{
-					  	layer.msg("用户名或密码错误",{time:1000,icon:0,shift:6},function(){})
+
+                  }).then((response) =>{
+					if(response.data.code==201){
+						layer.msg("场馆登录成功！！",{time:1000,icon:1,shift:6},function(){});
+						window.location.href='http://localhost:8888/store/storeMain.html';  //跳转到场馆页面
+					}else if(response.data.code==202){
+						layer.msg("学员登录成功！！",{time:1000,icon:1,shift:6},function(){});
+					}else if(response.data.code==203){
+						layer.msg("教练登录成功！！",{time:1000,icon:1,shift:6},function(){});
+					}else{
+						layer.msg("用户名或密码错误",{time:1000,icon:0,shift:6},function(){});
+
 						window.location.href='login.html';
-					  }
-                      	this.username = this.password = '';
-					 
+					}
+					this.username = this.password = '';
+
                 });
-			}	 
+			}
 		 }
 	  });
   </script>

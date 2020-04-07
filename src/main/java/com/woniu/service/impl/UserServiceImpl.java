@@ -4,6 +4,7 @@ import com.woniu.dao.UserDao;
 import com.woniu.pojo.PageBean;
 import com.woniu.pojo.User;
 import com.woniu.service.IUserService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,12 +24,10 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void save(User user) {
         userDao.save(user);
-
     }
 
     @Override
     public void delete(Integer u_id) {
-
         userDao.delete(u_id);
     }
 
@@ -77,4 +76,37 @@ public class UserServiceImpl implements IUserService {
     public List<User> findByPage(PageBean<User> pageBean) {
         return userDao.findByPage(pageBean);
     }
+    @Override
+    public List<User> findAllCoach (PageBean pageBean){
+        return userDao.findAllCoach(new RowBounds(pageBean.getOffset(), pageBean.getPageSize()));
+    }
+
+    @Override
+    public Integer getCountByCoach () {
+        return userDao.getCountByCoach();
+    }
+
+    @Override
+    public List<User> findAllVenue (PageBean pageBean){
+        return userDao.findAllVenue(new RowBounds(pageBean.getOffset(), pageBean.getPageSize()));
+    }
+
+    @Override
+    public Integer getCountByVenue () {
+        return userDao.getCountByVenue();
+    }
+
+    //lr: 查询所有学员
+    @Override
+    public List<User> findAllStudents () {
+        return userDao.findAllStudents();
+    }
+
+    //lr: 通过id查询某个用户以及他的全部动态
+    public User showUserAllSpeaks (Integer u_id){
+        User user = userDao.showUserAllSpeaks(u_id);
+        return user;
+
+    }
+
 }

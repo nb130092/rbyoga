@@ -3,9 +3,46 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.woniu.dao.UserDao">
+
+    <resultMap type="user" id="userResult">
+        <id property="u_id" column="u_id" />
+        <result property="u_pickname" column="u_pickname" />
+        <result property="u_username" column="u_username" />
+        <result property="u_password" column="u_password" />
+        <result property="u_safecode" column="u_safecode" />
+        <result property="u_head" column="u_head" />
+        <result property="u_selfword" column="u_selfword" />
+        <result property="u_phone" column="u_phone" />
+        <result property="u_money" column="u_money" />
+        <result property="u_role" column="u_role" />
+        <result property="u_card" column="u_card" />
+    </resultMap>
+
+    <resultMap type="user" id="userWithSpeaksResult">
+        <id property="u_id" column="u_id" />
+        <result property="u_pickname" column="u_pickname" />
+        <result property="u_username" column="u_username" />
+        <result property="u_password" column="u_password" />
+        <result property="u_safecode" column="u_safecode" />
+        <result property="u_head" column="u_head" />
+        <result property="u_selfword" column="u_selfword" />
+        <result property="u_phone" column="u_phone" />
+        <result property="u_money" column="u_money" />
+        <result property="u_role" column="u_role" />
+        <result property="u_card" column="u_card" />
+        <collection  property="speakList"  ofType="com.woniu.pojo.Speak">
+            <id property="s_id" column="b_id" />
+            <result property="s_content" column="s_content" />
+            <result property="s_time" column="s_time" />
+        </collection>
+    </resultMap>
+
+
+
     <sql id="base_user_col">
         u_id,u_pickname,u_username,u_password,u_safecode,u_head,u_selfword,u_phone,u_money,u_role,u_card
     </sql>
+
     <!--增加用户-->
     <insert id="save" parameterType="com.woniu.pojo.User" useGeneratedKeys="true" keyProperty="u_id">
         insert into user
@@ -82,14 +119,14 @@
     </insert>
 
     <!--查找所有用户-->
-    <select id="findAll" resultType="user">
+    <select id="findAll" resultMap="userResult">
         select
         <include refid="base_user_col"></include>
         from user
     </select>
 
     <!--查找一个用户-->
-    <select id="findOne" parameterType="int" resultType="user">
+    <select id="findOne" parameterType="int" resultMap="userResult">
         select
         <include refid="base_user_col"></include>
         from user
@@ -205,11 +242,27 @@
     </update>
 
 
-    <select id="findByPage" parameterType="pageBean" resultType="user">
+
+    <select id="findByPage" parameterType="pageBean" resultType="user"></select>
+
+    <!--查找所有教练-->
+    <select id="findAllCoach" resultType="user">
         select
         <include refid="base_user_col"></include>
         from user
         <where>
+            u_role = '教练'
+        </where>
+    </select>
+
+    <!--查找所有场馆-->
+    <select id="findAllVenue" resultType="user">
+
+        select
+        <include refid="base_user_col"></include>
+        from user
+        <where>
+
             <if test="queryVal!=null">
                 u_username like concat('%',#{queryVal},'%')
             </if>
@@ -226,4 +279,50 @@
             </if>
         </where>
     </select>
+
+
+
+    <!--查找场馆总数-->
+    <select id="getCountByVenue" resultType="integer">
+        select
+            count(*)
+        from user
+        <where>
+            u_role = '场馆'
+        </where>
+    </select>
+
+    <!--查找教练总数-->
+    <select id="getCountByCoach" resultType="integer">
+        select
+            count(*)
+        from user
+        <where>
+            u_role = '教练'
+        </where>
+    </select>
+
+
+    <!--查找所有学员-->
+    <select id="findAllStudents" resultType="user">
+        select
+        <include refid="base_user_col"></include>
+        from user
+        <where>
+            u_role = '学员'
+        </where>
+    </select>
+
+
+    <!--查找某人所有动态-->
+    <select id="showUserAllSpeaks" resultMap="userWithSpeaksResult">
+       select
+        u.*,s.*
+        from user u left join speak s
+		ON
+		u.u_id = s.user_id
+        where
+        u_id = #{u_id}
+    </select>
+
 </mapper>

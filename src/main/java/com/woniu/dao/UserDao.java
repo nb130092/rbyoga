@@ -3,6 +3,7 @@ package com.woniu.dao;
 import com.woniu.pojo.PageBean;
 import com.woniu.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,6 +22,16 @@ public interface UserDao {
     void update(User user);
     User findOne(Integer u_id);
     List<User> findAll();
+    //findAllStudent:查询所有学员
+    List<User> findAllStudents();
+    //findAllCoach:查询所有教练
+    List<User> findAllCoach(RowBounds rowBounds);
+    //getCountByCoach:获取教练总数
+    Integer getCountByCoach();
+    //findAllVenue:查询所有场馆
+    List<User> findAllVenue(RowBounds rowBounds);
+    //getCountByVenue:获取场馆总数
+    Integer getCountByVenue();
 
     //lxy:登录
     User login(User user);
@@ -31,7 +42,12 @@ public interface UserDao {
     //lxy:忘记密码，根据用户名和安全码修改密码
     Integer updPwd(User user);
 
+
     Integer countAll(PageBean<User> pageBean);
 
     List<User> findByPage(PageBean<User> pageBean);
+
+    //通过id查询某个用户以及他的全部动态
+    User showUserAllSpeaks(Integer u_id);
+
 }

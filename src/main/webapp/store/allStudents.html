@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>展示所有学员</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- 左侧导航！ -->
+<div style="float: left; width: 20%;">
+    <section class="app">
+        <aside class="sidebar">
+            <header>场馆导航栏</header>
+            <nav class="sidebar-nav">
+                <ul>
+
+                    <li>
+                        <a href="allStudents.html"><i class="ion-bag"></i> <span>查看所有学员</span></a>
+                    </li>
+
+                    <li>
+                        <a href="allCoachs.html"><i class="ion-ios-settings"></i> <span class="">查看所有教练</span></a>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="ion-ios-briefcase-outline"></i> <span class="">主页</span></a>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="ion-ios-analytics-outline"></i> <span class="">场馆业务</span></a>
+                        <ul class="nav-flyout">
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>信息完善</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-partlysunny-outline"></i>场馆收入</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆学员</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆签约教练</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆通知</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-game-controller-a-outline"></i>场馆产品</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </aside>
+    </section>
+</div>
+
+<!--右侧窗口-->
+<div id="window">
+    <div style="width: 800px;border: 1px seagreen solid" id="studentWindow">
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(function () {
+
+        showStudents();
+
+
+
+
+    })
+
+
+
+
+
+    // 展示教练
+    function showStudents() {
+        $.ajax({
+            cache:  false,    //是否使用浏览器缓存
+            type:  "get",   //请求方式
+            url:  "http://localhost:8888/users/findAllStudents",   //请求路径
+            dataType:  "json",  //响应的内容类型
+            async:  false,     //同步或者异步ajax
+            success: function(result) {
+                var studentStr = "";
+                $.each(result.data,function(index,user){
+
+                    studentStr+="<div class='media'  style='border: #6a6f8c 2px solid'>";
+                    studentStr+="<div class='media-left media-middle' >";
+                    studentStr+="<img src='http://localhost:8888/upload/"+user.u_head+"' class='media-object' style='width:130px' onclick='toSelfMain("+user.u_id+")'>";
+                    studentStr+="</div>";
+                    studentStr+="<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
+                    studentStr+="<h4 class='media-heading'>学员姓名："+user.u_pickname+" &nbsp;<button type='button'class='btn btn-primary btn-md ' onclick='toFollow("+user.u_id+")'>关注</button></h4>";
+                    studentStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>个性签名:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>"+user.u_selfword+"</h5>";
+                    studentStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>联系方式: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>"+user.u_phone+"</h5>";
+                    studentStr+="</div></div>";
+
+
+                });
+                $("#studentWindow").html(studentStr);
+
+            }
+
+        })
+    }
+
+    //进主页
+    function toSelfMain(u_id) {
+        window.location="selfMain.html?user_id="+u_id;
+    }
+
+
+    //场馆关注学员
+    function toFollow(guest_id) {
+        $.ajax({
+            cache: false,    //是否使用浏览器缓存
+            type: "get",   //请求方式
+            url: "http://localhost:8888/users/followWho",   //请求路径
+            data:{"guest_id":guest_id},
+            dataType: "json",  //响应的内容类型
+            async: false,     //同步或者异步ajax
+            success: function (result) {
+                alert(result.message);
+            }
+        })
+
+    }
+
+
+</script>
+
+
+
+
+
+</body>
+</html>

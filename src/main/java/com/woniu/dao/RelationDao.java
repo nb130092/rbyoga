@@ -10,13 +10,11 @@ import java.util.Map;
 
 /**
  * @author R&B
- * @create 2020/3/26 17:49:51
  */
 
 @Mapper
 @Repository
 public interface RelationDao {
-
     List<Relation> findAll();
     Relation findOne(Integer rid);
     void save(Relation relation);

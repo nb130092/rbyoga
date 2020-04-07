@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author zhaojunjie
- * @create 2020/03/28  12:19:16
+ * @author R&B
+ * @create 2020/3/28 20:08:15
  */
 
 @Service
@@ -34,17 +34,21 @@ public class RelationServiceImpl implements IRelationService {
 
     @Override
     public void save(Relation relation) {
-          relationDao.save(relation);
+
+        relationDao.save(relation);
+
     }
 
     @Override
     public void delete(Integer rid) {
-          relationDao.delete(rid);
+        relationDao.delete(rid);
     }
 
     @Override
     public void update(Relation relation) {
-          relationDao.update(relation);
+
+        relationDao.update(relation);
+
     }
 
     @Override

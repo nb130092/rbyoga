@@ -23,7 +23,6 @@ public class OrderzController {
 
 
     @GetMapping
-    @ResponseBody
     public ResultVO findAllOrderz(){
         List<Orderz> orderzList = orderzService.findAllOrderz();
         ResultVO resultVO = null;

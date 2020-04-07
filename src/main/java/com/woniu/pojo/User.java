@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author R&B
@@ -14,11 +15,9 @@ import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
-
+@NoArgsConstructor
 public class User implements Serializable {
-    public User(){
 
-    }
     private Integer u_id;
     /**昵称*/
     private String  u_pickname;
@@ -33,5 +32,8 @@ public class User implements Serializable {
     private Integer u_money;
     private String u_role;
     private String u_card;
+
+    //某人的动态集合
+    private List<Speak> speakList;
 
 }

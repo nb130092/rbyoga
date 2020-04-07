@@ -19,31 +19,31 @@ public class OrderzServiceImpl  implements IOrderzService {
 
 
     @Autowired
-    private OrderzDAO orderzDAO;
+    private OrderzDAO orderzDao;
 
     @Override
     public void saveOrderz(Orderz orderz) {
-        orderzDAO.saveOrderz(orderz);
+        orderzDao.saveOrderz(orderz);
     }
 
     @Override
     public void deleteOrderz(Integer o_id) {
-        orderzDAO.deleteOrderz(o_id);
+        orderzDao.deleteOrderz(o_id);
     }
 
     @Override
     public void updateOrderz(Orderz orderz) {
-        orderzDAO.updateOrderz(orderz);
+        orderzDao.updateOrderz(orderz);
     }
 
     @Override
     public List<Orderz> findAllOrderz() {
-        return orderzDAO.findAllOrderz();
+        return orderzDao.findAllOrderz();
     }
 
     @Override
     public Orderz findOneOrderz(Integer o_id) {
-        return orderzDAO.findOneOrderz(o_id);
+        return orderzDao.findOneOrderz(o_id);
     }
 
 

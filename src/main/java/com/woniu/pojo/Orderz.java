@@ -21,7 +21,7 @@ public class Orderz implements Serializable {
     private Date o_date;    //订单日期
     private Integer o_price;     //订单价格
     private String o_isPay;     //支付状态
-    private Integer student_id;   //购买者id(外
+    private Integer student_id;   //购买者id(外)
     private Integer product_id;    //产品id(外)
 
 }
