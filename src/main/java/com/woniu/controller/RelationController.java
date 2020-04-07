@@ -132,6 +132,7 @@ public class RelationController {
     @ResponseBody
     public ResultVO myFollow(HttpSession session){
         try{
+            User u = new User();
             User loginUser = (User) session.getAttribute("loginUser");
             Integer u_id = loginUser.getU_id();
             List<Relation> relations = relationService.myFollow(u_id);
