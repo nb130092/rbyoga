@@ -49,4 +49,9 @@ public class RelationServiceImpl implements IRelationService {
         relationDao.update(relation);
 
     }
+    //根据场馆的id在关系表中查出与场馆相关人员信息
+    @Override
+    public List<Relation> findStorePerByMain_id(Integer main_id) {
+        return relationDao.findStorePerByMain_id(main_id);
+    }
 }

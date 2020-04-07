@@ -16,5 +16,6 @@ public interface IRelationService {
     void save(Relation relation);
     void delete(Integer rid);
     void update(Relation relation);
-
+    //根据场馆的id在关系表中查出与场馆相关人员信息
+    List<Relation>  findStorePerByMain_id(Integer main_id);
 }

@@ -38,4 +38,10 @@ public class NoticeServiceImpl implements INoticeService {
     public void update(Notice notice) {
         noticeDao.update(notice);
     }
+
+    //根据场馆的id在通知表中查出所有通知
+    @Override
+    public   List<Notice> findNoticeByArrive_id(Integer init_id){
+        return noticeDao.findNoticeByArrive_id(init_id);
+    }
 }

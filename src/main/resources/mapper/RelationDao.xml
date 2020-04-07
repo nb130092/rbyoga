@@ -92,6 +92,17 @@
     </delete>
 
 
+    <!-- 根据场馆的id在关系表中查出与场馆相关人员信息by:tyb-->
+    <select id="findStorePerByMain_id"  parameterType="Integer"  resultType="relation">
+        select
+        <include refid="relation_list"></include>
+        from relation
+        <where>
+            main_id = #{main_id}
+        </where>
+
+    </select>
+
 </mapper>
 
 

@@ -97,4 +97,14 @@
         </where>
     </update>
 
+    <!--根据场馆id获取所有接受的通知 by:tyb-->
+    <select id="findNoticeByArrive_id" parameterType="int" resultType="Notice">
+        select
+        <include refid="notice_list"></include>
+        from notice
+        <where>
+            arrive_id = #{arrive_id}
+        </where>
+    </select>
+
 </mapper>

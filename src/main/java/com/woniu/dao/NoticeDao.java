@@ -13,4 +13,6 @@ public interface NoticeDao {
     void delete(Integer u_id);
     void save(Notice notice);
     void update(Notice notice);
+    //根据场馆的id在通知表中查出所有通知
+    List<Notice> findNoticeByArrive_id(Integer init_id);
 }
