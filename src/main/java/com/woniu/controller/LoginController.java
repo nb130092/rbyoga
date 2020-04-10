@@ -21,11 +21,20 @@ public class LoginController {
     @PostMapping("login")
     public ResultVO login(@RequestBody User user, HttpSession session){
         User loginUser=null;
+
         try{
             loginUser=userService.login(user);
             if (loginUser!=null){
                 session.setAttribute("loginUser", loginUser);
-                return new ResultVO(200, "登录成功");
+                if (loginUser.getU_role().equals("场馆")){   //如果code是201,则跳转到场馆管理
+                    return new ResultVO(201, "场馆登录成功");
+                }
+                if (loginUser.getU_role().equals("学员")){   //如果code是202,则跳转到学员管理
+                    return new ResultVO(202, "学员登录成功");
+                }
+                if (loginUser.getU_role().equals("教练")){   //如果code是203,则跳转到教练管理
+                    return new ResultVO(203, "教练登录成功");
+                }
             }
             return new ResultVO(500, "登录失败");
         }catch(Exception e){

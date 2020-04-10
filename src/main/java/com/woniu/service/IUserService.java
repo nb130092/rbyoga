@@ -32,4 +32,10 @@ public interface IUserService {
     List<User> findAllVenue(PageBean pageBean);
     //getCountVenue:获取场馆总数
     Integer getCountByVenue();
+
+    //findAllStudent:查询所有学员
+    List<User> findAllStudents();
+
+    //通过id查询某个用户以及他的全部动态
+    User showUserAllSpeaks(Integer u_id);
 }

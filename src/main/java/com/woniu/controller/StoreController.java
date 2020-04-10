@@ -106,6 +106,34 @@ public class StoreController {
         return resultVO;
     }
 
+    //查看产品详细信息，获取到一个产品
+    @ResponseBody
+    @RequestMapping("findOneProduct")
+    public ResultVO findOneProduct(Integer pid){
+        ResultVO resultVO = null;
+        try{
+             Product product= productService.findOne(pid);
+            resultVO =  new  ResultVO(200,"场馆产品已经查到",product);
+        }catch (Exception e){
+            resultVO =  new  ResultVO(500,"场馆产品没有查到");
+        }
+        return resultVO;
+    }
+
+
+    //修改场馆产品
+    @ResponseBody
+    @RequestMapping("updProduct")
+    public ResultVO updProduct(Product product){
+        ResultVO resultVO = null;
+        try{
+            productService.update(product);
+            resultVO =  new  ResultVO(200,"场馆产品已经修改");
+        }catch (Exception e){
+            resultVO =  new  ResultVO(500,"场馆产品没有修改");
+        }
+        return resultVO;
+    }
 
     //场馆通知
     @ResponseBody
@@ -154,7 +182,7 @@ public class StoreController {
             for (Relation relation : relationList) {
                 //判断如果用户的角色为“”c（教练），则将其加到StoreYogaCoach中去
                 User user = userService.findOne(relation.getGuest_id());
-                if(user.getU_role().equals("C")){
+                if(user.getU_role().equals("教练")){
                     StoreYogaCoach.add(user);
                 }
                 resultVO = new ResultVO(200,"场馆签约教练已经找到",StoreYogaCoach);
@@ -165,13 +193,78 @@ public class StoreController {
         return  resultVO ;
     }
 
-//    //向场馆签约教练发送通知
-//    @ResponseBody
-//    @RequestMapping("replyStoreYogaCoach")
-//    public ResultVO replyStoreYogaCoach() {
-//        //传入的值为教练的id和场馆的id,还有
-//        return  null;
-//    }
+
+//    展示场馆签约的所有的教练的信息，教练头像旁边有发送通知按钮，点击可发送通知。
+//     //向场馆签约教练发送通知
+    @ResponseBody
+    @RequestMapping("replyStoreYogaCoach")
+    public ResultVO replyStoreYogaCoach(Integer u_id,Integer u_id2,String n_content) {
+        //传入的值为 教练id和   场馆id    通知的信息。
+        ResultVO resultVO = null;
+        try {
+            Notice notice = new Notice();
+            notice.setInit_id(u_id2);
+            notice.setArrive_id(u_id);
+            notice.setN_content(n_content);
+            notice.setN_isRead("N");
+            notice.setN_isYes("N");
+            noticeService.save(notice);
+            resultVO = new ResultVO(200,"发送通知成功",notice);
+        }catch (Exception e){
+            resultVO = new ResultVO(500,"发送通知失败");
+        }
+        return  resultVO;
+       }
+
+
+    //    发送通知按钮旁边解除雇佣按钮，点击后会给该教练通知消息，并解除场馆于教练的关联关系。
+    //解雇教练
+    @ResponseBody
+    @RequestMapping("dismissStoreYogaCoach")
+    public ResultVO dismissStoreYogaCoach(Integer u_id,Integer u_id2) {
+        //传入的值为                          教练id       场馆id
+        ResultVO resultVO = null;
+        try {
+            //创建解雇教练的通知
+            Notice notice = new Notice();
+            notice.setN_isRead("N");
+            notice.setN_isYes("N");
+            notice.setInit_id(u_id2);
+            notice.setArrive_id(u_id);
+            notice.setN_content("解雇！");
+            noticeService.save(notice);
+            //在通知表中 根据教练id(main_id(外))和场馆id(Guest_id(外)) 查出对应的信息  再删除场馆和教练的关系
+            //Relation relation = relationService.findRelationByMain_idAndGuest_id(u_id2,u_id);
+            //relationService.delete(relation);
+            resultVO = new ResultVO(200,"发送解雇通知成功",notice);
+        }catch (Exception e){
+            resultVO = new ResultVO(500,"发送解雇通知失败");
+        }
+        return  resultVO;
+    }
+    //为该教练分配学员。         教练和学员的关系如何？    一對多
+    //点击分配学员的时候，根据场馆id在关系表中，main_id为场馆id 的时候，查出所有的Guest_id，
+    //再根据 Guest_id 在user表中查出所有u_role =“” “”'“学员' 的列
+    //展示某场馆下的所有学员    还有选中的教练
+    @ResponseBody
+    @RequestMapping("showStoreAllStu")
+    public ResultVO showStoreAllStu(){
+
+        return  null;
+    }
+    //  教练To学员
+    //  将所有的学员展示出
+    //
+
+    // 查找  签约场馆To学员
+    @ResponseBody
+    @RequestMapping("storeYogaCoachAllotStu")
+    public ResultVO storeYogaCoachAllotStu() {
+        //传入的值为                          教练id       场馆id
+        ResultVO resultVO = null;
+
+        return  resultVO;
+    }
 
     //场馆学员
     @ResponseBody
@@ -185,7 +278,7 @@ public class StoreController {
             for (Relation relation : relationList) {
                 //判断如果用户的角色为“”b（xueyuan），则将其加到StoreYogaCoach中去
                 User user = userService.findOne(relation.getGuest_id());
-                if(user.getU_role().equals("B")){
+                if(user.getU_role().equals("学员")){
                     StoreStu.add(user);
                 }
                 resultVO = new ResultVO(200,"场馆学员已经找到",StoreStu);
@@ -193,7 +286,26 @@ public class StoreController {
         }catch (Exception e ){
             resultVO = new ResultVO(200,"场馆学员没有找到");
         }
-
         return  resultVO ;
+    }
+    //旁边还有发送通知按钮，点击后，可像该学员发送通知！
+    @ResponseBody
+    @RequestMapping("replyStu")
+    public ResultVO replyStu(Integer u_id,Integer u_id2,String n_content) {
+        //传入的值为                学员id和        场馆id        通知的信息。
+        ResultVO resultVO = null;
+        try {
+            Notice notice = new Notice();
+            notice.setInit_id(u_id2);
+            notice.setArrive_id(u_id);
+            notice.setN_isRead("N");
+            notice.setN_isYes("N");
+            notice.setN_content(n_content);
+            noticeService.save(notice);
+            resultVO = new ResultVO(200,"发送通知成功",notice);
+        }catch (Exception e){
+            resultVO = new ResultVO(500,"发送通知失败");
+        }
+        return  resultVO;
     }
 }

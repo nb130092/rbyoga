@@ -86,4 +86,17 @@ public class UserServiceImpl implements IUserService {
     public Integer getCountByVenue() {
         return userDao.getCountByVenue();
     }
+
+    //lr: 查询所有学员
+    @Override
+    public List<User> findAllStudents() {
+        return userDao.findAllStudents();
+    }
+
+
+    //lr: 通过id查询某个用户以及他的全部动态
+    public  User showUserAllSpeaks(Integer u_id){
+          User user = userDao.showUserAllSpeaks(u_id);
+        return user;
+    }
 }
