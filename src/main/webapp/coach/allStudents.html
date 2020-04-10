@@ -8,8 +8,7 @@
     <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/styleStu.css">
 </head>
 
 <body>
@@ -31,11 +30,11 @@
                     </li>
 
                     <li>
-                        <a href="#"><i class="ion-ios-briefcase-outline"></i> <span class="">主页</span></a>
+                        <a href="coachMain.html"><i class="ion-ios-briefcase-outline"></i> <span class="">主页</span></a>
                     </li>
 
                     <li>
-                        <a href="#"><i class="ion-ios-analytics-outline"></i> <span class="">场馆业务</span></a>
+                        <a href="#"><i class="ion-ios-analytics-outline"></i> <span class="">教练业务</span></a>
                         <ul class="nav-flyout">
                             <li>
                                 <a href="#"><i class="ion-ios-timer-outline"></i>信息完善</a>
@@ -44,19 +43,16 @@
                                 <a href="#"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
                             </li>
                             <li>
-                                <a href="#"><i class="ion-ios-partlysunny-outline"></i>场馆收入</a>
+                                <a href="#"><i class="ion-ios-partlysunny-outline"></i>我的钱包</a>
                             </li>
                             <li>
-                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆学员</a>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>我的学员</a>
                             </li>
                             <li>
-                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆签约教练</a>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>签约场馆</a>
                             </li>
                             <li>
-                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆通知</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="ion-ios-game-controller-a-outline"></i>场馆产品</a>
+                                <a href="#"><i class="ion-ios-game-controller-a-outline"></i>我的通知</a>
                             </li>
                         </ul>
                     </li>
@@ -72,6 +68,9 @@
     <div style="width: 800px;border: 1px seagreen solid" id="studentWindow">
 
         </div>
+    <ul class="pagination" id="pages">
+
+    </ul>
     </div>
 </div>
 
@@ -80,7 +79,7 @@
 
     $(function () {
 
-        showStudents();
+        showStudents(1);
 
 
 
@@ -92,16 +91,19 @@
 
 
     // 展示教练
-    function showStudents() {
+    function showStudents(nowPage) {
+        var jsonPage = {"nowPage": nowPage};
         $.ajax({
             cache:  false,    //是否使用浏览器缓存
-            type:  "get",   //请求方式
-            url:  "http://localhost:8888/users/findAllStudents",   //请求路径
+            type:  "post",   //请求方式
+            url:  "http://localhost:8888/users/findStudents",   //请求路径
+            data: JSON.stringify(jsonPage),
+            contentType:'application/json;charset=utf-8',
             dataType:  "json",  //响应的内容类型
             async:  false,     //同步或者异步ajax
             success: function(result) {
                 var studentStr = "";
-                $.each(result.data,function(index,user){
+                $.each(result.data.list,function(index,user){
 
                     studentStr+="<div class='media'  style='border: #6a6f8c 2px solid'>";
                     studentStr+="<div class='media-left media-middle' >";
@@ -116,6 +118,18 @@
 
                 });
                 $("#studentWindow").html(studentStr);
+                var byPageStr="";
+                byPageStr+="<li class='"+(result.data.nowPage==1?'disabled':'')+"'><a onclick='showStudents("+(result.data.nowPage-1)+")'>上一页</a></li>";
+                for(var i=1;i<=result.data.allPage;i++){
+                    if(i==result.data.nowPage){
+                        byPageStr+="<li class='active'><a onclick='showStudents("+(i)+")'>"+i+"<span class='sr-only'>(current)</span></a></li>";
+                    }else{
+                        byPageStr+="<li><a onclick='showStudents("+(i)+")'>"+i+"</a></li>";
+                    }
+                }
+                byPageStr+="<li class='"+(result.data.nowPage==result.data.allPage?'disabled':'')+"'><a onclick='showStudents("+(result.data.nowPage+1)+")'>下一页</a></li>";
+
+                $("#pages").html(byPageStr);
 
             }
 

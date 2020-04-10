@@ -50,4 +50,5 @@ public interface UserDao {
     //通过id查询某个用户以及他的全部动态
     User showUserAllSpeaks(Integer u_id);
 
+    List<User> findStudents(PageBean<User> pageBean);
 }

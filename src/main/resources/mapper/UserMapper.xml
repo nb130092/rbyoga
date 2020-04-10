@@ -242,8 +242,32 @@
     </update>
 
 
+    <!--主页分页查询所有人-->
+    <select id="findByPage" parameterType="pageBean" resultType="user">
+        select
+        <include refid="base_user_col"></include>
+        from user
+        <where>
+            <if test="queryVal != null">
+                u_pickname like concat('%',#{queryVal},'%')
+            </if>
 
-    <select id="findByPage" parameterType="pageBean" resultType="user"></select>
+        </where>
+        order by u_id desc
+        limit ${(nowPage-1)*pageSize},${pageSize}
+
+    </select>
+    <!--分页查询所有学生-->
+    <select id="findStudents" parameterType="pageBean" resultType="user">
+        select
+        <include refid="base_user_col"></include>
+        from user
+        <where>
+            u_role = '学员'
+        </where>
+        order by u_id desc
+        limit ${(nowPage-1)*pageSize},${pageSize}
+    </select>
 
     <!--查找所有教练-->
     <select id="findAllCoach" resultType="user">
@@ -275,7 +299,7 @@
         select count(*) from user
         <where>
             <if test="queryVal!=null">
-                u_username like concat('%',#{queryVal},'%')
+                u_pickname like concat('%',#{queryVal},'%')
             </if>
         </where>
     </select>

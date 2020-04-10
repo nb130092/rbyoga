@@ -21,6 +21,7 @@ public class Relation {
     private String r_relation;
     private Integer main_id;
     private Integer guest_id;
+    //用户集合
     private List<User> users;
 
     public Relation(Integer r_id, String r_relation, Integer main_id, Integer guest_id) {
