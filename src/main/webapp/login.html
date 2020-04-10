@@ -95,6 +95,7 @@
 </div>
 <!-- partial -->
   <script>
+
 	  var login=new Vue({
 		 el:"#login",
 		 data:{
@@ -103,6 +104,7 @@
 			 msg:null
 		 },
 		 methods: {
+
 			login(){
 
 				if(this.username==null||this.username=='用户名不能为空'){
@@ -126,7 +128,7 @@
 				axios.post("http://localhost:8888/login", {
                       "u_username":this.username,
                       "u_password":this.password
-                  }).then((response) =>{
+				},{withCredentials:true}).then((response) =>{
 					if(response.data.code==201){
 						layer.msg("场馆登录成功！！",{time:1000,icon:1,shift:6},function(){});
 						window.location.href='http://localhost:8888/store/storeMain.html';  //跳转到场馆页面
@@ -231,6 +233,7 @@
 					"u_username":this.username,
 					"u_password":this.password,
 					"u_safecode":this.safecode,
+
 				
 				}).then((response) => {
 					if(response.data.code==200){

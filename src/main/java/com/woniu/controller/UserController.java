@@ -147,6 +147,7 @@ public class UserController {
             }
          }
 
+     // 查询所有场馆
     @GetMapping("findAllVenue")
     public ResultVO showAllVenue(PageBean pageBean){
         List<User> userList=null;
@@ -165,6 +166,7 @@ public class UserController {
 
     }
 
+    // 查询所有学员
     @GetMapping("findAllStudents")
     public ResultVO findAllStudents() {
         List<User> studentList=null;
@@ -185,6 +187,7 @@ public class UserController {
     public ResultVO FollowWho(Integer guest_id, HttpSession session) {
         try{
             System.out.println(guest_id);
+            System.out.println(session.getId());
             User loginUser= (User)session.getAttribute("loginUser");
             System.out.println(loginUser);
             Integer main_id= loginUser.getU_id();

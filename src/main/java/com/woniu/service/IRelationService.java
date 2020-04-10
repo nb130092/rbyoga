@@ -17,4 +17,7 @@ public interface IRelationService {
     void delete(Integer rid);
     void update(Relation relation);
 
+    // 查找某个人的所有关注的人的id
+    List<Integer> findAllFollows(Integer myId);
+
 }

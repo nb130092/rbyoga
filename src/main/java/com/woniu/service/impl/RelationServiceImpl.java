@@ -49,4 +49,10 @@ public class RelationServiceImpl implements IRelationService {
         relationDao.update(relation);
 
     }
+
+    // 查找某个人的所有关注的人的id
+    public  List<Integer> findAllFollows(Integer myId){
+        return  relationDao.findAllFollows(myId);
+
+    }
 }
