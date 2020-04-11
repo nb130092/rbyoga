@@ -129,7 +129,7 @@
                       "u_username":this.username,
                       "u_password":this.password
 
-                  },{withCredentials : true}).then((response) =>{
+                  },{withCredentials:true}).then((response) =>{
 					if(response.data.code==201){
 						layer.msg("场馆登录成功！！",{time:1000,icon:1,shift:6},function(){});
 						window.location.href='http://localhost:8888/store/storeMain.html';  //跳转到场馆页面
@@ -176,7 +176,7 @@
 				
 				axios.post("http://localhost:8888/check",{
 					"u_username":this.username
-				}).then((response) => {
+				},{withCredentials:true}).then((response) => {
 					if(response.data.data!=null){
 						this.username='用户名已存在';
 						return false;
@@ -236,7 +236,7 @@
 					"u_username":this.username,
 					"u_password":this.password,
 					"u_safecode":this.safecode,
-				}).then((response) => {
+				},{withCredentials:true}).then((response) => {
 					if(response.data.code==200){
 						layer.msg("注册成功！！！",{time:1000,icon:1,shift:5},function(){});
 						window.location.href='http://localhost:8888/loginUI';

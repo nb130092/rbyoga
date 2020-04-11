@@ -97,6 +97,7 @@ public class UserController {
     @PostMapping("findStudents")
     @ResponseBody
     public ResultVO findStudents(@RequestBody PageBean<User> pageBean) {
+
         try {
             Integer allRow = userService.countAll(pageBean);
             Integer allPage = allRow % pageBean.getPageSize() == 0 ? allRow / pageBean.getPageSize() : allRow / pageBean.getPageSize() + 1;
@@ -115,9 +116,9 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("findByPage")
-    public ResultVO findByPage(@RequestBody PageBean<User> pageBean,HttpSession session) {
+    public ResultVO findByPage(@RequestBody PageBean<User> pageBean) {
         try {
-            User loginUser = (User) session.getAttribute("loginUser");
+
             Integer allRow = userService.countAll(pageBean);
             Integer allPage = allRow % pageBean.getPageSize() == 0 ? allRow / pageBean.getPageSize() : allRow / pageBean.getPageSize() + 1;
             pageBean.setAllPage(allPage);
@@ -127,7 +128,6 @@ public class UserController {
             pageBean.setAllRow(allRow);
             List<User> list = userService.findByPage(pageBean);
             pageBean.setList(list);
-            pageBean.setUser(loginUser);
             return new ResultVO(200, "查询成功", pageBean);
         } catch (Exception e) {
             return new ResultVO(500, "查询失败", pageBean);

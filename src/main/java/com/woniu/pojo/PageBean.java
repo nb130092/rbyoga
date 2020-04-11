@@ -15,7 +15,6 @@ public class PageBean<T> {
 	private Integer allPage;//总页数
 	private Integer offset;//从哪里开始
 	private String queryVal;
-	private User user;
 	private List<T> list;
 /*
 

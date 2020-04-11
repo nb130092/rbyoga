@@ -56,8 +56,9 @@ public class RelationController {
     @ResponseBody
     public ResultVO follow(@RequestBody User user, HttpSession session) {
         try {
-
+            System.out.println("user = " + user);
             User loginUser = (User) session.getAttribute("loginUser");
+            System.out.println("loginUser = " + loginUser);
             String loginUserRole = loginUser.getU_role();
             String userRole = user.getU_role();
             //主客关系

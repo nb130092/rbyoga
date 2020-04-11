@@ -16,6 +16,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 表示允许客户端访问当前web应用的任何资源
                 .allowedMethods("*")        // 表示允许客户端的所有请求方式： GET POST PUT DELETE OPSTIONS
-                .allowedOrigins("*");      // 表示允许指定的IP地址，向当前web应用发送跨域ajax请求
+                .allowedOrigins("*")         // 表示允许指定的IP地址，向当前web应用发送跨域ajax请求
+                .allowCredentials(true);     //允许跨域session
     }
 }
