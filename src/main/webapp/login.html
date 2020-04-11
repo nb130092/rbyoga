@@ -105,6 +105,7 @@
 			 msg:null
 		 },
 		 methods: {
+
 			login(){
 
 				if(this.username==null||this.username=='用户名不能为空'){
@@ -128,7 +129,6 @@
 				axios.post("http://localhost:8888/login", {
                       "u_username":this.username,
                       "u_password":this.password
-
                   },{withCredentials:true}).then((response) =>{
 					if(response.data.code==201){
 						layer.msg("场馆登录成功！！",{time:1000,icon:1,shift:6},function(){});
@@ -237,6 +237,9 @@
 					"u_password":this.password,
 					"u_safecode":this.safecode,
 				},{withCredentials:true}).then((response) => {
+
+				
+				}).then((response) => {
 					if(response.data.code==200){
 						layer.msg("注册成功！！！",{time:1000,icon:1,shift:5},function(){});
 						window.location.href='http://localhost:8888/loginUI';

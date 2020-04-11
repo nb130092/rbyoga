@@ -95,6 +95,7 @@
                     type:  "get",   //请求方式
                     url:  "http://localhost:8888/users/findAllCoach",   //请求路径
                     dataType:  "json",  //响应的内容类型
+                    withCredentials: true ,
                     async:  false,     //同步或者异步ajax
                     success: function(result) {
                         var coachStr = "";
@@ -133,6 +134,7 @@
                     data:{"guest_id":guest_id},
                     dataType: "json",  //响应的内容类型
                     async: false,     //同步或者异步ajax
+                    withCredentials: true ,
                     success: function (result) {
                         alert(result.message);
                     }

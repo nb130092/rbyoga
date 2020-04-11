@@ -25,4 +25,6 @@ public interface RelationDao {
     void cancelFollow(Map<String, Integer> map);
     //我的关注
     List<Relation> myFllow(Integer u_id);
+    // 查找某个人的所有关注的人的id
+    List<Integer>  findAllFollows(Integer myId);
 }

@@ -3,6 +3,39 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.woniu.dao.SpeakDao">
+
+
+        <resultMap  id="speakWithUserMap"  type="com.woniu.pojo.Speak">
+            <id property="s_id" column="s_id"/>
+            <result property="s_content" column="s_content"/>
+            <result property="s_time" column="s_time"/>
+            <result property="user_id"  column="user_id"/>
+            <association  property="user"  column="user_id" javaType="com.woniu.pojo.User">
+                <id property="u_id" column="u_id" />
+                <result property="u_pickname" column="u_pickname" />
+                <result property="u_username" column="u_username" />
+                <result property="u_password" column="u_password" />
+                <result property="u_safecode" column="u_safecode" />
+                <result property="u_head" column="u_head" />
+                <result property="u_selfword" column="u_selfword" />
+                <result property="u_phone" column="u_phone" />
+                <result property="u_money" column="u_money" />
+                <result property="u_role" column="u_role" />
+                <result property="u_card" column="u_card" />
+            </association>
+        </resultMap>
+
+        <!-- 查询所有的动态，包含发起人信息-->
+        <select id="showAllspeakWithUser"  resultMap="speakWithUserMap">
+            select
+                s.*,u.*
+            from
+                speak s
+            left join user u on s.user_id=u.u_id
+            order by s.s_time desc ;
+        </select>
+
+
     <!-- 动态列 -->
     <sql id="speak_list">
         s_id,s_content,s_time,user_id
