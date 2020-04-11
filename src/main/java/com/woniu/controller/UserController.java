@@ -97,7 +97,7 @@ public class UserController {
     @PostMapping("findStudents")
     @ResponseBody
     public ResultVO findStudents(@RequestBody PageBean<User> pageBean) {
-
+        User user = new User();
         try {
             Integer allRow = userService.countAll(pageBean);
             Integer allPage = allRow % pageBean.getPageSize() == 0 ? allRow / pageBean.getPageSize() : allRow / pageBean.getPageSize() + 1;
