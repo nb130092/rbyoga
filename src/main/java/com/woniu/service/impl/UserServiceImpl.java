@@ -68,35 +68,50 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<User> findAllCoach(PageBean pageBean) {
-        return userDao.findAllCoach(new RowBounds(pageBean.getOffset(),pageBean.getPageSize()));
+    public Integer countAll(PageBean<User> pageBean) {
+        return userDao.countAll(pageBean);
     }
 
     @Override
-    public Integer getCountByCoach() {
+    public List<User> findByPage(PageBean<User> pageBean) {
+        return userDao.findByPage(pageBean);
+    }
+    @Override
+    public List<User> findAllCoach (PageBean pageBean){
+        return userDao.findAllCoach(new RowBounds(pageBean.getOffset(), pageBean.getPageSize()));
+    }
+
+    @Override
+    public Integer getCountByCoach () {
         return userDao.getCountByCoach();
     }
 
     @Override
-    public List<User> findAllVenue(PageBean pageBean) {
-        return userDao.findAllVenue(new RowBounds(pageBean.getOffset(),pageBean.getPageSize()));
+    public List<User> findAllVenue (PageBean pageBean){
+        return userDao.findAllVenue(new RowBounds(pageBean.getOffset(), pageBean.getPageSize()));
     }
 
     @Override
-    public Integer getCountByVenue() {
+    public Integer getCountByVenue () {
         return userDao.getCountByVenue();
     }
 
     //lr: 查询所有学员
     @Override
-    public List<User> findAllStudents() {
+    public List<User> findAllStudents () {
         return userDao.findAllStudents();
     }
 
-
     //lr: 通过id查询某个用户以及他的全部动态
-    public  User showUserAllSpeaks(Integer u_id){
-          User user = userDao.showUserAllSpeaks(u_id);
+    public User showUserAllSpeaks (Integer u_id){
+        User user = userDao.showUserAllSpeaks(u_id);
         return user;
+
     }
+
+    @Override
+    public List<User> findStudents(PageBean<User> pageBean) {
+        return userDao.findStudents(pageBean);
+    }
+
 }

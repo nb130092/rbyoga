@@ -1,5 +1,6 @@
 package com.woniu.dao;
 
+import com.woniu.pojo.PageBean;
 import com.woniu.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
@@ -41,6 +42,13 @@ public interface UserDao {
     //lxy:忘记密码，根据用户名和安全码修改密码
     Integer updPwd(User user);
 
+
+    Integer countAll(PageBean<User> pageBean);
+
+    List<User> findByPage(PageBean<User> pageBean);
+
     //通过id查询某个用户以及他的全部动态
     User showUserAllSpeaks(Integer u_id);
+
+    List<User> findStudents(PageBean<User> pageBean);
 }

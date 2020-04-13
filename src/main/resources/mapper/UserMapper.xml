@@ -241,6 +241,34 @@
         </where>
     </update>
 
+
+    <!--主页分页查询所有人-->
+    <select id="findByPage" parameterType="pageBean" resultType="user">
+        select
+        <include refid="base_user_col"></include>
+        from user
+        <where>
+            <if test="queryVal != null">
+                u_pickname like concat('%',#{queryVal},'%')
+            </if>
+
+        </where>
+        order by u_id desc
+        limit ${(nowPage-1)*pageSize},${pageSize}
+
+    </select>
+    <!--分页查询所有学生-->
+    <select id="findStudents" parameterType="pageBean" resultType="user">
+        select
+        <include refid="base_user_col"></include>
+        from user
+        <where>
+            u_role = '学员'
+        </where>
+        order by u_id desc
+        limit ${(nowPage-1)*pageSize},${pageSize}
+    </select>
+
     <!--查找所有教练-->
     <select id="findAllCoach" resultType="user">
         select
@@ -253,13 +281,30 @@
 
     <!--查找所有场馆-->
     <select id="findAllVenue" resultType="user">
+
         select
         <include refid="base_user_col"></include>
         from user
         <where>
-            u_role = '场馆'
+
+            <if test="queryVal!=null">
+                u_username like concat('%',#{queryVal},'%')
+            </if>
+        </where>
+        order by u_id desc
+        limit ${(nowPage-1)*pageSize},${pageSize}
+    </select>
+
+    <select id="countAll" parameterType="pageBean" resultType="int">
+        select count(*) from user
+        <where>
+            <if test="queryVal!=null">
+                u_pickname like concat('%',#{queryVal},'%')
+            </if>
         </where>
     </select>
+
+
 
     <!--查找场馆总数-->
     <select id="getCountByVenue" resultType="integer">
@@ -303,4 +348,5 @@
         where
         u_id = #{u_id}
     </select>
+
 </mapper>
