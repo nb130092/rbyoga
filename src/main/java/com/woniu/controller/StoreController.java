@@ -7,6 +7,8 @@ import com.woniu.service.IRelationService;
 import com.woniu.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -212,13 +214,35 @@ public class StoreController {
         return resultVO;
     }
 
+    //分页查询
+    @ResponseBody
+    @PostMapping("findByPage")
+    public ResultVO findByPage(@RequestBody PageBean<User> pageBean) {
+        try {
+
+            Integer allRow = userService.countAll(pageBean);
+            Integer allPage = allRow % pageBean.getPageSize() == 0 ? allRow / pageBean.getPageSize() : allRow / pageBean.getPageSize() + 1;
+            pageBean.setAllPage(allPage);
+            if (pageBean.getNowPage() == null) {
+                pageBean.setNowPage(1);
+            }
+            pageBean.setAllRow(allRow);
+            List<User> list = userService.findByPage(pageBean);
+            pageBean.setList(list);
+            return new ResultVO(200, "查询成功", pageBean);
+        } catch (Exception e) {
+            return new ResultVO(500, "查询失败", pageBean);
+        }
+    }
+
     //场馆签约教练1.0
     @ResponseBody
     @RequestMapping("showStoreYogaCoach")
-    public ResultVO showStoreYogaCoach(HttpSession session){
+    public ResultVO showStoreYogaCoach(HttpSession session,PageBean pageBean){
         //根据场馆的id在关系表中查出与场馆相关人员信息
         List<User> StoreYogaCoach = new ArrayList<User>();
         User loginUser= (User)session.getAttribute("loginUser");
+        System.out.println("---------"+loginUser.getU_id());
         ResultVO resultVO = null;
         //判断其角色为教员或者学员
         try{
@@ -229,7 +253,10 @@ public class StoreController {
                 if(user.getU_role().equals("教练")){
                     StoreYogaCoach.add(user);
                 }
-                resultVO = new ResultVO(200,"场馆签约教练已经找到",StoreYogaCoach);
+                pageBean.setList(StoreYogaCoach);
+                Integer countByCoach = relationList.size();
+                pageBean.setAllRow(countByCoach);
+                resultVO = new ResultVO(200,"场馆签约教练已经找到",pageBean);
             }
         }catch (Exception e){
             resultVO = new ResultVO(200,"场馆签约教练没有找到");
@@ -261,25 +288,26 @@ public class StoreController {
        }
 
 
-    //    发送通知按钮旁边解除雇佣按钮，点击后会给该教练通知消息，并解除场馆于教练的关联关系。
+    //   发送通知按钮旁边解除雇佣按钮，点击后会给该教练通知消息，并解除场馆于教练的关联关系。
     //解雇教练
     @ResponseBody
     @RequestMapping("dismissStoreYogaCoach")
-    public ResultVO dismissStoreYogaCoach(Integer u_id,Integer u_id2) {
-        //传入的值为                          教练id       场馆id
+    public ResultVO dismissStoreYogaCoach(HttpSession session,Integer guest_id) {
+        //传入的值为                             场馆id            教练id
         ResultVO resultVO = null;
+        User loginUser= (User)session.getAttribute("loginUser");
         try {
             //创建解雇教练的通知
             Notice notice = new Notice();
             notice.setN_isRead("N");
             notice.setN_isYes("N");
-            notice.setInit_id(u_id2);
-            notice.setArrive_id(u_id);
+            notice.setInit_id(loginUser.getU_id());
+            System.out.println(loginUser.getU_id() + "  " + guest_id);
+            notice.setArrive_id(guest_id);
             notice.setN_content("解雇！");
             noticeService.save(notice);
             //在通知表中 根据教练id(main_id(外))和场馆id(Guest_id(外)) 查出对应的信息  再删除场馆和教练的关系
-            //Relation relation = relationService.findRelationByMain_idAndGuest_id(u_id2,u_id);
-            //relationService.delete(relation);
+            relationService.deleteRelationByMain_idAndGuest_id(loginUser.getU_id(),guest_id);
             resultVO = new ResultVO(200,"发送解雇通知成功",notice);
         }catch (Exception e){
             resultVO = new ResultVO(500,"发送解雇通知失败");
@@ -336,11 +364,6 @@ public class StoreController {
         }
         return  resultVO ;
     }
-
-
-
-
-
 
     //未修改
     //旁边还有发送通知按钮，点击后，可像该学员发送通知！

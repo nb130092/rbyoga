@@ -140,6 +140,15 @@
 
     </select>
 
+    <!--解除雇佣关系-->
+    <delete id="deleteRelationByMain_idAndGuest_id" parameterType="Integer">
+        delete from relation
+        <where>
+            main_id = #{ main_id } and guest_id = #{ guest_id }
+        </where>
+    </delete>
+
+
 </mapper>
 
 
