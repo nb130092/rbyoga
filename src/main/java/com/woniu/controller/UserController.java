@@ -332,5 +332,114 @@ public class UserController {
 
     }
 
+    // lr: 展示我的信息
+    @GetMapping("showMySelf")
+    public ResultVO showMyself(HttpSession session){
+        ResultVO resultVO = null;
+        try {
+            User loginUser =  (User)session.getAttribute("loginUser");
+            User user = userService.findOne(loginUser.getU_id());
+            resultVO = new ResultVO(200,"我的信息查找成功",user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO(200,"我的信息查找失败");
+        }
+        return  resultVO;
+    }
+
+
+    // lr：修改我的资料(不含头像)
+    @PostMapping("updateMyself")
+    public ResultVO updateMyself(User user, HttpSession session) {
+        ResultVO resultVO = null;
+        try {
+                User loginUser = (User)session.getAttribute("loginUser");
+                user.setU_id(loginUser.getU_id());
+
+                userService.update(user);
+
+                resultVO = new ResultVO(200, "个人信息修改成功");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO(200, "个人信息修改失败");
+        }
+        return resultVO;
+    }
+
+    // lr: 用户修改头像
+    @PostMapping("changMyHead")
+    public ResultVO changMyHead(@RequestBody MultipartFile file,HttpServletRequest req){
+            ResultVO resultVO = null;
+            try {
+                    User loginUser = (User)req.getSession().getAttribute("loginUser");
+                    String name = file.getOriginalFilename();   //获得文件名
+                    String suffix = name.substring(name.lastIndexOf("."));  //获得文件的后缀
+                    String realPath = req.getServletContext().getRealPath("/upload");   //声明文件保存的位置
+                    File dir = new File(realPath);
+                    if(!dir.exists()) {
+                        dir.mkdirs();
+                    }
+                    //声明一个新的文件名（不重复）
+                    String fileName = UUID.randomUUID()+suffix;
+                    //声明一个新的文件
+                    File target = new File(dir,fileName);
+                    //将上传的临时文件写入指定位置
+                    file.transferTo(target);
+                    loginUser.setU_head(fileName);
+                    userService.update(loginUser);
+                    resultVO = new ResultVO(200, "个人头像修改成功");
+            } catch (Exception e) {
+                e.printStackTrace();
+                resultVO = new ResultVO(200, "个人头像修改失败");
+            }
+            return resultVO;
+    }
+
+
+    // lr: 修改个人密码
+    @PostMapping("changeMyPassword/{safecode}/{password}/{newPassword}")
+    public ResultVO changeMyPassword(@PathVariable String safecode,@PathVariable String password,@PathVariable String newPassword,HttpSession session){
+        ResultVO resultVO = null;
+        try {
+            User loginUser = (User)session.getAttribute("loginUser");
+            if (safecode.equals(loginUser.getU_safecode()) && password.equals(loginUser.getU_password())){
+                loginUser.setU_password(newPassword);
+                userService.update(loginUser);
+                resultVO = new ResultVO(200, "密码修改成功");
+            }else{
+                resultVO = new ResultVO(200, "安全码或旧密码填写错误");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO(200, "密码修改失败");
+        }
+        return resultVO;
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

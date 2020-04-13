@@ -1,0 +1,264 @@
+<!Doctype html>
+<html lang="en">
+<head>
+    <title>我的信息</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- 左侧导航！ -->
+<div style="float: left; width: 20%;">
+    <section class="app">
+        <aside class="sidebar">
+            <header>场馆导航栏</header>
+            <nav class="sidebar-nav">
+                <ul>
+
+                    <li>
+                        <a href="allStudents.html"><i class="ion-bag"></i> <span>查看所有学员</span></a>
+                    </li>
+
+                    <li>
+                        <a href="allCoachs.html"><i class="ion-ios-settings"></i> <span class="">查看所有教练</span></a>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="ion-ios-briefcase-outline"></i> <span class="">主页</span></a>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="ion-ios-analytics-outline"></i> <span class="">场馆业务</span></a>
+                        <ul class="nav-flyout">
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>信息完善</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-partlysunny-outline"></i>场馆收入</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆学员</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆签约教练</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆通知</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-game-controller-a-outline"></i>场馆产品</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </aside>
+    </section>
+</div>
+
+<!--右侧窗口-->
+<div id="window">
+    <div style="width: 800px;border: 1px seagreen solid" id="coachWindow">
+            <div style="width: 400px;border: beige 2px solid;margin: auto auto;color: #8D8D8D;font-size: 15px">
+                <img src="../upload/cb7cadc0-b2a3-423a-93e7-bb3f8e772396.jpg" class="img-circle" style="width: 150px;height: 150px;margin: 20px 120px" id="u_head" >
+
+                <form enctype="multipart/form-data">
+                    <div class="form-group" >
+                        <label for="inputfile">修改头像</label>
+                        <input type="file" name="file"  id="FileUpload">
+                        <button type="button"  class="btn btn-primary btn-md" id="updateMyHead_btn" onclick="updateMyHead()">修改头像</button>
+                    </div>
+                </form>
+
+                <form role="form" id="myMessage">
+                    <div class="form-group">
+                        <label for="name">我的职务</label>
+                        <h4 id="u_role" style="color: #1E9FFF">未获取</h4>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">我的余额</label>
+                        <h4 id="u_money" style="color: #1E9FFF">0</h4>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">我的昵称</label>
+                        <input type="text" class="form-control" name="u_pickname" id="u_pickname"
+                               placeholder="请输入我的昵称">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">我的手机号</label>
+                        <input type="text" class="form-control" name="u_phone" id="u_phone"
+                               placeholder="请输入我的手机号">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">我的个性签名</label>
+                        <input type="text" class="form-control" name="u_selfword" id="u_selfword"
+                               placeholder="请输入我的个性签名">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-md" id="updateUser_btn" onclick="updateMyMessage()">修改资料</button><br/><br/>
+                    <button type="button" class="btn btn-danger btn-md" data-toggle="modal" data-target="#myModal">
+                        <span class="glyphicon glyphicon-pencil"></span> 修改密码
+                    </button>
+                </form>
+            </div>
+    </div>
+</div>
+
+
+<!--修改密码模态框-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    请输入对应安全信息
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="name">安全码</label>
+                        <input type="text" class="form-control" id="safeCode" >
+                    </div>
+                    <div class="form-group">
+                        <label for="name">旧密码</label>
+                        <input type="text" class="form-control" id="oldPassword" >
+                    </div>
+                    <div class="form-group">
+                        <label for="name">新密码</label>
+                        <input type="text" class="form-control" id="newPassword" >
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="toChangePassword()">确认修改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+        <script>
+
+            $(function () {
+                showMyMessage();
+            })
+
+            // 加载我的信息
+            function showMyMessage(){
+                $.ajax({
+                    cache: false,    //是否使用浏览器缓存
+                    type: "get",   //请求方式
+                    url: "http://localhost:8888/users/showMySelf",   //请求路径
+                    dataType: "json",  //响应的内容类型
+                    withCredentials: true,
+                    async: false,     //同步或者异步ajax
+                    success: function (result) {
+                        var user = result.data;
+
+                        $("#u_head").attr("src","http://localhost:8888/upload/"+user.u_head);
+                        $("#u_role").html(user.u_role);
+                        $("#u_money").html(user.u_money);
+                        $("#u_pickname").val(user.u_pickname);
+                        $("#u_phone").val(user.u_phone);
+                        $("#u_selfword").val(user.u_selfword);
+                    }
+                })
+            }
+
+
+            // 提交修改资料
+            function updateMyMessage() {
+                $.ajax({
+                    cache: false,    //是否使用浏览器缓存
+                    type: "post",   //请求方式
+                    url: "http://localhost:8888/users/updateMyself",   //请求路径
+                    dataType: "json",  //响应的内容类型
+                    data:$("#myMessage").serialize(),
+                    withCredentials: true,
+                    async: false,     //同步或者异步ajax
+                    success: function (result) {
+                        alert(result.message);
+                        showMyMessage();
+                    }
+                });
+            }
+
+            // 修改头像
+            function  updateMyHead() {
+                var fileObj = document.getElementById("FileUpload").files[0];                // js 获取文件对象
+                if (typeof (fileObj) == "undefined" || fileObj.size <= 0) {
+                    alert("请选择图片");
+                    return;
+                }
+                var formData = new FormData(); //创建FormData对象
+                formData.append("file",fileObj); // 加入文件对象
+                $.ajax({
+                    type: "post",
+                    url: "http://localhost:8888/users/changMyHead", //上传文件的请求路径必须是绝对路劲
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        alert(result.message);
+                        showMyMessage();
+                    }
+                });
+            }
+
+
+
+            // 修改密码
+            function toChangePassword() {
+                var safeCode = $("#safeCode").val();
+                var oldPassword = $("#oldPassword").val();
+                var newPassword = $("#newPassword").val();
+                if(safeCode==""){
+                    alert("请输入安全码！");
+                   return;
+                }
+                if(oldPassword==""){
+                    alert("请输入旧密码！");
+                    return;
+                }
+                if(newPassword==""){
+                    alert("请输入新密码！");
+                    return;
+                }
+                $.ajax({
+                    type: "post",
+                    url: "http://localhost:8888/users/changeMyPassword/"+safeCode+"/"+oldPassword+"/"+newPassword, 
+                    cache: false,
+                    dataType:"json",
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        alert(result.message);
+                        $('#myModal').modal('hide');
+                    }
+                });
+
+            }
+
+        </script>
+
+
+</body>
