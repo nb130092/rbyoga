@@ -154,5 +154,15 @@
     </select>
 
 
+    <!--通过场馆id找到该场馆的所有产品by:tyb-->
+    <select id="findProductByStore_id"  parameterType="Integer"  resultType="product">
+        select
+        <include refid="product_list"></include>
+        from product
+        <where>
+            store_id = #{store_id}
+        </where>
+    </select>
+
 
 </mapper>

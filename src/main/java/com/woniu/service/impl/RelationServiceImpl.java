@@ -77,4 +77,16 @@ public class RelationServiceImpl implements IRelationService {
     public List<User> findAllFollowUsers(User user) {
         return relationDao.findAllFollowUsers(user);
     }
+    //根据场馆的id在关系表中查出与场馆相关人员信息
+    @Override
+    public List<Relation> findStorePerByMain_id(Integer main_id) {
+        return relationDao.findStorePerByMain_id(main_id);
+    }
+
+    @Override
+    public void deleteRelationByMain_idAndGuest_id(Integer main_id, Integer guest_id) {
+        relationDao.deleteRelationByMain_idAndGuest_id(main_id,guest_id);
+    }
+
+
 }
