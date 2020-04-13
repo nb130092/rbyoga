@@ -19,4 +19,7 @@ public interface SpeakDao {
     void save(Speak speak);
     void delete(Integer sid);
     void update(Speak speak);
+
+    //查询所有的动态，包含发起人信息
+    List<Speak> showAllspeakWithUser();
 }

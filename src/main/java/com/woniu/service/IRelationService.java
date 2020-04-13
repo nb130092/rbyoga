@@ -16,6 +16,10 @@ public interface IRelationService {
     void save(Relation relation);
     void delete(Integer rid);
     void update(Relation relation);
+
+    // 查找某个人的所有关注的人的id
+    List<Integer> findAllFollows(Integer myId);
+
     //根据场馆的id在关系表中查出与场馆相关人员信息
     List<Relation>  findStorePerByMain_id(Integer main_id);
 }

@@ -67,4 +67,16 @@ public class SpeakController {
             return new ResultVO(500, "修改数据失败");
         }
     }
+
+    //lr：展示所有动态及发起人信息
+    @GetMapping("showAllspeakWithUser")
+    public ResultVO showAllspeakWithUser(){
+        try {
+            List<Speak> speakList = speakService.showAllspeakWithUser();
+            return new ResultVO(200, "修改数据成功", speakList);
+        } catch (Exception e) {
+            return new ResultVO(500, "修改数据失败");
+        }
+    }
+
 }

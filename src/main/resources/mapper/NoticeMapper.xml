@@ -97,13 +97,23 @@
         </where>
     </update>
 
-    <!--根据场馆id获取所有接受的通知 by:tyb-->
+    <!--根据场馆id获取所有通知我的 by:tyb-->
     <select id="findNoticeByArrive_id" parameterType="int" resultType="Notice">
         select
         <include refid="notice_list"></include>
         from notice
         <where>
             arrive_id = #{arrive_id}
+        </where>
+    </select>
+
+    <!--根据场馆id获取所有通知我的 by:tyb-->
+    <select id="findNoticeByInit_id" parameterType="int" resultType="Notice">
+        select
+        <include refid="notice_list"></include>
+        from notice
+        <where>
+            init_id = #{init_id}
         </where>
     </select>
 

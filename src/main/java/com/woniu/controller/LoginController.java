@@ -26,6 +26,8 @@ public class LoginController {
             loginUser=userService.login(user);
             if (loginUser!=null){
                 session.setAttribute("loginUser", loginUser);
+                System.out.println(loginUser);
+                System.out.println(session.getId());
                 if (loginUser.getU_role().equals("场馆")){   //如果code是201,则跳转到场馆管理
                     return new ResultVO(201, "场馆登录成功");
                 }

@@ -121,6 +121,7 @@
                 url:  "http://localhost:8888/users/showUserAllSpeaks",   //请求路径
                 data: {"user_id":user_id},
                 dataType:  "json",  //响应的内容类型
+                withCredentials: true ,
                 async:  false,     //同步或者异步ajax
                 success: function(result) {
                     var totalStr = "";

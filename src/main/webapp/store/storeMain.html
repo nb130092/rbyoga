@@ -3,9 +3,12 @@
 <head>
   <title>场馆主页</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="style.css">
 
 </head>
@@ -63,12 +66,86 @@
   </section>
 </div>
 
-<!--右侧窗口-->
-<div id="window">
+  <!--右侧窗口-->
+  <div id="window" >
+    <h1 style="color: #FD482C">社区动态</h1>
+    <div style="width: 800px;border: 1px seagreen solid" id="speakWindow">
 
-</div>
+    </div>
+
+  </div>
 
 
+
+  <script>
+    $(function () {
+      showAllSpeak();
+    })
+
+
+    //展示所有动态
+    function showAllSpeak() {
+
+      $.ajax({
+        cache:  false,    //是否使用浏览器缓存
+        type:  "get",   //请求方式
+        url:  "http://localhost:8888/speaks/showAllspeakWithUser",   //请求路径
+        dataType:  "json",  //响应的内容类型
+        withCredentials: true ,
+        async:  false,     //同步或者异步ajax
+        success: function(result) {
+
+          var speakStr = "";
+          $.each(result.data,function(index,speak){
+
+            speakStr+="<div class='media'  style='border: #6a6f8c 2px solid'>";
+            speakStr+="<div class='media-left media-middle' >";
+            speakStr+="<img src='http://localhost:8888/upload/"+speak.user.u_head+"' class='media-object' style='width:80px' onclick='toSelfMain("+speak.user.u_id+")'>";
+            speakStr+="<h4 class='media-heading' style='font-family: 微软雅黑;color: lawngreen;font-size: 15px'>"+speak.user.u_pickname+" &nbsp;<button type='button'class='btn btn-primary btn-md ' onclick='toFollow("+speak.user.u_id+")'>关注</button></h4>";
+
+            speakStr+="</div>";
+            speakStr+="<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
+            speakStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>职务: <font style='font-family: 微软雅黑;color: blanchedalmond'>"+speak.user.u_role+"</font></h5>";
+            speakStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>发表时间: <font style='font-family: 微软雅黑;color: blanchedalmond'>"+speak.s_time+"</font></h5>";
+            speakStr+="<h5 style='font-family: 微软雅黑;color: lawngreen;font-size: 15px'>动态内容: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond;font-size: 18px''>"+speak.s_content+"</h5>";
+            speakStr+="</div></div>";
+          });
+          $("#speakWindow").html(speakStr);
+
+        }
+
+      })
+
+
+    }
+
+
+    //场馆关注学员
+    function toFollow(guest_id) {
+      $.ajax({
+        cache: false,    //是否使用浏览器缓存
+        type: "get",   //请求方式
+        url: "http://localhost:8888/users/followWho",   //请求路径
+        data:{"guest_id":guest_id},
+        dataType: "json",  //响应的内容类型
+        withCredentials: true ,
+        async: false,     //同步或者异步ajax
+        success: function (result) {
+          alert(result.message);
+        }
+      })
+
+    }
+
+
+    //进主页
+    function toSelfMain(u_id) {
+      window.location="selfMain.html?user_id="+u_id;
+    }
+
+
+
+  </script>
 
 
   

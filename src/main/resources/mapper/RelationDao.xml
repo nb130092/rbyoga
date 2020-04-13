@@ -92,6 +92,18 @@
     </delete>
 
 
+    <!--查找某个人的所有关注的人的id-->
+    <select id="findAllFollows"  parameterType="int" resultType="int">
+        select
+        guest_id
+        from relation
+        where
+          main_id = #{myId}
+        and
+          r_relation="关注To被关注";
+    </select>
+
+
     <!-- 根据场馆的id在关系表中查出与场馆相关人员信息by:tyb-->
     <select id="findStorePerByMain_id"  parameterType="Integer"  resultType="relation">
         select
