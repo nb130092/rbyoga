@@ -233,13 +233,10 @@ public class UserController {
     public ResultVO findAllStudents(HttpSession session,PageBean pageBean) {
         List<User> coachList=null;
         try{
-            System.out.println("哈哈哈");
             User loginUser =  (User)session.getAttribute("loginUser");
-
             coachList = userService.findAllCoaches(); // 获取所有教练
             List<Integer> followIdList = relationService.findAllFollows(loginUser.getU_id()); //获取我关注的所有用户ID
             Map<String,Object> theMap = new HashMap<>();
-            System.out.println(coachList);
             theMap.put("coachList",coachList);
             theMap.put("followIdList",followIdList);
 
