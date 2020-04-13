@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author R&B
@@ -51,10 +52,25 @@ public class RelationServiceImpl implements IRelationService {
 
     }
 
+
     // 查找某个人的所有关注的人的id
+    @Override
     public  List<Integer> findAllFollows(Integer myId){
         return  relationDao.findAllFollows(myId);
     }
+
+    @Override
+    public void cancelFollow(Map<String, Integer> map) {
+        relationDao.cancelFollow(map);
+    }
+
+    @Override
+    public List<Relation> myFollow(Integer u_id) {
+        return relationDao.myFllow(u_id);
+        // 查找某个人的所有关注的人的id
+
+    }
+
 
     // 查找某个人的所有关注的人
     @Override

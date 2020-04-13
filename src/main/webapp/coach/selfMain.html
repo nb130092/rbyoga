@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <title>个人主页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="../css/styleStu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+</head>
+<body style="background-color: black">
+<!-- 左侧导航！ -->
+<div style="float: left; width: 20%;">
+    <section class="app">
+        <aside class="sidebar">
+            <header>场馆导航栏</header>
+            <nav class="sidebar-nav">
+                <ul>
+
+                    <li>
+                        <a href="allStudents.html"><i class="ion-bag"></i> <span>查看所有学员</span></a>
+                    </li>
+
+                    <li>
+                        <a href="allCoachs.html"><i class="ion-ios-settings"></i> <span class="">查看所有教练</span></a>
+                    </li>
+
+                    <li>
+                        <a href="coachMain.html"><i class="ion-ios-briefcase-outline"></i> <span class="">主页</span></a>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="ion-ios-analytics-outline"></i> <span class="">场馆业务</span></a>
+                        <ul class="nav-flyout">
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>信息完善</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-partlysunny-outline"></i>场馆收入</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆学员</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆签约教练</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆通知</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-game-controller-a-outline"></i>场馆产品</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </aside>
+    </section>
+</div>
+
+    <!--右侧窗口-->
+    <div id="window" style="background-color: black">
+
+        <div class="container" style="width: 800px;color: salmon" id="selfTotal">
+
+            <div class="media" style="border: black solid 2px;width: 790px">
+                <div class="media-top">
+                    <img src="https://static.runoob.com/images/mix/img_avatar.png" class="media-object" style="width:130px;margin: auto auto" >
+                </div>
+                <div class="media-body" style="width:780px;margin: 5px auto">
+                    <h3 class="media-heading">姓名</h3>
+                    <h4 class="media-heading">角色</h4>
+                    <h4 class="media-heading">个签</h4>
+                </div>
+            </div>
+
+        </div>
+
+        
+        <h1 style="color: #FD482C">主人动态</h1>
+        <div style="width: 800px;border: 1px seagreen solid" id="speakWindow">
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+    <script>
+        $(function () {
+            showUserAllMessage();
+        })
+
+        function getParams(key) {
+            var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        };
+
+        //展示个人主页和所有动态
+        function showUserAllMessage() {
+            var user_id = getParams("user_id");
+
+            $.ajax({
+                cache:  false,    //是否使用浏览器缓存
+                type:  "get",   //请求方式
+                url:  "http://localhost:8888/users/showUserAllSpeaks",   //请求路径
+                data: {"user_id":user_id},
+                dataType:  "json",  //响应的内容类型
+                async:  false,     //同步或者异步ajax
+                success: function(result) {
+                    var totalStr = "";
+                    
+                        totalStr+="<div class='media' style='border: #1E9FFF solid 2px;width: 790px'>";
+                        totalStr+="<div class='media-top'>";
+                        totalStr+="<img src='http://localhost:8888/upload/"+result.data.u_head+"' class='media-object' style='width:130px;margin: auto auto'>";
+                        totalStr+="</div>";
+                        totalStr+="<div class='media-body' style='width:780px;margin: 5px auto'>";
+                        totalStr+="<h3 class='media-heading'>姓名："+result.data.u_pickname+"</h3>";
+                        totalStr+="<h4 class='media-heading'>角色："+result.data.u_role+"</h4>";
+                        totalStr+="<h4 class='media-heading'>个性签名："+result.data.u_selfword+"</h4>";
+                        totalStr+="</div> </div>";
+                    
+                        $("#selfTotal").html(totalStr);
+
+                    var speakStr = "";
+                    $.each(result.data.speakList,function(index,speak){
+
+                        speakStr+="<div class='media'  style='border: #6a6f8c 2px solid'>";
+                        speakStr+="<div class='media-left media-middle' >";
+                        speakStr+="<img src='http://localhost:8888/upload/"+result.data.u_head+"' class='media-object' style='width:130px'>";
+                        speakStr+="</div>";
+                        speakStr+="<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
+                        speakStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>发表时间:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>"+speak.s_time+"</h5>";
+                        speakStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>动态内容: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>"+speak.s_content+"</h5>";
+                        speakStr+="</div></div>";
+                    });
+                    $("#speakWindow").html(speakStr);
+
+                }
+
+            })
+
+
+        }
+
+
+
+    </script>
+
+
+
+</body>
+</html>

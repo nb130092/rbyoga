@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author R&B
@@ -21,6 +22,10 @@ public interface RelationDao {
     void delete(Integer rid);
     void update(Relation relation);
 
+    //取消关注
+    void cancelFollow(Map<String, Integer> map);
+    //我的关注
+    List<Relation> myFllow(Integer u_id);
     // 查找某个人的所有关注的人的id
     List<Integer>  findAllFollows(Integer myId);
 
