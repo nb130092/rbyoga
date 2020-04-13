@@ -109,6 +109,11 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    // lr: 查询所有教练
+    public List<User> findAllCoaches(){
+        return userDao.findAllCoaches();
+    }
+
     @Override
     public List<User> findStudents(PageBean<User> pageBean) {
         return userDao.findStudents(pageBean);

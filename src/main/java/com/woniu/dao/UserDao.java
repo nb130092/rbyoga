@@ -51,4 +51,6 @@ public interface UserDao {
     User showUserAllSpeaks(Integer u_id);
 
     List<User> findStudents(PageBean<User> pageBean);
+    // lr: 查询所有教练
+    List<User> findAllCoaches();
 }

@@ -2,6 +2,7 @@ package com.woniu.service.impl;
 
 import com.woniu.dao.RelationDao;
 import com.woniu.pojo.Relation;
+import com.woniu.pojo.User;
 import com.woniu.service.IRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,13 @@ public class RelationServiceImpl implements IRelationService {
 
     }
 
+
+    // 查找某个人的所有关注的人的id
+    @Override
+    public  List<Integer> findAllFollows(Integer myId){
+        return  relationDao.findAllFollows(myId);
+    }
+
     @Override
     public void cancelFollow(Map<String, Integer> map) {
         relationDao.cancelFollow(map);
@@ -63,9 +71,11 @@ public class RelationServiceImpl implements IRelationService {
 
     }
 
-    public List<Integer> findAllFollows(Integer myId) {
-        return relationDao.findAllFollows(myId);
 
+    // 查找某个人的所有关注的人
+    @Override
+    public List<User> findAllFollowUsers(User user) {
+        return relationDao.findAllFollowUsers(user);
     }
     //根据场馆的id在关系表中查出与场馆相关人员信息
     @Override

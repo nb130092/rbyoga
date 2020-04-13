@@ -2,11 +2,18 @@ package com.woniu.controller;
 
 import com.woniu.pojo.ResultVO;
 import com.woniu.pojo.Speak;
+import com.woniu.pojo.User;
+import com.woniu.service.IRelationService;
 import com.woniu.service.ISpeakService;
+import com.woniu.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhangchendong
@@ -17,6 +24,12 @@ import java.util.List;
 public class SpeakController {
     @Autowired
     ISpeakService speakService;
+    @Autowired
+    IUserService userService;
+    @Autowired
+    IRelationService relationService;
+
+
     @GetMapping
     public ResultVO findAll(){
         List<Speak> list = speakService.findAll();
@@ -68,15 +81,48 @@ public class SpeakController {
         }
     }
 
-    //lr：展示所有动态及发起人信息
+    //lr：展示所有动态及发起人信息以及我关注的所有用户ID
     @GetMapping("showAllspeakWithUser")
-    public ResultVO showAllspeakWithUser(){
+    public ResultVO showAllspeakWithUser(HttpSession session){
         try {
+            Map<String,Object> theMap = new HashMap<>();
+
+            User loginUser =  (User)session.getAttribute("loginUser");
             List<Speak> speakList = speakService.showAllspeakWithUser();
-            return new ResultVO(200, "修改数据成功", speakList);
+            List<Integer> followIdList = relationService.findAllFollows(loginUser.getU_id()); //获取我关注的所有用户ID
+            theMap.put("speakList",speakList);
+            theMap.put("followIdList",followIdList);
+            return new ResultVO(200, "修改数据成功", theMap);
         } catch (Exception e) {
             return new ResultVO(500, "修改数据失败");
         }
     }
+
+
+    // lr: 发表动态
+    @PostMapping("toSpeak")
+    public ResultVO toSpeak(Speak speak,HttpSession session){
+
+        try {
+            User loginUser =  (User)session.getAttribute("loginUser");
+            speak.setUser_id(loginUser.getU_id());
+            speak.setS_time(new Date());
+            speakService.save(speak);
+            return new ResultVO(200, "动态发表成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultVO(500, "动态发表失败");
+        }
+
+    }
+
+
+
+
+
+
+
+
+
 
 }
