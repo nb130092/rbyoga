@@ -24,6 +24,12 @@ public interface IUserService {
     User check(User user);
 
     Integer updPwd(User user);
+
+
+    Integer countAll(PageBean<User> pageBean);
+
+    List<User> findByPage(PageBean<User> pageBean);
+
     //findAllCoach:查询所有教练
     List<User> findAllCoach(PageBean pageBean);
     //getCountByCoach:获取教练总数
@@ -32,4 +38,15 @@ public interface IUserService {
     List<User> findAllVenue(PageBean pageBean);
     //getCountVenue:获取场馆总数
     Integer getCountByVenue();
+
+    //findAllStudent:查询所有学员
+    List<User> findAllStudents();
+
+    // lr: 查询所有教练
+    List<User> findAllCoaches();
+
+    //通过id查询某个用户以及他的全部动态
+    User showUserAllSpeaks(Integer u_id);
+
+    List<User> findStudents(PageBean<User> pageBean);
 }

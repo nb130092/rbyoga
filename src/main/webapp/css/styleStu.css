@@ -151,11 +151,11 @@ Sidebar Nav
 }
 
 #window{
-  width:75%;
-
+  width:78%; 
+  height:0;
   padding-bottom: 48%;
   margin: 0 auto;
-  border: 2px solid black;
+  border: 2px solid #3C3F41; 
   float: right;
   margin-left: 5px;
   background-color: #3C3F41;

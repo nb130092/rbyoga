@@ -42,4 +42,9 @@ public class SpeakServiceImpl implements ISpeakService {
     public void update(Speak speak) {
         speakDao.update(speak);
     }
+
+    @Override
+    public List<Speak> showAllspeakWithUser() {
+        return speakDao.showAllspeakWithUser();
+    }
 }

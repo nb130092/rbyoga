@@ -9,6 +9,24 @@
   	    r_id,r_relation,main_id,guest_id
     </sql>
 
+    <resultMap type="com.woniu.pojo.Relation" id="BaseResultMap" >
+        <id property="r_id" column="r_id" javaType="Integer"></id>
+        <result property="r_relation" column="r_relation" javaType="String"></result>
+        <result property="main_id" column="main_id" javaType="Integer"></result>
+        <result property="guest_id" column="guest_id" javaType="Integer"></result>
+        <collection property="users" column="guest_id" ofType="com.woniu.pojo.User" >
+            <id property="u_id" column="u_id" javaType="Integer"></id>
+            <result property="u_pickname" column="u_pickname" javaType="String"></result>
+            <result property="u_username" column="u_username" javaType="String"></result>
+            <result property="u_role" column="u_role" javaType="String"></result>
+            <result property="u_phone" column="u_phone" javaType="String"></result>
+        </collection>
+    </resultMap>
+    <select id="myFllow" parameterType="Integer" resultMap="BaseResultMap">
+       SELECT r_id,r_relation,main_id,guest_id,u.u_id,u_pickname,u_username,u_role,u_phone FROM relation r join user u
+       ON r.guest_id=u.u_id
+       where r.main_id=#{u_id}
+    </select>
     <!--获取全部关系-->
     <select id="findAll" resultType="relation">
         select
@@ -90,6 +108,33 @@
             r_id = #{r_id}
         </where>
     </delete>
+
+    <!--取消关注-->
+    <delete id="cancelFollow" parameterType="hashmap">
+        delete from relation
+        <where>
+            main_id=#{main_id} and guest_id=#{guest_id}
+        </where>
+    </delete>
+
+    <!--查找某个人的所有关注的人的id-->
+    <select id="findAllFollows"  parameterType="int" resultType="int">
+        select
+        guest_id
+        from relation
+        where
+          main_id = #{myId}
+        and
+          r_relation="关注To被关注";
+    </select>
+
+    <!--查找某个人的所有关注的人-->
+    <select id="findAllFollowUsers"  parameterType="user" resultType="user">
+        select u.* from user u join relation r
+        on u.u_id=r.guest_id
+        where r.main_id= #{u_id}
+        and r.r_relation='关注To被关注'
+    </select>
 
 
 </mapper>

@@ -22,4 +22,6 @@ public class Speak implements Serializable {
     private String s_content;
     private Date s_time;
     private Integer user_id;
+
+    private User user;
 }
