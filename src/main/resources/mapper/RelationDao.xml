@@ -103,6 +103,14 @@
           r_relation="关注To被关注";
     </select>
 
+    <!--查找某个人的所有关注的人-->
+    <select id="findAllFollowUsers"  parameterType="user" resultType="user">
+        select u.* from user u join relation r
+        on u.u_id=r.guest_id
+        where r.main_id= #{u_id}
+        and r.r_relation='关注To被关注'
+    </select>
+
 
 </mapper>
 

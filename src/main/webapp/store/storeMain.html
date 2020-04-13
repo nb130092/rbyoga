@@ -40,7 +40,7 @@
                 <a href="#"><i class="ion-ios-timer-outline"></i>信息完善</a>
               </li>
               <li>
-                <a href="#"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
+                <a href="myFollowUsers.html"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
               </li>
               <li>
                 <a href="#"><i class="ion-ios-partlysunny-outline"></i>场馆收入</a>
@@ -68,12 +68,49 @@
 
   <!--右侧窗口-->
   <div id="window" >
+    <div style="margin-left:350px;width: 50px;margin-top: 50px">
+      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-pencil"></span> 发表动态
+      </button>
+    </div>
     <h1 style="color: #FD482C">社区动态</h1>
     <div style="width: 800px;border: 1px seagreen solid" id="speakWindow">
 
     </div>
 
   </div>
+
+
+    <!--用户发动态模态框-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              &times;
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+              请编辑动态内容
+            </h4>
+          </div>
+          <div class="modal-body">
+              <form role="form">
+                <div class="form-group">
+                  <label for="name">我的动态</label>
+                  <input type="text" class="form-control" id="mySpeak" >
+                </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" onclick="toSpeak()">
+              确认发表
+            </button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
 
 
 
@@ -96,12 +133,21 @@
         success: function(result) {
 
           var speakStr = "";
-          $.each(result.data,function(index,speak){
+          $.each(result.data.speakList,function(index,speak){
 
             speakStr+="<div class='media'  style='border: #6a6f8c 2px solid'>";
             speakStr+="<div class='media-left media-middle' >";
             speakStr+="<img src='http://localhost:8888/upload/"+speak.user.u_head+"' class='media-object' style='width:80px' onclick='toSelfMain("+speak.user.u_id+")'>";
-            speakStr+="<h4 class='media-heading' style='font-family: 微软雅黑;color: lawngreen;font-size: 15px'>"+speak.user.u_pickname+" &nbsp;<button type='button'class='btn btn-primary btn-md ' onclick='toFollow("+speak.user.u_id+")'>关注</button></h4>";
+
+            var xxx ="<h4 class='media-heading' style='font-family: 微软雅黑;color: lawngreen;font-size: 15px'>"+speak.user.u_pickname+" &nbsp;<button type='button'class='btn btn-primary btn-md ' onclick='toFollow("+speak.user.u_id+")'>关注</button></h4>";
+            // 如果关注了该用户，取消关注按钮
+            $.each(result.data.followIdList,function(index,followID) {
+              if (followID == speak.user.u_id){
+                xxx = "<h4 class='media-heading' style='font-family: 微软雅黑;color: lawngreen;font-size: 15px'>"+speak.user.u_pickname+" &nbsp;</h4><font color='yellow'>已关注</font>";
+                return;
+              }
+            });
+            speakStr+=xxx;
 
             speakStr+="</div>";
             speakStr+="<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
@@ -132,6 +178,7 @@
         async: false,     //同步或者异步ajax
         success: function (result) {
           alert(result.message);
+          showAllSpeak();
         }
       })
 
@@ -144,10 +191,33 @@
     }
 
 
+    // 发表动态
+    function toSpeak(){
+      var s_content = $("#mySpeak").val();
+        $.ajax({
+            cache: false,    //是否使用浏览器缓存
+            type: "post",   //请求方式
+            url: "http://localhost:8888/speaks/toSpeak",   //请求路径
+            data:{"s_content":s_content},
+            dataType: "json",  //响应的内容类型
+            xhrFields: {withCredentials: true},
+            async: false,     //同步或者异步ajax
+            success: function (result) {
+                showAllSpeak();
+                  <!--关闭模态框-->
+                  $('#myModal').modal('hide');
+                  alert(result.message);
+
+            }
+
+
+        })
+
+    }
+
 
   </script>
 
 
-  
 </body>
 </html>

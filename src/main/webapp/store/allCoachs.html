@@ -92,20 +92,28 @@
                 $.ajax({
                     cache:  false,    //是否使用浏览器缓存
                     type:  "get",   //请求方式
-                    url:  "http://localhost:8888/users/findAllCoach",   //请求路径
+                    url:  "http://localhost:8888/users/findAllCoachs",   //请求路径
                     dataType:  "json",  //响应的内容类型
                     withCredentials: true ,
                     async:  false,     //同步或者异步ajax
                     success: function(result) {
                         var coachStr = "";
-                        $.each(result.data.list,function(index,user){
+                        $.each(result.data.coachList,function(index,user){
 
                             coachStr+="<div class='media'  style='border: #6a6f8c 2px solid'>";
                             coachStr+="<div class='media-left media-middle' >";
                             coachStr+="<img src='http://localhost:8888/upload/"+user.u_head+"' class='media-object' style='width:130px' onclick='toSelfMain("+user.u_id+")'>";
                             coachStr+="</div>";
                             coachStr+="<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
-                            coachStr+="<h4 class='media-heading'>教练姓名："+user.u_pickname+" &nbsp;<button type='button'class='btn btn-primary btn-md ' onclick='toFollow("+user.u_id+")'>关注</button></h4>";
+                            var xxx = "<h4 class='media-heading'>教练姓名："+user.u_pickname+" &nbsp;<button type='button'class='btn btn-primary btn-md ' onclick='toFollow("+user.u_id+")'>关注</button></h4>";
+                            // 如果关注了该教练，取消关注按钮
+                            $.each(result.data.followIdList,function(index,followID) {
+                                if (followID == user.u_id){
+                                    xxx = "<h4 class='media-heading'>教练姓名：" + user.u_pickname + " &nbsp;已关注</h4>";
+                                    return;
+                                }
+                            });
+                            coachStr+=xxx;
                             coachStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>个性签名:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>"+user.u_selfword+"</h5>";
                             coachStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>联系方式: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>"+user.u_phone+"</h5>";
                             coachStr+="</div></div>";
@@ -136,6 +144,7 @@
                     withCredentials: true ,
                     success: function (result) {
                         alert(result.message);
+                        showCoachs();
                     }
                 })
 

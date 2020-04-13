@@ -16,8 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author R&B
@@ -166,30 +165,57 @@ public class UserController {
 
     }
 
-    // 查询所有学员
+    // 查询所有学员以及我关注的所有用户ID
     @GetMapping("findAllStudents")
-    public ResultVO findAllStudents() {
+    public ResultVO findAllStudents(HttpSession session) {
         List<User> studentList=null;
         try{
-            studentList = userService.findAllStudents();
+            User loginUser =  (User)session.getAttribute("loginUser");
+            studentList = userService.findAllStudents();  // 获取所有学员
+            List<Integer> followIdList = relationService.findAllFollows(loginUser.getU_id()); //获取我关注的所有用户ID
+
+            Map<String,Object> theMap = new HashMap<>();
+
+            theMap.put("studentList",studentList);
+            theMap.put("followIdList",followIdList);
+
             if (studentList!=null&&studentList.size()>0){
-                return new ResultVO(200, "查询学员成功", studentList);
+                return new ResultVO(200, "查询学员成功", theMap);
             }
             return null;
         }catch(Exception e){
-            return new ResultVO(500, "查询学员失败", studentList);
+            return new ResultVO(500, "查询学员失败");
         }
     }
 
+
+    // 查询所有教练以及我关注的所有用户ID
+    @GetMapping("findAllCoachs")
+    public ResultVO findAllStudents(HttpSession session,PageBean pageBean) {
+        List<User> coachList=null;
+        try{
+            User loginUser =  (User)session.getAttribute("loginUser");
+
+            coachList = userService.findAllCoach(pageBean); // 获取所有教练
+            List<Integer> followIdList = relationService.findAllFollows(loginUser.getU_id()); //获取我关注的所有用户ID
+            Map<String,Object> theMap = new HashMap<>();
+            theMap.put("coachList",coachList);
+            theMap.put("followIdList",followIdList);
+
+            if (coachList!=null&&coachList.size()>0){
+                return new ResultVO(200, "查询教练成功", theMap);
+            }
+            return null;
+        }catch(Exception e){
+            return new ResultVO(500, "查询教练成功");
+        }
+    }
 
     //lr：关注某人
     @GetMapping(value="followWho")
     public ResultVO FollowWho(Integer guest_id, HttpSession session) {
         try{
-            System.out.println(guest_id);
-            System.out.println(session.getId());
             User loginUser= (User)session.getAttribute("loginUser");
-            System.out.println(loginUser);
             Integer main_id= loginUser.getU_id();
 
             Relation relation = new Relation(null,"关注To被关注",main_id,guest_id);
@@ -215,6 +241,56 @@ public class UserController {
         }
     }
 
+
+    // lr: 展示所有我关注的人
+    @GetMapping( "findAllFollowUsers")
+    public ResultVO findAllFollowUsers(HttpSession session){
+        ResultVO resultVO = null;
+        try {
+            User loginUser =  (User)session.getAttribute("loginUser");
+            List<User> myfollowUsersList= relationService.findAllFollowUsers(loginUser);
+            resultVO = new ResultVO(200,"查询我的关注成功",myfollowUsersList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO(200,"查询我的关注失败");
+        }
+        return resultVO;
+
+    }
+
+
+
+    // lr: 取关某人
+    @GetMapping("endFollow/{guest_id}")
+    public ResultVO endFollow(@PathVariable Integer guest_id,HttpSession session){
+        ResultVO resultVO = null;
+        try {
+            System.out.println(guest_id);
+            User loginUser =  (User)session.getAttribute("loginUser");
+            Integer mainId = loginUser.getU_id();
+            Relation relation = new Relation();
+            relation.setMain_id(mainId);
+            relation.setGuest_id(guest_id);
+            relation.setR_relation("关注To被关注");
+            List<Relation> relationList = relationService.findAll();
+
+            for (Relation r : relationList) {
+
+                    if (r.getMain_id()==mainId && r.getGuest_id()==guest_id && r.getR_relation().equals("关注To被关注")){
+                        System.out.println(r);
+                        relationService.delete(r.getR_id());
+                        resultVO = new ResultVO(200,"取关成功");
+                        break;
+                    }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO(200,"取关失败");
+        }
+
+        return resultVO;
+
+    }
 
 
 

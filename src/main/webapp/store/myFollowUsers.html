@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>展示所有学员</title>
+    <title>展示我的关注</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
@@ -10,6 +10,7 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="../layer-v3.1.1/layer/layer.js"></script>
 </head>
 
 <body>
@@ -69,96 +70,86 @@
 
 <!--右侧窗口-->
 <div id="window">
-    <div style="width: 800px;border: 1px seagreen solid" id="studentWindow">
+    <h1 style="color: yellow">我的关注</h1>
+    <div style="width: 800px;border: 1px seagreen solid" id="myFollowsWindow">
 
-        </div>
     </div>
 </div>
-
+</div>
 
 <script>
-
     $(function () {
 
-        showStudents();
+        showMyFollowUsers();
 
     })
 
 
-
-
-
-    // 展示学员
-    function showStudents() {
+    // 展示我的关注
+    function showMyFollowUsers() {
         $.ajax({
             cache:  false,    //是否使用浏览器缓存
             type:  "get",   //请求方式
-            url:  "http://localhost:8888/users/findAllStudents",   //请求路径
+            url:  "http://localhost:8888/users/findAllFollowUsers",   //请求路径
             dataType:  "json",  //响应的内容类型
             xhrFields: {withCredentials: true},
             async:  false,     //同步或者异步ajax
             success: function(result) {
-                var studentStr = "";
+                var followsStr = "";
 
-                $.each(result.data.studentList,function(index,user){
+                $.each(result.data,function(index,user){
 
-                        studentStr += "<div class='media'  style='border: #6a6f8c 2px solid'>";
-                        studentStr += "<div class='media-left media-middle' >";
-                        studentStr += "<img src='http://localhost:8888/upload/" + user.u_head + "' class='media-object' style='width:130px' onclick='toSelfMain(" + user.u_id + ")'>";
-                        studentStr += "</div>";
-                        studentStr += "<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
-                        var xxx =  "<h4 class='media-heading'>学员姓名：" + user.u_pickname + " &nbsp;<button type='button'class='btn btn-primary btn-md ' onclick='toFollow(" + user.u_id + ")'>关注</button></h4>";
-                         // 如果关注了该学员，取消关注按钮
-                        $.each(result.data.followIdList,function(index,followID) {
-                            if (followID == user.u_id){
-                                xxx = "<h4 class='media-heading'>学员姓名：" + user.u_pickname + " &nbsp;已关注</h4>";
-                                return;
-                            }
-                        });
-                        studentStr+=xxx;
-                        studentStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>个性签名:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_selfword + "</h5>";
-                        studentStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>联系方式: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_phone + "</h5>";
-                        studentStr += "</div></div>";
+                    followsStr += "<div class='media'  style='border: #6a6f8c 2px solid'>";
+                    followsStr += "<div class='media-left media-middle' >";
+                    followsStr += "<img src='http://localhost:8888/upload/" + user.u_head + "' class='media-object' style='width:130px' onclick='toSelfMain(" + user.u_id + ")'>";
+                    followsStr += "</div>";
+                    followsStr += "<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
+                    followsStr += "<h4 class='media-heading'>姓名：" + user.u_pickname + " &nbsp;<button type='button'class='btn btn-primary btn-md ' onclick='endFollow(" + user.u_id + ")'>取消关注</button></h4>";
+                    followsStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>职务:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_role + "</h5>";
+                    followsStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>个性签名:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_selfword + "</h5>";
+                    followsStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>联系方式: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_phone + "</h5>";
+                    followsStr += "</div></div>";
 
 
                 });
-                $("#studentWindow").html(studentStr);
+                $("#myFollowsWindow").html(followsStr);
 
             }
 
         })
     }
+
 
     //进主页
     function toSelfMain(u_id) {
         window.location="selfMain.html?user_id="+u_id;
     }
 
+    //场馆取关学员
+    function endFollow(guest_id) {
 
-    //场馆关注学员
-    function toFollow(guest_id) {
-        $.ajax({
-            cache: false,    //是否使用浏览器缓存
-            type: "get",   //请求方式
-            url: "http://localhost:8888/users/followWho",   //请求路径
-            data:{"guest_id":guest_id},
-            dataType: "json",  //响应的内容类型
-            xhrFields: {withCredentials: true},
-            async: false,     //同步或者异步ajax
-            success: function (result) {
-                alert(result.message);
-                showStudents();
-            }
-        })
+        layer.confirm("确认取关该用户？",  {icon: 3, title:'提示'}, function(cindex){
+                $.ajax({
+                    cache: false,    //是否使用浏览器缓存
+                    type: "get",   //请求方式
+                    url: "http://localhost:8888/users/endFollow/"+guest_id,   //请求路径
+
+                    dataType: "json",  //响应的内容类型
+                    xhrFields: {withCredentials: true},
+                    async: false,     //同步或者异步ajax
+                    success: function (result) {
+                        alert(result.message);
+                        showMyFollowUsers();
+                    }
+                })
+                layer.close(cindex);
+        }, function(cindex){
+            layer.close(cindex);
+        });
 
     }
 
 
+
+
 </script>
-
-
-
-
-
-</body>
-</html>

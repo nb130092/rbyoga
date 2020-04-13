@@ -2,6 +2,7 @@ package com.woniu.service;
 
 
 import com.woniu.pojo.Relation;
+import com.woniu.pojo.User;
 
 import java.util.List;
 
@@ -19,5 +20,8 @@ public interface IRelationService {
 
     // 查找某个人的所有关注的人的id
     List<Integer> findAllFollows(Integer myId);
+
+    // 查找某个人的所有关注的人
+    List<User>  findAllFollowUsers(User user);
 
 }

@@ -2,6 +2,7 @@ package com.woniu.dao;
 
 
 import com.woniu.pojo.Relation;
+import com.woniu.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -22,4 +23,7 @@ public interface RelationDao {
 
     // 查找某个人的所有关注的人的id
     List<Integer>  findAllFollows(Integer myId);
+
+    // 查找某个人的所有关注的人
+    List<User>  findAllFollowUsers(User user);
 }
