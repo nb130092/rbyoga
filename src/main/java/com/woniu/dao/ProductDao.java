@@ -24,4 +24,7 @@ public interface ProductDao {
     // 获取全部产品以及关联场馆
     List<Product> findAllWithStore();
 
+    //根据场馆的id在产品表中查出所有的产品
+    List<Product> findProductByStore_id(Integer store_id);
+
 }
