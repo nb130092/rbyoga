@@ -9,7 +9,7 @@
   <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
   <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
-	<link href="css/style.css" rel="stylesheet">
+	<link href="./css/styleStu.css" rel="stylesheet">
     <script src="layer-v3.1.1/layer/layer.js"></script>
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
@@ -132,7 +132,7 @@
                   },{withCredentials:true}).then((response) =>{
 					if(response.data.code==201){
 						layer.msg("场馆登录成功！！",{time:1000,icon:1,shift:6},function(){});
-						window.location.href='http://localhost:8888/store/storeMain.html';  //跳转到场馆页面
+						window.location.href='http://localhost:8888/store/storeMain';  //跳转到场馆页面
 					}else if(response.data.code==202){
 						layer.msg("学员登录成功！！",{time:1000,icon:1,shift:6},function(){});
 					}else if(response.data.code==203){
