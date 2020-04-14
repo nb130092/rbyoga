@@ -420,6 +420,68 @@ public class UserController {
     }
 
 
+    // 展示个人余额
+    @GetMapping("showMyMoney")
+    public ResultVO showMyMoney(HttpSession session){
+        ResultVO resultVO = null;
+        try {
+            User loginUser = (User)session.getAttribute("loginUser");
+            Integer myMoney = userService.findOne(loginUser.getU_id()).getU_money();
+            resultVO = new ResultVO(200, "余额查询成功",myMoney);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO(200, "余额查询失败");
+        }
+        return resultVO;
+
+
+
+    }
+
+
+    // lr: 提现
+    @GetMapping("OutMoney/{safeCode}/{howMoney}")
+    public ResultVO OutMonet(@PathVariable String safeCode,@PathVariable Integer howMoney,HttpSession session){
+        ResultVO resultVO = null;
+        try {
+            User loginUser = (User)session.getAttribute("loginUser");
+            Integer myMoney = userService.findOne(loginUser.getU_id()).getU_money();
+            if (myMoney>=howMoney){
+                if (safeCode.equals(loginUser.getU_safecode())) {
+                    loginUser.setU_money(myMoney - howMoney);
+                    userService.update(loginUser);
+                    resultVO = new ResultVO(200, "提现成功");
+                }else{
+                    resultVO = new ResultVO(200, "安全码错误");
+                }
+            }else{
+                resultVO = new ResultVO(200, "余额不足");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO(200, "提现失败");
+        }
+        return resultVO;
+
+    }
+
+    // lr: 展示场馆的所有学员
+    @GetMapping( "findStudentsByStore")
+    public ResultVO findStudentsByStore(HttpSession session){
+        ResultVO resultVO = null;
+        try {
+            User loginUser =  (User)session.getAttribute("loginUser");
+            List<User> myStudentsList= userService.findStudentsByStore(loginUser);
+            resultVO = new ResultVO(200,"查询我的学员成功",myStudentsList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO(200,"查询我的学员失败");
+        }
+        return resultVO;
+
+    }
+
+
 
 
 
