@@ -126,7 +126,10 @@
 					this.msg='密码必须为6-10数字';
 					return false;
 				}
-				axios.post("http://localhost:8888/login", {
+
+				axios.defaults.withCredentials = true; // 允许携带cookie
+
+				axios.post("http://localhost:8888/login",{
                       "u_username":this.username,
                       "u_password":this.password
                   },{withCredentials:true}).then((response) =>{
@@ -143,6 +146,7 @@
 
 						window.location.href='login.html';
 					}
+
 					this.username = this.password = '';
 
                 });

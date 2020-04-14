@@ -49,4 +49,8 @@ public interface IUserService {
     User showUserAllSpeaks(Integer u_id);
 
     List<User> findStudents(PageBean<User> pageBean);
+
+    // lr: 查找某个场馆的全部学员
+    List<User> findStudentsByStore(User store);
+
 }

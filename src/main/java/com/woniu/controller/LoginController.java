@@ -21,6 +21,7 @@ public class LoginController {
     @PostMapping("login")
     public ResultVO login(@RequestBody User user, HttpSession session){
         User loginUser=null;
+
         try{
             loginUser=userService.login(user);
             if (loginUser!=null){

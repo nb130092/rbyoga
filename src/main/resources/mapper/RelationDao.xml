@@ -137,6 +137,26 @@
     </select>
 
 
+    <!-- 根据场馆的id在关系表中查出与场馆相关人员信息by:tyb-->
+    <select id="findStorePerByMain_id"  parameterType="Integer"  resultType="relation">
+        select
+        <include refid="relation_list"></include>
+        from relation
+        <where>
+            main_id = #{main_id}
+        </where>
+
+    </select>
+
+    <!--解除雇佣关系-->
+    <delete id="deleteRelationByMain_idAndGuest_id" parameterType="Integer">
+        delete from relation
+        <where>
+            main_id = #{ main_id } and guest_id = #{ guest_id }
+        </where>
+    </delete>
+
+
 </mapper>
 
 

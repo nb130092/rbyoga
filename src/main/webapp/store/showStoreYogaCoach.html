@@ -1,7 +1,8 @@
+
 <!doctype html>
 <html lang="en">
 <head>
-    <title>展示我的关注</title>
+    <title>场馆签约教练</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
@@ -10,7 +11,6 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="style.css">
-    <script src="../layer-v3.1.1/layer/layer.js"></script>
 </head>
 
 <body>
@@ -70,87 +70,83 @@
 
 <!--右侧窗口-->
 <div id="window">
-    <h1 style="color: yellow">我的关注</h1>
-    <div style="width: 800px;border: 1px seagreen solid" id="myFollowsWindow">
+    <div style="width: 800px;border: 1px seagreen solid" id="coachWindow">
 
     </div>
 </div>
 
 
 <script>
+
     $(function () {
 
-        showMyFollowUsers();
+        showStoreYogaCoach();
 
     })
 
 
-    // 展示我的关注
-    function showMyFollowUsers() {
+
+
+
+    // 展示教练
+    function showStoreYogaCoach() {
         $.ajax({
             cache:  false,    //是否使用浏览器缓存
             type:  "get",   //请求方式
-            url:  "http://localhost:8888/users/findAllFollowUsers",   //请求路径
+            url:  "http://localhost:8888/store/showStoreYogaCoach",   //请求路径
             dataType:  "json",  //响应的内容类型
-            xhrFields: {withCredentials: true},
+            withCredentials: true ,
             async:  false,     //同步或者异步ajax
             success: function(result) {
-                var followsStr = "";
+                var coachStr = "";
+                $.each(result.data.list,function(index,user){
 
-                $.each(result.data,function(index,user){
-
-                    followsStr += "<div class='media'  style='border: #6a6f8c 2px solid'>";
-                    followsStr += "<div class='media-left media-middle' >";
-                    followsStr += "<img src='http://localhost:8888/upload/" + user.u_head + "' class='media-object' style='width:130px' onclick='toSelfMain(" + user.u_id + ")'>";
-                    followsStr += "</div>";
-                    followsStr += "<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
-                    followsStr += "<h4 class='media-heading'>姓名：" + user.u_pickname + " &nbsp;<button type='button'class='btn btn-primary btn-md ' onclick='endFollow(" + user.u_id + ")'>取消关注</button></h4>";
-                    followsStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>职务:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_role + "</h5>";
-                    followsStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>个性签名:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_selfword + "</h5>";
-                    followsStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>联系方式: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_phone + "</h5>";
-                    followsStr += "</div></div>";
-
-
+                    coachStr+="<div class='media'  style='border: #6a6f8c 2px solid'>";
+                    coachStr+="<div class='media-left media-middle' >";
+                    coachStr+="<img src='http://localhost:8888/upload/"+user.u_head+"' class='media-object' style='width:130px' onclick='toSelfMain("+user.u_id+")'>";
+                    coachStr+="</div>";
+                    coachStr+="<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
+                    coachStr+="<h4 class='media-heading'>教练姓名："+user.u_pickname+" &nbsp;<button type='button'class='btn btn-danger btn-md ' onclick='dismissStoreYogaCoach("+user.u_id+")'>解雇</button></h4>";
+                    coachStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>个性签名:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>"+user.u_selfword+"</h5>";
+                    coachStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>联系方式: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>"+user.u_phone+"</h5>";
+                    coachStr+="</div></div>";
                 });
-                $("#myFollowsWindow").html(followsStr);
+                $("#coachWindow").html(coachStr);
 
             }
 
         })
     }
 
-
     //进主页
     function toSelfMain(u_id) {
         window.location="selfMain.html?user_id="+u_id;
     }
 
-    //场馆取关学员
-    function endFollow(guest_id) {
 
-        layer.confirm("确认取关该用户？",  {icon: 3, title:'提示'}, function(cindex){
-                $.ajax({
-                    cache: false,    //是否使用浏览器缓存
-                    type: "get",   //请求方式
-                    url: "http://localhost:8888/users/endFollow/"+guest_id,   //请求路径
+    //场馆关注教练
+    function dismissStoreYogaCoach(guest_id){
 
-                    dataType: "json",  //响应的内容类型
-                    xhrFields: {withCredentials: true},
-                    async: false,     //同步或者异步ajax
-                    success: function (result) {
-                        alert(result.message);
-                        showMyFollowUsers();
-                    }
-                })
-                layer.close(cindex);
-        }, function(cindex){
-            layer.close(cindex);
-        });
-
+        $.ajax({
+            cache: false,    //是否使用浏览器缓存
+            type: "get",   //请求方式
+            url: "http://localhost:8888/store/dismissStoreYogaCoach",   //请求路径
+            data:{"guest_id":guest_id},
+            dataType: "json",  //响应的内容类型
+            async: false,     //同步或者异步ajax
+            withCredentials: true ,
+            success: function (result) {
+                alert(result.message);
+                showStoreYogaCoach();
+            }
+        })
     }
 
-
-
-
 </script>
+
+
+
+
+
 </body>
+</html>
