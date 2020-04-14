@@ -23,6 +23,9 @@ public class LoginController {
         User loginUser=null;
         try{
             loginUser=userService.login(user);
+
+
+
             if (loginUser!=null){
                 session.setAttribute("loginUser", loginUser);
                 System.out.println("loginUser = " + loginUser);
