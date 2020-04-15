@@ -21,4 +21,7 @@ public class Notice {
     private String n_isYes;
     private Integer init_id;
     private Integer arrive_id;
+
+    private User initUser;
+    private User arriveUser;
 }
