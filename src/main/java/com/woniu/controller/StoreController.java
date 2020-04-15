@@ -7,10 +7,7 @@ import com.woniu.service.IRelationService;
 import com.woniu.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -386,4 +383,93 @@ public class StoreController {
         }
         return  resultVO;
     }
+
+
+    //根据用户获取所有我发送的通知 by:lr
+    @ResponseBody
+    @RequestMapping("findAllNoticeByInit")
+    public ResultVO findAllNoticeByInit(HttpSession session) {
+        ResultVO resultVO = null;
+        try {
+            User loginUser= (User)session.getAttribute("loginUser");
+            List<Notice> toNoticeList = noticeService.findAllNoticeByInit(loginUser);
+            resultVO = new ResultVO(200,"查找我发送的通知成功",toNoticeList);
+        }catch (Exception e){
+            resultVO = new ResultVO(500,"查找我发送的通知失败");
+        }
+        return  resultVO;
+    }
+
+
+    //根据用户获取所有我接受的通知 by:lr
+    @ResponseBody
+    @RequestMapping("findAllNoticeByArrive")
+    public ResultVO findAllNoticeByArrive(HttpSession session) {
+        ResultVO resultVO = null;
+        try {
+            User loginUser= (User)session.getAttribute("loginUser");
+            List<Notice> getNoticeList = noticeService.findAllNoticeByArrive(loginUser);
+            resultVO = new ResultVO(200,"查找我接受的通知成功",getNoticeList);
+        }catch (Exception e){
+            resultVO = new ResultVO(500,"查找我接受的通知失败");
+        }
+        return  resultVO;
+    }
+
+
+    // lr: 同意通知
+    @ResponseBody
+    @RequestMapping("noticeIsYes/{notice_Id}")
+    public ResultVO noticeIsYes(@PathVariable Integer notice_Id, HttpSession session) {
+        ResultVO resultVO = null;
+        try {
+            User loginUser= (User)session.getAttribute("loginUser");
+            Notice notice = noticeService.findOne(notice_Id);
+            notice.setN_isRead("Y");
+            notice.setN_isYes("Y");
+            noticeService.update(notice);
+            resultVO = new ResultVO(200,"同意通知成功");
+        }catch (Exception e){
+            resultVO = new ResultVO(500,"同意通知失败");
+        }
+        return  resultVO;
+    }
+
+
+    // lr: 拒绝通知
+    @ResponseBody
+    @RequestMapping("noticeNotYes/{notice_Id}")
+    public ResultVO noticeNotYes(@PathVariable Integer notice_Id, HttpSession session) {
+        ResultVO resultVO = null;
+        try {
+            User loginUser= (User)session.getAttribute("loginUser");
+            Notice notice = noticeService.findOne(notice_Id);
+            notice.setN_isRead("Y");
+            notice.setN_isYes("N");
+            noticeService.update(notice);
+            resultVO = new ResultVO(200,"拒绝通知成功");
+        }catch (Exception e){
+            resultVO = new ResultVO(500,"拒绝通知失败");
+        }
+        return  resultVO;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
