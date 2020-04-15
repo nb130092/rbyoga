@@ -26,7 +26,7 @@
                     </li>
 
                     <li>
-                        <a href="allCoachs.html"><i class="ion-ios-settings"></i> <span class="">查看所有教练</span></a>
+                        <a href="allCoachs.html"><i class="ion-ios-settings"></i> <span class="">查看所有场馆</span></a>
                     </li>
 
                     <li>
@@ -37,7 +37,7 @@
                         <a href="#"><i class="ion-ios-analytics-outline"></i> <span class="">教练业务</span></a>
                         <ul class="nav-flyout">
                             <li>
-                                <a href="#"><i class="ion-ios-timer-outline"></i>信息完善</a>
+                                <a href="improveInfomation.html"><i class="ion-ios-timer-outline"></i>信息完善</a>
                             </li>
                             <li>
                                 <a href="#"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
@@ -65,6 +65,8 @@
 
 <!--右侧窗口-->
 <div id="window">
+    姓名：<input type="text" name="queryVal" id="name">
+    <button class="btn btn-info" id="btnQuery">查询</button>
     <div style="width: 800px;border: 1px seagreen solid" id="studentWindow">
 
         </div>
@@ -76,15 +78,20 @@
 
 
 <script>
-
+var queryFlag = false;
     $(function () {
 
         showStudents(1);
+        $("#btnQuery").click(function () {
+            var queryVal = $("#name").val();
+            if (queryVal != "") {
+                queryFlag = true;
+            }
+            showStudents(1);
+        });
 
 
-
-
-    })
+    });
 
 
 
@@ -93,24 +100,35 @@
     // 展示教练
     function showStudents(nowPage) {
         var jsonPage = {"nowPage": nowPage};
+        if (queryFlag) {
+            jsonPage.queryVal = $("#name").val();
+        }
         $.ajax({
             cache:  false,    //是否使用浏览器缓存
             type:  "post",   //请求方式
             url:  "http://localhost:8888/users/findStudents",   //请求路径
             data: JSON.stringify(jsonPage),
+            xhrFields: {withCredentials: true},
             contentType:'application/json;charset=utf-8',
             dataType:  "json",  //响应的内容类型
             async:  false,     //同步或者异步ajax
             success: function(result) {
                 var studentStr = "";
-                $.each(result.data.list,function(index,user){
-
+                var stuStr = "";
+                $.each(result.data.pageBean.list,function(index,user){
+                    var followUsers = result.data.followUsers;
                     studentStr+="<div class='media'  style='border: #6a6f8c 2px solid'>";
                     studentStr+="<div class='media-left media-middle' >";
                     studentStr+="<img src='http://localhost:8888/upload/"+user.u_head+"' class='media-object' style='width:130px' onclick='toSelfMain("+user.u_id+")'>";
                     studentStr+="</div>";
                     studentStr+="<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
-                    studentStr+="<h4 class='media-heading'>学员姓名："+user.u_pickname+" &nbsp;<button type='button'class='btn btn-primary btn-md ' onclick='toFollow("+user.u_id+")'>关注</button></h4>";
+                    stuStr="<h4 class='media-heading'>学员姓名："+user.u_pickname+" &nbsp;<button type='button'class='btn btn-primary btn-md ' id='"+user.u_id+"' onclick='toFollow(\""+user.u_role+"\","+user.u_id+")'>关注</button></h4>";
+                    $.each(followUsers,function (index,follow) {
+                       if(follow.u_id==user.u_id){
+                           stuStr="<h4 class='media-heading'>学员姓名："+user.u_pickname+" &nbsp;<span style='color: #009f95'>已关注</span></h4>";
+                       }
+                    });
+                    studentStr+=stuStr;
                     studentStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>个性签名:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>"+user.u_selfword+"</h5>";
                     studentStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>联系方式: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>"+user.u_phone+"</h5>";
                     studentStr+="</div></div>";
@@ -118,16 +136,16 @@
 
                 });
                 $("#studentWindow").html(studentStr);
-                var byPageStr="";
-                byPageStr+="<li class='"+(result.data.nowPage==1?'disabled':'')+"'><a onclick='showStudents("+(result.data.nowPage-1)+")'>上一页</a></li>";
-                for(var i=1;i<=result.data.allPage;i++){
-                    if(i==result.data.nowPage){
-                        byPageStr+="<li class='active'><a onclick='showStudents("+(i)+")'>"+i+"<span class='sr-only'>(current)</span></a></li>";
-                    }else{
-                        byPageStr+="<li><a onclick='showStudents("+(i)+")'>"+i+"</a></li>";
+                var byPageStr = "";
+                byPageStr += "<li class='" + (result.data.pageBean.nowPage == 1 ? 'disabled' : '') + "'><a onclick='showStudents(" + (result.data.pageBean.nowPage - 1) + ")'>上一页</a></li>";
+                for (var i = 1; i <= result.data.pageBean.allPage; i++) {
+                    if (i == result.data.pageBean.nowPage) {
+                        byPageStr += "<li class='active'><a onclick='showStudents(" + (i) + ")'>" + i + "<span class='sr-only'>(current)</span></a></li>";
+                    } else {
+                        byPageStr += "<li><a onclick='showStudents(" + (i) + ")'>" + i + "</a></li>";
                     }
                 }
-                byPageStr+="<li class='"+(result.data.nowPage==result.data.allPage?'disabled':'')+"'><a onclick='showStudents("+(result.data.nowPage+1)+")'>下一页</a></li>";
+                byPageStr += "<li class='" + (result.data.pageBean.nowPage == result.data.pageBean.allPage ? 'disabled' : '') + "'><a onclick='showStudents(" + (result.data.pageBean.nowPage + 1) + ")'>下一页</a></li>";
 
                 $("#pages").html(byPageStr);
 
@@ -143,18 +161,34 @@
 
 
     //场馆关注学员
-    function toFollow(guest_id) {
+    function toFollow(u_role,u_id) {
+        var follow = $("#follow").text();
+        if (follow == '已关注') {
+            return;
+        }
+        var jsonData={"u_id": u_id,"u_role":u_role};
         $.ajax({
-            cache: false,    //是否使用浏览器缓存
-            type: "get",   //请求方式
-            url: "http://localhost:8888/users/followWho",   //请求路径
-            data:{"guest_id":guest_id},
-            dataType: "json",  //响应的内容类型
-            async: false,     //同步或者异步ajax
+            cache: false,
+            type: "post",
+            url: "http://localhost:8888/relations/follow",
+            data: JSON.stringify(jsonData),
+            xhrFields: {withCredentials: true},
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
             success: function (result) {
-                alert(result.message);
+                if (result.code == 200) {
+                    layer.msg("关注成功", {time: 1000, icon: 1, shift: 6}, function () {
+                    });
+
+                    $(":button[id=u_id]").text("已关注");
+                    showStudents(1);
+                } else {
+                    layer.msg("关注失败", {time: 1000, icon: 1, shift: 6}, function () {
+                    });
+                }
             }
-        })
+        });
 
     }
 

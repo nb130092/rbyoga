@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>教练主页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="../layer-v3.1.1/layer/layer.js"></script>
+    <link rel="stylesheet" href="../css/styleStu.css">
+</head>
+<body>
+<!-- 左侧导航！ -->
+<div style="float: left; width: 20%;">
+    <section class="app">
+        <aside class="sidebar">
+            <header>教练导航栏</header>
+            <nav class="sidebar-nav">
+                <ul>
+
+                    <li>
+                        <a href="allStudents.html"><i class="ion-bag"></i> <span>查看所有学员</span></a>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="ion-ios-settings"></i> <span class="">查看所有场馆</span></a>
+                    </li>
+
+                    <li>
+                        <a href="coachMain.html"><i class="ion-ios-briefcase-outline"></i> <span class="">主页</span></a>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="ion-ios-analytics-outline"></i> <span class="">教练业务</span></a>
+                        <ul class="nav-flyout">
+                            <li>
+                                <a href="improveInfomation.html"><i class="ion-ios-timer-outline"></i>信息完善</a>
+                            </li>
+                            <li>
+                                <a href="myFollowUsers.html"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-partlysunny-outline"></i>我的钱包</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>我的学员</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-timer-outline"></i>签约场馆</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-ios-game-controller-a-outline"></i>我的通知</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </aside>
+    </section>
+</div>
+
+<!--右侧窗口-->
+<div id="window">
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <ol class="breadcrumb">
+            <li><a href="coachMain.html">首页</a></li>
+        </ol>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form id="information">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1"><span style="color: #009f95">昵称</span></label>
+                        <input type="text" class="form-control" name="u_pickname" placeholder="请输入昵称">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1"><span style="color: #009f95">个人签名</span></label>
+                        <input type="text" class="form-control" name="u_selfword" id="exampleInputPassword1"
+                               placeholder="请输入个人签名">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone"><span style="color: #009f95">手机号</span></label>
+                        <input type="email" class="form-control" name="u_phone" id="phone" placeholder="请输入手机号">
+                        <p class="help-block label label-warning">请输入合法的11位手机号, 格式为： 1XXXXXXXXXX</p>
+                    </div>
+                    <button type="button" id="btnSave" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i>
+                        新增
+                    </button>
+                    &nbsp;&nbsp; &nbsp;&nbsp;
+                    <button type="reset" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+<script>
+
+    $("#btnSave").click(function(){
+       var u_pickname = $("input[name=u_pickname]").val();
+       var u_selfword = $("input[name=u_selfword]").val();
+       var u_phone = $("input[name=u_phone]").val();
+       var jsonData = {"u_pickname":u_pickname,"u_selfword":u_selfword,"u_phone":u_phone};
+        $.ajax({
+            cache: false,
+            type: "post",
+            url: "http://localhost:8888/users/improve",
+            data: JSON.stringify(jsonData),
+            dataType: "json",
+            processData: false, //jquery不处理数据
+            xhrFields: {withCredentials: true},
+            contentType: "application/json;charset=utf-8",
+            async: false,
+            success: function (result) {
+                if(result.code == 200){
+                    layer.msg("完善成功",{time:1000,icon:1,shift:6},function () {
+                    });
+                    window.location.href='coachMain.html';
+                }else{
+                    layer.msg("完善失败",{time:1000,icon:0,shift:6},function () {
+                    })
+                }
+            }
+        })
+    });
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

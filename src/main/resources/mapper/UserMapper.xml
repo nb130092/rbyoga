@@ -263,6 +263,9 @@
         <include refid="base_user_col"></include>
         from user
         <where>
+            <if test="queryVal!=null">
+                u_pickname like concat('%',#{queryVal},'%') and
+            </if>
             u_role = '学员'
         </where>
         order by u_id desc
@@ -312,6 +315,16 @@
             <if test="queryVal!=null">
                 u_pickname like concat('%',#{queryVal},'%')
             </if>
+        </where>
+    </select>
+
+    <select id="countAllStudents" parameterType="pageBean" resultType="int">
+        select count(*) from user
+        <where>
+            <if test="queryVal!=null">
+                u_pickname like concat('%',#{queryVal},'%') and
+            </if>
+            u_role='学员'
         </where>
     </select>
 

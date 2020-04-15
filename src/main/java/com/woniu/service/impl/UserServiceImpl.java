@@ -119,4 +119,9 @@ public class UserServiceImpl implements IUserService {
         return userDao.findStudents(pageBean);
     }
 
+    @Override
+    public Integer countAllStudents(PageBean<User> pageBean) {
+        return userDao.countAllStudents(pageBean);
+    }
+
 }

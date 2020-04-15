@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>教练主页</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -36,10 +36,10 @@
                         <a href="#"><i class="ion-ios-analytics-outline"></i> <span class="">教练业务</span></a>
                         <ul class="nav-flyout">
                             <li>
-                                <a href="#"><i class="ion-ios-timer-outline"></i>信息完善</a>
+                                <a href="improveInfomation.html"><i class="ion-ios-timer-outline"></i>信息完善</a>
                             </li>
                             <li>
-                                <a href="#"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
+                                <a href="myFollowUsers.html"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
                             </li>
                             <li>
                                 <a href="#"><i class="ion-ios-partlysunny-outline"></i>我的钱包</a>
@@ -64,6 +64,7 @@
 
 <!--右侧窗口-->
 <div id="window">
+
     姓名：<input type="text" name="queryVal" id="name">
     <button class="btn btn-info" id="btnQuery">查询</button>
     <span style="float: right" id="user"></span>
@@ -83,7 +84,7 @@
 
         showAll(1);
         $("#btnQuery").click(function () {
-            var queryVal = $("#queryVal").val();
+            var queryVal = $("#name").val();
             if (queryVal != "") {
                 queryFlag = true;
             }
@@ -111,14 +112,22 @@
             dataType: "json",  //响应的内容类型
             async: false,     //同步或者异步ajax
             success: function (result) {
+                var allUsers=result.data.allUsers;
                 var studentStr = "";
-                $.each(result.data.list, function (index, user) {
+                var follow = "";
+                $.each(result.data.pageBean.list, function (index, user) {
                     studentStr += "<div class='media'  style='border: #6a6f8c 2px solid'>";
                     studentStr += "<div class='media-left media-middle' >";
                     studentStr += "<img src='http://localhost:8888/upload/" + user.u_head + "' class='media-object' style='width:130px' onclick='toSelfMain(" + user.u_id + ")'>";
                     studentStr += "</div>";
                     studentStr += "<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
-                    studentStr += "<h4 class='media-heading'>" + user.u_role + "姓名：" + user.u_pickname + " &nbsp;<button type='button'class='btn btn-primary btn-md ' name='follow' onclick='toFollow(\""+user.u_role+"\","+user.u_id+")'>关注</button></h4>";
+                    follow = "<h4 class='media-heading'>" + user.u_role + "姓名：" + user.u_pickname + " &nbsp;<button type='button'class='btn btn-primary btn-md ' id='"+user.u_id+"' onclick='toFollow(\""+user.u_role+"\","+user.u_id+")'>关注</button></h4>";
+                    $.each(allUsers,function(index,followUser){
+                        if (followUser.u_id==user.u_id){
+                            follow = "<h4 class='media-heading'>" + user.u_role + "姓名：" + user.u_pickname + " &nbsp;<span style='color: #009f95'>已关注</span></h4>";
+                        }
+                    });
+                    studentStr += follow;
                     studentStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>个性签名:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_selfword + "</h5>";
                     studentStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>联系方式: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_phone + "</h5>";
                     studentStr += "</div></div>";
@@ -127,19 +136,20 @@
                 });
                 $("#studentWindow").html(studentStr);
                 var byPageStr = "";
-                byPageStr += "<li class='" + (result.data.nowPage == 1 ? 'disabled' : '') + "'><a onclick='showAll(" + (result.data.nowPage - 1) + ")'>上一页</a></li>";
-                for (var i = 1; i <= result.data.allPage; i++) {
-                    if (i == result.data.nowPage) {
+                byPageStr += "<li class='" + (result.data.pageBean.nowPage == 1 ? 'disabled' : '') + "'><a onclick='showAll(" + (result.data.pageBean.nowPage - 1) + ")'>上一页</a></li>";
+                for (var i = 1; i <= result.data.pageBean.allPage; i++) {
+                    if (i == result.data.pageBean.nowPage) {
                         byPageStr += "<li class='active'><a onclick='showAll(" + (i) + ")'>" + i + "<span class='sr-only'>(current)</span></a></li>";
                     } else {
                         byPageStr += "<li><a onclick='showAll(" + (i) + ")'>" + i + "</a></li>";
                     }
                 }
-                byPageStr += "<li class='" + (result.data.nowPage == result.data.allPage ? 'disabled' : '') + "'><a onclick='showAll(" + (result.data.nowPage + 1) + ")'>下一页</a></li>";
+                byPageStr += "<li class='" + (result.data.pageBean.nowPage == result.data.pageBean.allPage ? 'disabled' : '') + "'><a onclick='showAll(" + (result.data.pageBean.nowPage + 1) + ")'>下一页</a></li>";
 
                 $("#pages").html(byPageStr);
                 //异步ajax加载完成后调用关注方法
-                toFollow(u_role,u_id);
+
+                //toFollow(u_role,u_id);
 
             }
 
@@ -173,9 +183,10 @@
                     layer.msg("关注成功", {time: 1000, icon: 1, shift: 6}, function () {
                     });
 
-                    $(":button[name=follow]").text("已关注");
+                    $(":button[id=u_id]").text("已关注");
+                    showAll(1);
                 } else {
-                    layer.msg("关注失败", {time: 1000, icon: 1, shift: 6}, function () {
+                    layer.msg("关注失败", {time: 1000, icon: 0, shift: 6}, function () {
                     });
                 }
             }

@@ -76,15 +76,15 @@ public class RelationController {
     //lxy:删除 点击取消关注
     @DeleteMapping("cancelfollow")
     @ResponseBody
-    public ResultVO cancleFollow(@RequestBody User user, HttpSession session) {
+    public ResultVO cancleFollow(Integer guest_id, HttpSession session) {
         try {
 
             User loginUser = (User) session.getAttribute("loginUser");
             Map<String, Integer> map = new HashMap<>();
             map.put("main_id", loginUser.getU_id());
-            map.put("guest_id", user.getU_id());
+            map.put("guest_id", guest_id);
             relationService.cancelFollow(map);
-            return new ResultVO(200, "取消关注");
+            return new ResultVO(200, "取消关注成功");
         } catch (Exception e) {
             return new ResultVO(500, "取消关注失败");
 

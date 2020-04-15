@@ -36,4 +36,6 @@ public class User implements Serializable {
     //某人的动态集合
     private List<Speak> speakList;
 
+    //用户的关注集合
+    private List<Relation> relationList;
 }

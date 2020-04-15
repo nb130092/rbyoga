@@ -52,7 +52,9 @@ public class LoginController {
     @PostMapping("register")
     public ResultVO register(@RequestBody User user){
         try{
+            System.out.println(user);
             userService.register(user);
+
             return new ResultVO(200, "注册成功");
         }catch(Exception e){
             return new ResultVO(500, "注册失败");

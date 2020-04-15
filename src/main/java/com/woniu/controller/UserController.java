@@ -90,15 +90,32 @@ public class UserController {
         }
     }
 
+    //lxy完善登录用户个人信息
+    @PostMapping("improve")
+    @ResponseBody
+    public ResultVO improveUser(@RequestBody User user,HttpSession session) {
+        try {
+            User loginUser = (User) session.getAttribute("loginUser");
+            user.setU_id(loginUser.getU_id());
+            userService.update(user);
+            return new ResultVO(200, "修改成功", user);
+        } catch (Exception e) {
+            return new ResultVO(500, "修改失败", user);
+        }
+
+    }
+
     //lxy:查询 主页信息展示
     //lxy:查询 分页查询所有学员
 
     @PostMapping("findStudents")
     @ResponseBody
-    public ResultVO findStudents(@RequestBody PageBean<User> pageBean) {
-        User user = new User();
+    public ResultVO findStudents(@RequestBody PageBean<User> pageBean,HttpSession session) {
+        Map<String, Object> map = null;
         try {
-            Integer allRow = userService.countAll(pageBean);
+            User loginUser = (User) session.getAttribute("loginUser");
+            System.out.println(loginUser.getU_id());
+            Integer allRow = userService.countAllStudents(pageBean);
             Integer allPage = allRow % pageBean.getPageSize() == 0 ? allRow / pageBean.getPageSize() : allRow / pageBean.getPageSize() + 1;
             pageBean.setAllPage(allPage);
             if (pageBean.getNowPage() == null) {
@@ -106,18 +123,24 @@ public class UserController {
             }
             pageBean.setAllRow(allRow);
             List<User> list = userService.findStudents(pageBean);
+            List<User> allFollowUsers = relationService.findAllFollowUsers(loginUser);
             pageBean.setList(list);
-            return new ResultVO(200, "查询成功", pageBean);
+            map = new HashMap<>();
+            map.put("pageBean", pageBean);
+            map.put("followUsers", allFollowUsers);
+            return new ResultVO(200, "查询成功", map);
         } catch (Exception e) {
-            return new ResultVO(500, "查询失败", pageBean);
+            return new ResultVO(500, "查询失败", map);
         }
     }
 
     @ResponseBody
     @PostMapping("findByPage")
-    public ResultVO findByPage(@RequestBody PageBean<User> pageBean) {
+    public ResultVO findByPage(@RequestBody PageBean<User> pageBean,HttpSession session) {
+        Map<String, Object> map = null;
         try {
-
+            User loginUser = (User) session.getAttribute("loginUser");
+            System.out.println(loginUser.getU_id());
             Integer allRow = userService.countAll(pageBean);
             Integer allPage = allRow % pageBean.getPageSize() == 0 ? allRow / pageBean.getPageSize() : allRow / pageBean.getPageSize() + 1;
             pageBean.setAllPage(allPage);
@@ -127,9 +150,13 @@ public class UserController {
             pageBean.setAllRow(allRow);
             List<User> list = userService.findByPage(pageBean);
             pageBean.setList(list);
-            return new ResultVO(200, "查询成功", pageBean);
+            List<User> allFollowUsers = relationService.findAllFollowUsers(loginUser);
+            map = new HashMap<>();
+            map.put("pageBean", pageBean);
+            map.put("allUsers", allFollowUsers);
+            return new ResultVO(200, "查询成功", map);
         } catch (Exception e) {
-            return new ResultVO(500, "查询失败", pageBean);
+            return new ResultVO(500, "查询失败", map);
         }
     }
 

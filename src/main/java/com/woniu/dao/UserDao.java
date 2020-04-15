@@ -45,6 +45,8 @@ public interface UserDao {
 
     Integer countAll(PageBean<User> pageBean);
 
+    Integer countAllStudents(PageBean<User> pageBean);
+
     List<User> findByPage(PageBean<User> pageBean);
 
     //通过id查询某个用户以及他的全部动态

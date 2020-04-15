@@ -80,7 +80,19 @@
 					<input  type="password" class="input" v-model="safecode" @change="checkSafe">
 					{{msg3}}
 				</div>
-				
+				<div class="group">
+					<label for="pass" class="label">选择角色</label>
+				</div>
+				<div>
+					<span style="color:white">学员：</span>
+					<input  type="radio" class="input" v-model="role" value="学员" @change="choseRole">&nbsp;
+					<span style="color:white">教练：</span>
+					<input  type="radio" class="input" v-model="role" value="教练" @change="choseRole">&nbsp;
+					<span style="color:white">场馆：</span>
+					<input  type="radio" class="input" v-model="role" value="场馆" @change="choseRole">
+					{{msg4}}
+				</div>
+
 				<div class="group">
 					<input type="submit" class="button" value="注册" @click="register">
 				</div>
@@ -100,6 +112,8 @@
 	  var login=new Vue({
 		 el:"#login",
 		 data:{
+
+
 			 username:null,
 			 password:null,
 			 msg:null
@@ -127,15 +141,13 @@
 					return false;
 				}
 
-				axios.defaults.withCredentials = true; // 允许携带cookie
-
 				axios.post("http://localhost:8888/login",{
                       "u_username":this.username,
                       "u_password":this.password
                   },{withCredentials:true}).then((response) =>{
 					if(response.data.code==201){
 						layer.msg("场馆登录成功！！",{time:1000,icon:1,shift:6},function(){});
-						window.location.href='http://localhost:8888/store/storeMain.html';  //跳转到场馆页面
+						window.location.href='store/storeMain.html';  //跳转到场馆页面
 					}else if(response.data.code==202){
 						layer.msg("学员登录成功！！",{time:1000,icon:1,shift:6},function(){});
 					}else if(response.data.code==203){
@@ -157,6 +169,7 @@
 
 
   <script>
+
 	  var register=new Vue({
 		el:"#register",
 		data:{
@@ -167,7 +180,9 @@
 			msg2:null,
 			safecode:null,
 			flag:false,
-			msg3:null
+			msg3:null,
+			role:null,
+			msg4:null
 		},
 		methods:{
 			
@@ -212,7 +227,12 @@
 				}
 				this.msg3='';
 			},
-			
+
+			choseRole(){
+				console.log(this.role);
+
+			},
+
 			
 			register(){
 				if(this.username==null){
@@ -235,12 +255,19 @@
 					this.checkSafe();
 					return false;
 				}
+				if(this.role==null){
+					this.msg4='请选择角色';
+					return false;
+					this.choseRole();
+				}
 				axios.defaults.withCredentials=true;
 				axios.post("http://localhost:8888/register",{
 					"u_username":this.username,
 					"u_password":this.password,
 					"u_safecode":this.safecode,
+					"u_role":this.role
 				},{withCredentials:true}).then((response) => {
+
 					if(response.data.code==200){
 						layer.msg("注册成功！！！",{time:1000,icon:1,shift:5},function(){});
 						window.location.href='login.html';

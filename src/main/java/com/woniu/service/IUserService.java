@@ -49,4 +49,6 @@ public interface IUserService {
     User showUserAllSpeaks(Integer u_id);
 
     List<User> findStudents(PageBean<User> pageBean);
+
+    Integer countAllStudents(PageBean<User> pageBean);
 }
