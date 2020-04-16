@@ -467,7 +467,7 @@ public class StoreController {
         try {
             //User loginUser= (User)session.getAttribute("loginUser");
             Integer main_id = user_id;
-            Relation relation = new Relation(null, "关注To被关注", main_id, guest_id);
+            Relation relation = new Relation(null, "教练To学员", main_id, guest_id);
             relationService.save(relation);
             return new ResultVO(200, "分配成功");
         } catch (Exception e) {
