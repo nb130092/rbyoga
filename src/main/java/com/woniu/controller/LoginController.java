@@ -24,8 +24,13 @@ public class LoginController {
 
         try{
             loginUser=userService.login(user);
+
+
+
+
             if (loginUser!=null){
                 session.setAttribute("loginUser", loginUser);
+                System.out.println("loginUser = " + loginUser);
 
                 if (loginUser.getU_role().equals("场馆")){   //如果code是201,则跳转到场馆管理
                     return new ResultVO(201, "场馆登录成功");
@@ -81,11 +86,5 @@ public class LoginController {
             return new ResultVO(500, "密码修改失败！！");
         }
     }
-
-        @RequestMapping("loginUI")
-        //怎跳转html页面
-        public String loginUI(){
-            return "login";
-        }
 
 }

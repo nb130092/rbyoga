@@ -125,7 +125,6 @@ public class ProductController {
                     file.transferTo(target);
                 // 把图片名存给商品对象
                 product.setP_image(fileName);
-                product.setP_status("Y");
                 ps.save(product);
 
                 resultVO = new ResultVO(200,"上传商品成功");

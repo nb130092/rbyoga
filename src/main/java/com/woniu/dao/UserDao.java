@@ -53,4 +53,7 @@ public interface UserDao {
     List<User> findStudents(PageBean<User> pageBean);
     // lr: 查询所有教练
     List<User> findAllCoaches();
+
+    // lr: 查找某个场馆的全部学员
+    List<User> findStudentsByStore(User store);
 }

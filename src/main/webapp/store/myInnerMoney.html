@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>场馆收入</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../layer-v3.1.1/layer/layer.js"></script>
+</head>
+
+<body>
+
+<!-- 左侧导航！ -->
+<div style="float: left; width: 20%;">
+    <section class="app">
+        <aside class="sidebar">
+            <header>场馆导航栏</header>
+            <nav class="sidebar-nav">
+                <ul>
+
+                    <li>
+                        <a href="allStudents.html"><i class="ion-bag"></i> <span>查看所有学员</span></a>
+                    </li>
+
+                    <li>
+                        <a href="allCoachs.html"><i class="ion-ios-settings"></i> <span class="">查看所有教练</span></a>
+                    </li>
+
+                    <li>
+                        <a href="storeMain.html"><i class="ion-ios-briefcase-outline"></i> <span class="">主页</span></a>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="ion-ios-analytics-outline"></i> <span class="">场馆业务</span></a>
+                        <ul class="nav-flyout">
+                            <li>
+                                <a href="myMessage.html"><i class="ion-ios-timer-outline"></i>信息完善</a>
+                            </li>
+                            <li>
+                                <a href="myFollowUsers.html"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
+                            </li>
+                            <li>
+                                <a href="myInnerMoney.html"><i class="ion-ios-partlysunny-outline"></i>场馆收入</a>
+                            </li>
+                            <li>
+                                <a href="myAllStudents.html"><i class="ion-ios-timer-outline"></i>场馆学员</a>
+                            </li>
+                            <li>
+                                <a href="showStoreYogaCoach.html"><i class="ion-ios-timer-outline"></i>场馆签约教练</a>
+                            </li>
+                            <li>
+                                <a href="myNotice.html"><i class="ion-ios-timer-outline"></i>场馆通知</a>
+                            </li>
+                            <li>
+                                <a href="showProduct.html"><i class="ion-ios-game-controller-a-outline"></i>场馆产品</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </aside>
+    </section>
+</div>
+
+    <!--右侧窗口-->
+    <div id="window">
+        <h1 style="color: yellow">场馆收入</h1>
+        <div style="width: 800px;border: 1px seagreen solid" id="myFollowsWindow">
+
+                <h2 style="color:sandybrown;">场馆收入:<span id="myMoney"></span></h2>
+                <button type="button" class="btn btn-primary btn-lg" onclick="showMyOrderz()">
+                    <span class="glyphicon glyphicon-magnet"></span> 查看本场馆订单
+                </button>
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                    <span class="glyphicon glyphicon-briefcase"></span> 提现
+                </button>
+                <div id="orderzWindow">
+
+
+
+                </div>
+
+
+        </div>
+    </div>
+
+
+    <!--提现模态框-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        请输入提现信息
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="name">安全码</label>
+                            <input type="text" class="form-control" id="safeCode" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">提现金额</label>
+                            <input type="text" class="form-control" id="howMoney" >
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="outMoney()">确认提现</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+
+    <script>
+
+        $(function () {
+
+            showMyMoney();
+
+        })
+
+
+        // 展示我的收入
+        function showMyMoney() {
+            $.ajax({
+                cache: false,    //是否使用浏览器缓存
+                type: "get",   //请求方式
+                url: "http://localhost:8888/users/showMyMoney",   //请求路径
+                dataType: "json",  //响应的内容类型
+                xhrFields: {withCredentials: true},
+                async: false,     //同步或者异步ajax
+                success: function (result) {
+                    $("#myMoney").html(result.data);
+                }
+            })
+
+        }
+
+
+        // 展示订单
+        function showMyOrderz() {
+            $.ajax({
+                cache: false,    //是否使用浏览器缓存
+                type: "get",   //请求方式
+                url: "http://localhost:8888/orderz/findOrderzByStore",   //请求路径
+                dataType: "json",  //响应的内容类型
+                xhrFields: {withCredentials: true},
+                async: false,     //同步或者异步ajax
+                success: function (result) {
+                    var orderzWindow = null;
+                    orderzWindow+="<table class='table table-bordered' style='color:seashell'>";
+                    orderzWindow+="<h2 style='color:seashell;'>本场馆订单</h2>";
+                    orderzWindow+="<thead > <tr><th>订单日期</th> <th>订单价格</th><th>用户编号</th><th>支付状态</th></tr> </thead>";
+                    orderzWindow+="<tbody id='myOrderz'></tbody></table>";
+                    $("#orderzWindow").html(orderzWindow);
+                    var orderzStr = null;
+                    $.each(result.data,function(i,orderz){
+
+                        orderzStr+="<tr>";
+                        orderzStr+="<td>"+orderz.o_date+"</td>";
+                        orderzStr+="<td>"+orderz.o_price+"</td>";
+                        orderzStr+="<td>"+orderz.student_id+"</td>";
+                        orderzStr+="<td>"+orderz.o_isPay+"</td>";
+                        orderzStr+="</tr>";
+                    });
+                    $("#myOrderz").html(orderzStr);
+
+                }
+            })
+        }
+
+
+        // 提现
+        function outMoney() {
+            var safeCode = $("#safeCode").val();
+            var howMoney = $("#howMoney").val();
+            $.ajax({
+                cache: false,    //是否使用浏览器缓存
+                type: "get",   //请求方式
+                url: "http://localhost:8888/users/OutMoney/"+safeCode+"/"+howMoney,   //请求路径
+                dataType: "json",  //响应的内容类型
+                xhrFields: {withCredentials: true},
+                async: false,     //同步或者异步ajax
+                success: function (result) {
+                    alert(result.message);
+                    <!--关闭模态框-->
+                    $('#myModal').modal('hide');
+                    showMyMoney();
+                }
+            });
+
+        }
+
+
+
+
+    </script>
+
+
+
+
+
+
+
+</body>

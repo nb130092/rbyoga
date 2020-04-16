@@ -11,7 +11,6 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
@@ -76,25 +75,6 @@
     </div>
 </div>
 
-<!-- 分配学员的 -->
- <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                &times;
-            </button>
-            <h4 class="modal-title" id="myModalLabel2">
-                分配学员
-            </h4>
-        </div>
-        <div class="modal-body" id="repartition">
-
-
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-</div>
 
 <script>
 
@@ -110,7 +90,6 @@
 
     // 展示教练
     function showStoreYogaCoach() {
-
         $.ajax({
             cache:  false,    //是否使用浏览器缓存
             type:  "get",   //请求方式
@@ -121,32 +100,18 @@
             success: function(result) {
                 var coachStr = "";
                 $.each(result.data.list,function(index,user){
+
                     coachStr+="<div class='media'  style='border: #6a6f8c 2px solid'>";
                     coachStr+="<div class='media-left media-middle' >";
                     coachStr+="<img src='http://localhost:8888/upload/"+user.u_head+"' class='media-object' style='width:130px' onclick='toSelfMain("+user.u_id+")'>";
                     coachStr+="</div>";
                     coachStr+="<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
-                    coachStr+="<h4 class='media-heading'>教练姓名："+user.u_pickname+" &nbsp;";
-                    coachStr+="<button class='btn btn-success btn-md' data-toggle='modal' data-target='#myModal'>通知</button>&nbsp;";
-                    coachStr+="<button class='btn btn-primary btn-md' onclick='findAllStu("+user.u_id+")'>分配学员</button>&nbsp;";
-                    coachStr+="<button class='btn btn-danger btn-md ' onclick='dismissStoreYogaCoach("+user.u_id+")'>解雇</button></h4>";
+                    coachStr+="<h4 class='media-heading'>教练姓名："+user.u_pickname+" &nbsp;<button type='button'class='btn btn-danger btn-md ' onclick='dismissStoreYogaCoach("+user.u_id+")'>解雇</button></h4>";
                     coachStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>个性签名:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>"+user.u_selfword+"</h5>";
                     coachStr+="<h5 style='font-family: 微软雅黑;color: slateblue'>联系方式: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>"+user.u_phone+"</h5>";
                     coachStr+="</div></div>";
-                    coachStr+="<div class='modal fade' id='myModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>";
-                    coachStr+="<div class='modal-dialog'>";
-                    coachStr+="<div class='modal-content'>";
-                    coachStr+="<div class='modal-header'>";
-                    coachStr+="<button type='button' class='close' data-dismiss='modal' aria-hidden='true'> &times;";
-                    coachStr+="</button> <h4 class='modal-title id='myModalLabel'> 通知 </h4> </div> ";
-                    coachStr+="<div class='modal-body'> <textarea id='textarea' cols='90' rows='5'>输入通知内容</textarea> </div>";
-                    coachStr+="<div class='modal-footer'> <button type='button' class='btn btn-default' data-dismiss='modal>关闭 </button> <button type='button' class='btn btn-primary' onclick='replyStoreYogaCoach("+user.u_id+")'>发送通知 </button>";
-                    coachStr+="</div> </div> </div> </div>”";
-
                 });
-
                 $("#coachWindow").html(coachStr);
-
 
             }
 
@@ -159,8 +124,9 @@
     }
 
 
-    //场馆解雇教练
+    //场馆关注教练
     function dismissStoreYogaCoach(guest_id){
+
         $.ajax({
             cache: false,    //是否使用浏览器缓存
             type: "get",   //请求方式
@@ -176,29 +142,11 @@
         })
     }
 
-    //场馆向教练发通知
-    function replyStoreYogaCoach(guest_id){
-        $.ajax({
-            cache:false,
-            type:"post",
-            url:"http://localhost:8888/store/replyStoreYogaCoach",
-            data:{"guest_id":guest_id,"n_content":$('#textarea').val()},
-            dataType:"json",
-            async:false,
-            withCredentials: true ,
-            success: function (result) {
-                alert(result.message);
-                $('#myModal').modal('hide');
-            }
-        })
-    }
-
-
-    function findAllStu(u_id){
-
-        window.location="repartitionStu.html?user_id="+u_id;
-    }
-
 </script>
+
+
+
+
+
 </body>
 </html>

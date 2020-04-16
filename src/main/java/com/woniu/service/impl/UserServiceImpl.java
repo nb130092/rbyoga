@@ -119,4 +119,9 @@ public class UserServiceImpl implements IUserService {
         return userDao.findStudents(pageBean);
     }
 
+    @Override
+    public List<User> findStudentsByStore(User store) {
+        return userDao.findStudentsByStore(store);
+    }
+
 }
