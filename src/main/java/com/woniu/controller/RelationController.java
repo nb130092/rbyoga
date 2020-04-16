@@ -52,13 +52,12 @@ public class RelationController {
 
 
     //lxy:增加 点击关注增加
-    @PostMapping(value="follow")
+    @PostMapping("follow")
     @ResponseBody
     public ResultVO follow(@RequestBody User user, HttpSession session) {
-        System.out.println("\"请求到达\" = " + "请求到达");
         try {
+            System.out.println("user = " + user);
             User loginUser = (User) session.getAttribute("loginUser");
-
             System.out.println("loginUser = " + loginUser);
             String loginUserRole = loginUser.getU_role();
             String userRole = user.getU_role();

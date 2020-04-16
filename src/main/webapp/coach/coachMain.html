@@ -106,7 +106,6 @@
             type: "post",   //请求方式
             url: "http://localhost:8888/users/findByPage",   //请求路径
             data: JSON.stringify(jsonPage),
-            xhrFields: {withCredentials: true},
             contentType: 'application/json;charset=utf-8',
             dataType: "json",  //响应的内容类型
             async: false,     //同步或者异步ajax
@@ -118,7 +117,7 @@
                     studentStr += "<img src='http://localhost:8888/upload/" + user.u_head + "' class='media-object' style='width:130px' onclick='toSelfMain(" + user.u_id + ")'>";
                     studentStr += "</div>";
                     studentStr += "<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
-                    studentStr += "<h4 class='media-heading'>" + user.u_role + "姓名：" + user.u_pickname + " &nbsp;<button type='button'class='btn btn-primary btn-md ' name='follow' onclick='toFollow(\""+user.u_role+"\","+user.u_id+")'>关注</button></h4>";
+                    studentStr += "<h4 class='media-heading'>" + user.u_role + "姓名：" + user.u_pickname + " &nbsp;<button type='button'class='btn btn-primary btn-md ' id='follow' onclick='toFollow(\""+user.u_role+"\","+user.u_id+")'>关注</button></h4>";
                     studentStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>个性签名:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_selfword + "</h5>";
                     studentStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>联系方式: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_phone + "</h5>";
                     studentStr += "</div></div>";
@@ -138,8 +137,6 @@
                 byPageStr += "<li class='" + (result.data.nowPage == result.data.allPage ? 'disabled' : '') + "'><a onclick='showAll(" + (result.data.nowPage + 1) + ")'>下一页</a></li>";
 
                 $("#pages").html(byPageStr);
-                //异步ajax加载完成后调用关注方法
-                toFollow(u_role,u_id);
 
             }
 
@@ -149,7 +146,7 @@
 
     //进主页
     function toSelfMain(u_id) {
-        window.location.href= "selfMain.html?user_id=" + u_id;
+        window.location = "selfMain.html?user_id=" + u_id;
     }
 
     //关注
@@ -164,7 +161,6 @@
             type: "post",
             url: "http://localhost:8888/relations/follow",
             data: JSON.stringify(jsonData),
-            xhrFields: {withCredentials: true},
             contentType: "application/json;charset=utf-8",
             dataType: "json",
             async: false,
@@ -172,8 +168,8 @@
                 if (result.code == 200) {
                     layer.msg("关注成功", {time: 1000, icon: 1, shift: 6}, function () {
                     });
-
-                    $(":button[name=follow]").text("已关注");
+                    showAll(1);
+                    $("#follow").text("已关注");
                 } else {
                     layer.msg("关注失败", {time: 1000, icon: 1, shift: 6}, function () {
                     });

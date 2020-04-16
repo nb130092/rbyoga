@@ -241,9 +241,12 @@
 					"u_password":this.password,
 					"u_safecode":this.safecode,
 				},{withCredentials:true}).then((response) => {
+
+				
+				}).then((response) => {
 					if(response.data.code==200){
 						layer.msg("注册成功！！！",{time:1000,icon:1,shift:5},function(){});
-						window.location.href='login.html';
+						window.location.href='http://localhost:8888/loginUI';
 					}else{
 						layer.msg("注册失败，请重新输入",{time:1000,icon:0,shift:5},function(){});
 					}

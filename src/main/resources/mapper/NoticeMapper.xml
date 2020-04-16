@@ -2,48 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.woniu.dao.NoticeDao">
-    <resultMap  id="noticeMapWithUser1"  type="notice">
-    <id property="n_id" column="n_id"/>
-    <result property="n_content" column="n_content"/>
-    <result property="n_isRead" column="n_isRead"/>
-    <result property="n_isYes"  column="n_isYes"/>
-    <result property="init_id"  column="init_id"></result>
-    <association  property="arriveUser"  column="arrive_id" javaType="user">
-        <id property="u_id" column="u_id" />
-        <result property="u_pickname" column="u_pickname" />
-        <result property="u_username" column="u_username" />
-        <result property="u_password" column="u_password" />
-        <result property="u_safecode" column="u_safecode" />
-        <result property="u_head" column="u_head" />
-        <result property="u_selfword" column="u_selfword" />
-        <result property="u_phone" column="u_phone" />
-        <result property="u_money" column="u_money" />
-        <result property="u_role" column="u_role" />
-        <result property="u_card" column="u_card" />
-    </association>
-    </resultMap>
-
-    <resultMap  id="noticeMapWithUser2"  type="notice">
-        <id property="n_id" column="n_id"/>
-        <result property="n_content" column="n_content"/>
-        <result property="n_isRead" column="n_isRead"/>
-        <result property="n_isYes"  column="n_isYes"/>
-        <result property="arrive_id"  column="arrive_id"></result>
-        <association  property="initUser"  column="init_id" javaType="user">
-            <id property="u_id" column="u_id" />
-            <result property="u_pickname" column="u_pickname" />
-            <result property="u_username" column="u_username" />
-            <result property="u_password" column="u_password" />
-            <result property="u_safecode" column="u_safecode" />
-            <result property="u_head" column="u_head" />
-            <result property="u_selfword" column="u_selfword" />
-            <result property="u_phone" column="u_phone" />
-            <result property="u_money" column="u_money" />
-            <result property="u_role" column="u_role" />
-            <result property="u_card" column="u_card" />
-        </association>
-    </resultMap>
-
     <!--通知列-->
     <sql id="notice_list">
         n_id,n_content,n_isRead,n_isYes,init_id,arrive_id
@@ -157,20 +115,6 @@
         <where>
             init_id = #{init_id}
         </where>
-    </select>
-
-    <!--根据用户获取所有我发送的通知 by:lr-->
-    <select id="findAllNoticeByInit" parameterType="user" resultMap ="noticeMapWithUser1">
-        SELECT * FROM
-        notice n join user u on n.arrive_id = u.u_id
-        where init_id = #{u_id}
-    </select>
-
-    <!--根据用户获取所有我接受的通知 by:lr-->
-    <select id="findAllNoticeByArrive" parameterType="user" resultMap ="noticeMapWithUser2">
-        SELECT * FROM
-        notice n join user u on n.init_id = u.u_id
-        where arrive_id = #{u_id}
     </select>
 
 </mapper>

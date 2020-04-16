@@ -2,13 +2,13 @@ package com.woniu.service.impl;
 
 import com.woniu.dao.NoticeDao;
 import com.woniu.pojo.Notice;
-import com.woniu.pojo.User;
 import com.woniu.service.INoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.prefs.NodeChangeListener;
 @Service
 @Transactional
 public class NoticeServiceImpl implements INoticeService {
@@ -48,15 +48,5 @@ public class NoticeServiceImpl implements INoticeService {
     @Override
     public   List<Notice> findNoticeByInit_id(Integer init_id){
         return noticeDao.findNoticeByInit_id(init_id);
-    }
-
-    @Override
-    public List<Notice> findAllNoticeByInit(User user) {
-        return noticeDao.findAllNoticeByInit(user);
-    }
-
-    @Override
-    public List<Notice> findAllNoticeByArrive(User user) {
-        return noticeDao.findAllNoticeByArrive(user);
     }
 }
