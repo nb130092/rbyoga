@@ -76,7 +76,7 @@
 </div>
 
 <script>
-
+    var user_id =  getQueryVariable("user_id")
     function getQueryVariable(variable)
     {
         var query = window.location.search.substring(1);
@@ -97,11 +97,10 @@
     function showStudents(user_id) {
        var user_id =  getQueryVariable("user_id")
         // 展示学员
-        alert(user_id);
         $.ajax({
             cache:  false,    //是否使用浏览器缓存
             type:  "get",   //请求方式
-            url:  "http://localhost:8888/store/storeYogaCoachAllotStu ",   //请求路径
+            url:  "http://localhost:8888/store/storeYogaCoachAllotStu",   //请求路径
             data:{"user_id":user_id},
             dataType:  "json",  //响应的内容类型
             xhrFields: {withCredentials: true},
@@ -146,11 +145,15 @@
 
     //教练被分配学员
     function toFollow(guest_id) {
+        var user_id =  getQueryVariable("user_id")
+        alert(guest_id)
+        alert(user_id)
+
         $.ajax({
             cache: false,    //是否使用浏览器缓存
             type: "get",   //请求方式
-            url: "http://localhost:8888/users/followWho",   //请求路径
-            data:{"guest_id":guest_id},
+            url: "http://localhost:8888/store/repartitionStuTo",   //请求路径
+            data:{"guest_id":guest_id,"user_id":user_id},
             dataType: "json",  //响应的内容类型
             xhrFields: {withCredentials: true},
             async: false,     //同步或者异步ajax

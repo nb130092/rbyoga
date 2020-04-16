@@ -7,10 +7,7 @@ import com.woniu.service.IRelationService;
 import com.woniu.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -438,12 +435,16 @@ public class StoreController {
     @RequestMapping("storeYogaCoachAllotStu")
     public ResultVO storeYogaCoachAllotStu(HttpSession session,Integer user_id) {
         List<User> studentList=null;
-        System.out.println(user_id);
+        System.out.println(user_id+"!!!!!!!!!!!!");
 
         try{
             User loginUser =  (User)session.getAttribute("loginUser");
+            System.out.println(loginUser.getU_id()+"!!!!!!!!!");
             studentList = userService.findAllStudents();  // 获取所有学员
+
             List<Integer> followIdList = relationService.findAllFollows(user_id); //获取我关注的所有用户ID
+            //User meUser = userService.findOne(user_id);
+           //List<User> meUsersList= relationService.findAllFollowUsers(meUser);
 
             Map<String,Object> theMap = new HashMap<>();
 
@@ -457,6 +458,23 @@ public class StoreController {
         }catch(Exception e){
             return new ResultVO(500, "查询学员失败");
         }
+    }
+    //给教练分配学员
+    @ResponseBody
+    @RequestMapping("repartitionStuTo")
+    public ResultVO FollowWho(Integer guest_id, Integer user_id) {
+        System.out.println("guest_id = " + guest_id+"user_id"+user_id);
+        try {
+            //User loginUser= (User)session.getAttribute("loginUser");
+            Integer main_id = user_id;
+            Relation relation = new Relation(null, "关注To被关注", main_id, guest_id);
+            relationService.save(relation);
+            return new ResultVO(200, "分配成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultVO(200, "分配成功");
+        }
+
     }
 
     //场馆学员1.0
