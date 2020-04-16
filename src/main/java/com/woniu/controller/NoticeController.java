@@ -3,12 +3,10 @@ package com.woniu.controller;
 import com.sun.javafx.text.TextRun;
 import com.woniu.pojo.Notice;
 import com.woniu.pojo.ResultVO;
-import com.woniu.pojo.User;
 import com.woniu.service.INoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -73,24 +71,5 @@ public class NoticeController {
             resultVO = new ResultVO(500,"修改通知失败");
         }
         return resultVO;
-    }
-
-
-    // 给学员发送通知
-    @GetMapping("toNoticeStudent")
-    public ResultVO toNoticeStudent(Notice notice,HttpSession session){
-        ResultVO resultVO = null;
-        try {
-            User loginUser = (User)session.getAttribute("loginUser");
-            notice.setN_isRead("N");
-            notice.setInit_id(loginUser.getU_id());
-            iNoticeService.save(notice);
-            resultVO = new ResultVO(200, "发送通知成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultVO = new ResultVO(200, "发送通知失败");
-        }
-        return resultVO;
-
     }
 }

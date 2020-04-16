@@ -7,7 +7,6 @@ import com.woniu.service.IOrderzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -77,21 +76,4 @@ public class OrderzController {
             return new ResultVO(500, "修改数据失败", orderz);
         }
     }
-
-
-    // 查找一个场馆的所有订单
-    @GetMapping("findOrderzByStore")
-    public  ResultVO findOrderzByStore(HttpSession session){
-        try {
-            User loginUser = (User)session.getAttribute("loginUser");
-            List<Orderz> orderzList = orderzService.findOrderzByStore(loginUser);
-
-            return new ResultVO(200, "查询订单成功", orderzList);
-        } catch (Exception e) {
-            return new ResultVO(500, "查询订单失败");
-        }
-    }
-
-
-
 }

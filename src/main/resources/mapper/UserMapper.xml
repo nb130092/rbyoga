@@ -360,11 +360,4 @@
         u_id = #{u_id}
     </select>
 
-    <!--查找某个场馆的全部学员-->
-    <select id="findStudentsByStore" resultType="user">
-       select * from user
-	   where u_id in
-	   (select guest_id from relation where main_id = #{u_id} and r_relation="场馆To学员" );
-    </select>
-
 </mapper>

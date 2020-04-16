@@ -1,7 +1,6 @@
 package com.woniu.service;
 
 import com.woniu.pojo.Notice;
-import com.woniu.pojo.User;
 
 import java.util.List;
 
@@ -15,10 +14,5 @@ public interface INoticeService {
     List<Notice> findNoticeByArrive_id(Integer arrive_id);
     //我通知的
     List<Notice> findNoticeByInit_id(Integer init_id);
-
-    //根据用户获取所有我发送的通知 by:lr
-    List<Notice> findAllNoticeByInit(User user);
-    //根据用户获取所有我接受的通知 by:lr
-    List<Notice> findAllNoticeByArrive(User user);
 
 }

@@ -94,12 +94,4 @@
     private String o_isPay;     //支付状态
     private Integer student_id;   //购买者id(外
     private Integer product_id;    //产品id(外)-->
-
-    <!--lr:查找某个场馆的所有订单-->
-    <select id="findOrderzByStore" parameterType="user" resultType="orderz">
-       select * from orderz
-	  where product_id in
-	  (select p_id from product where store_id = #{u_id});
-    </select>
-
 </mapper>
