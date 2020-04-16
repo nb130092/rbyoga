@@ -33,29 +33,29 @@
                     </li>
 
                     <li>
-                        <a href="#"><i class="ion-ios-briefcase-outline"></i> <span class="">主页</span></a>
+                        <a href="storeMain.html"><i class="ion-ios-briefcase-outline"></i> <span class="">主页</span></a>
                     </li>
 
                     <li>
                         <a href="#"><i class="ion-ios-analytics-outline"></i> <span class="">场馆业务</span></a>
                         <ul class="nav-flyout">
                             <li>
-                                <a href="#"><i class="ion-ios-timer-outline"></i>信息完善</a>
+                                <a href="myMessage.html"><i class="ion-ios-timer-outline"></i>信息完善</a>
                             </li>
                             <li>
-                                <a href="#"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
+                                <a href="myFollowUsers.html"><i class="ion-arrow-graph-down-left"></i>我的关注</a>
                             </li>
                             <li>
-                                <a href="#"><i class="ion-ios-partlysunny-outline"></i>场馆收入</a>
+                                <a href="myInnerMoney.html"><i class="ion-ios-partlysunny-outline"></i>场馆收入</a>
                             </li>
                             <li>
-                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆学员</a>
+                                <a href="myAllStudents.html"><i class="ion-ios-timer-outline"></i>场馆学员</a>
                             </li>
                             <li>
                                 <a href="showStoreYogaCoach.html"><i class="ion-ios-timer-outline"></i>场馆签约教练</a>
                             </li>
                             <li>
-                                <a href="#"><i class="ion-ios-timer-outline"></i>场馆通知</a>
+                                <a href="myNotice.html"><i class="ion-ios-timer-outline"></i>场馆通知</a>
                             </li>
                             <li>
                                 <a href="showProduct.html"><i class="ion-ios-game-controller-a-outline"></i>场馆产品</a>
@@ -68,6 +68,7 @@
         </aside>
     </section>
 </div>
+
 <!--右侧窗口-->
 <div id="window">
     <div style="width: 800px;border: 1px seagreen solid" id="coachWindow">
@@ -194,53 +195,8 @@
 
 
     function findAllStu(u_id){
-        //alert(u_id);
-        window.location="repartitionStu.html?user_id="+u_id;
 
-        // $.ajax({
-        //     cache: false,    //是否使用浏览器缓存
-        //     type: "get",   //请求方式
-        //     url: "http://localhost:8888/users/findAllStudents", //请求路径
-        //     //data:{"u_id":u_id},
-        //     dataType:"json",  //响应的内容类型
-        //     async: false,     //同步或者异步ajax
-        //     withCredentials: true ,
-        //     success: function(result) {
-        //         var StuStr = "";
-        //         $.each(result.data,function(index,user){
-        //             // StuStr+="<div class='modal fade' id='myModal2' tabindex='-1' role='dialog' aria-labelledby='myModalLabel2' aria-hidden='true'>";
-        //             // StuStr+="<div class='modal-dialog'>";
-        //             // StuStr+="<div class='modal-content'>";
-        //             // StuStr+="<div class='modal-header'>";
-        //             // StuStr+="<button type='button' class='close' data-dismiss='modal' aria-hidden='true'> &times;";
-        //             // StuStr+="</button><h4 class='modal-title id='myModalLabel2'> 通知 </h4> </div> ";
-        //             // StuStr += "<div class='media'  style='border: #6a6f8c 2px solid'>";
-        //             // StuStr += "<div class='media-left media-middle' >";
-        //             // StuStr += "<img src='http://localhost:8888/upload/" + user.u_head + "' class='media-object' style='width:130px' onclick='toSelfMain(" + user.u_id + ")'>";
-        //             // StuStr += "</div>";
-        //             // StuStr += "<div class='media-body' style='font-family: 微软雅黑;color: yellow'>";
-        //             // var xxx =  "<h4 class='media-heading'>学员姓名：" + user.u_pickname + " &nbsp;<button type='button'class='btn btn-primary btn-md ' onclick='toFollow(" + user.u_id + ")'>关注</button></h4>";
-        //             // // 如果关注了该学员，取消关注按钮
-        //             // $.each(result.data.followIdList,function(index,followID) {
-        //             //     if (followID == user.u_id){
-        //             //         xxx = "<h4 class='media-heading'>学员姓名：" + user.u_pickname + " &nbsp;已关注</h4>";
-        //             //         return;
-        //             //     }
-        //             // });
-        //             // StuStr+=xxx;
-        //             // StuStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>个性签名:</h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_selfword + "</h5>";
-        //             // StuStr += "<h5 style='font-family: 微软雅黑;color: slateblue'>联系方式: </h5> <h5 style='font-family: 微软雅黑;color: blanchedalmond'>" + user.u_phone + "</h5>";
-        //             // StuStr += "</div></div>";
-        //
-        //             // StuStr+="<div class='modal-footer'> <button type='button' class='btn btn-default' data-dismiss='modal>关闭 </button> <button type='button' class='btn btn-primary' >发送通知 </button>";
-        //             // StuStr+="</div> </div> </div> </div> </div>”";
-        //         });
-        //         $("#StuStr").html(StuStr);
-        //         $('#myModal2').modal();
-        //
-        //     }
-        //
-        // })
+        window.location="repartitionStu.html?user_id="+u_id;
     }
 
 </script>
