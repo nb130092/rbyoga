@@ -118,7 +118,7 @@
                     var xxx =  "<h4 class='media-heading'>学员姓名：" + user.u_pickname + " &nbsp;<button type='button'class='btn btn-primary btn-md ' onclick='toFollow(" + user.u_id + ")'>分配</button></h4>";
                     // 如果关注了该学员，取消关注按钮
                     $.each(result.data.followIdList,function(index,followID) {
-                        if (followID == user_id){
+                        if (followID == user.u_id){
                             xxx = "<h4 class='media-heading'>学员姓名：" + user.u_pickname + " &nbsp;已经分配</h4>";
                             return;
                         }

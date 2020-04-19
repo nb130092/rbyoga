@@ -435,19 +435,17 @@ public class StoreController {
     @RequestMapping("storeYogaCoachAllotStu")
     public ResultVO storeYogaCoachAllotStu(HttpSession session,Integer user_id) {
         List<User> studentList=null;
-        System.out.println(user_id+"!!!!!!!!!!!!");
+        //System.out.println(user_id+"!!!!!!!!!!!!");
 
         try{
             User loginUser =  (User)session.getAttribute("loginUser");
-            System.out.println(loginUser.getU_id()+"!!!!!!!!!");
+           // System.out.println(loginUser.getU_id()+"!!!!!!!!!");
             studentList = userService.findAllStudents();  // 获取所有学员
-
             List<Integer> followIdList = relationService.findAllFollows(user_id); //获取我关注的所有用户ID
+
             //User meUser = userService.findOne(user_id);
            //List<User> meUsersList= relationService.findAllFollowUsers(meUser);
-
             Map<String,Object> theMap = new HashMap<>();
-
             theMap.put("studentList",studentList);
             theMap.put("followIdList",followIdList);
 
@@ -467,7 +465,8 @@ public class StoreController {
         try {
             //User loginUser= (User)session.getAttribute("loginUser");
             Integer main_id = user_id;
-            Relation relation = new Relation(null, "教练To学员", main_id, guest_id);
+            //关注To被关注 教练To学员
+            Relation relation = new Relation(null, "关注To被关注", main_id, guest_id);
             relationService.save(relation);
             return new ResultVO(200, "分配成功");
         } catch (Exception e) {
